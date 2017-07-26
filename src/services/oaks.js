@@ -10,7 +10,6 @@ export function getAllOaks() {
         return [];
       }
     })
-    .then(res => console.log(res))
     .catch(err => {
       console.warn(err);
       return [];
