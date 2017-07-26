@@ -4,7 +4,6 @@ import Logo from './logo.jsx';
 
 export default class Header extends Component {
   render () {
-    console.log(this.context, this.props)
     return (
       <div className="group">
         <div className="header group">
@@ -22,6 +21,6 @@ export default class Header extends Component {
           </nav>
         </div>
       </div>
-    )
+    );
   }
 }

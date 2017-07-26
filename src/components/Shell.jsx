@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Header from "./header.jsx"
+import Footer from "./footer.jsx"
 
 export default class Shell extends Component {
   render() {
@@ -7,6 +8,7 @@ export default class Shell extends Component {
       <div>
         <Header />
         {this.props.children}
+        <Footer />
       </div>
     );
   }
