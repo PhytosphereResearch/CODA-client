@@ -1,6 +1,6 @@
 # Compiled code #
 #################
-dist/**.js
+dist/**/*.js
 
 # Dependencies #
 ################
