@@ -18,6 +18,6 @@ export default class Logo extends Component {
           </g>
         </g>
       </svg>
-    )
+    );
   }
 }
