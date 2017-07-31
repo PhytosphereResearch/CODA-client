@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import autobind from 'react-autobind';
 import Logo from './logo.jsx';
 
-export default class Header extends Component {
+class Header extends Component {
+
+  constructor(props) {
+    super(props);
+    autobind(this);
+  }
+
+  computeMatch(string) {
+    return this.props.location.pathname.split('/')[1] === string;
+  }
+
   render () {
     return (
       <div className="group">
@@ -13,10 +26,10 @@ export default class Header extends Component {
           </div>
           <nav className="navigation">
             <ul>
-              <li className={this.props.active ? "active" : ""}><Link to="default">Home</Link></li>
-              <li className={this.props.active ? "active" : ""}><Link to="oaks">Oaks</Link></li>
-              <li className={this.props.active ? "active" : ""}><Link to="agents">Agents</Link></li>
-              <li className={this.props.active ? "active" : ""}><Link to="hi">Interactions</Link></li>
+              <li className={this.computeMatch('')||this.computeMatch('default') ? "active" : ""}><Link to="default">Home</Link></li>
+              <li className={this.computeMatch('oaks') ? "active" : ""}><Link to="oaks">Oaks</Link></li>
+              <li className={this.computeMatch('agents') ? "active" : ""}><Link to="agents">Agents</Link></li>
+              <li className={this.computeMatch('hi') ? "active" : ""}><Link to="hi">Interactions</Link></li>
             </ul>
           </nav>
         </div>
@@ -24,3 +37,12 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
+};
+
+const WrappedHeader = withRouter(Header);
+export default WrappedHeader;
