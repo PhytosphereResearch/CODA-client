@@ -8,7 +8,9 @@ export default class Shell extends Component {
     return (
       <div>
         <Header />
-        {this.props.children}
+        <div style={{ margin: "0 30px 30px", minHeight: "calc(100vh - 180px)" }}>
+          {this.props.children}
+        </div>
         <Footer />
       </div>
     );
