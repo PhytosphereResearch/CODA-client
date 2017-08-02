@@ -1,3 +1,5 @@
+import { arrayBufferToString } from './utils';
+
 const url = 'http://localhost:3000'; // TODO per environment setup
 
 export function getAllOaks() {
@@ -9,6 +11,12 @@ export function getAllOaks() {
         console.warn(res);
         return [];
       }
+    })
+    .then(oaks => {
+      oaks.forEach(oak => {
+        oak.notes = arrayBufferToString(oak.notes.data);
+      })
+      return oaks;
     })
     .catch(err => {
       console.warn(err);
