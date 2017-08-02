@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { getAllOaks } from 'coda/services/oaks';
+import PropTypes from 'prop-types';
 import Select from 'react-select';
 import autobind from 'react-autobind';
+import Oak from './Oak.jsx';
 
 import 'react-select/dist/react-select.css';
 
@@ -9,39 +10,39 @@ export default class Oaks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      oaks: [],
-      formattedOaks: [],
       selected: undefined,
-      selectedOak: {}
+      selectedOak: undefined
     };
     autobind(this);
   }
 
-  componentWillMount() {
-    getAllOaks().then(oaks => {
-      let formattedOaks = oaks.map(o => ({ value: o.id, label: `${o.genus} ${o.species} ${o.commonName? `(${o.commonName})` : ''}` }));
-      this.setState({ oaks, formattedOaks });
-    });
-  }
-
   onOakSelected(option) {
-    let selectedOak = this.state.oaks.find(o => o.id === option.value);
+    let selectedOak = this.props.oaks.find(o => o.id === option.value);
     this.setState({ selected: option, selectedOak });
   }
 
   render() {
-    let { formattedOaks, selectedOak, selected } = this.state;
+    let { selectedOak, selected } = this.state;
+    let { options } = this.props;
     return (
       <div>
-        <h4>This will be the oaks page</h4>
+        <h2>Find an oak</h2>
         <Select
-          options={formattedOaks}
+          options={options}
           onChange={(option) => this.onOakSelected(option)}
           value={selected}
+          placeholder="Search by species or common name"
         />
-
-        <h4>You have selected {selectedOak.genus} {selectedOak.species}</h4>
+        { selectedOak ? <Oak oak={selectedOak}/> : null }
       </div>
     );
   }
 }
+
+Oaks.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.number
+  })),
+  oaks: PropTypes.arrayOf(PropTypes.object)
+};
