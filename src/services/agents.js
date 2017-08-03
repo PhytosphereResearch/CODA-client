@@ -35,7 +35,9 @@ export function getAgent(id) {
       }
     })
     .then(agent => {
-      agent.notes = arrayBufferToString(agent.notes.data);
+      agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
+      agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
+      agent.notes = arrayBufferToString(agent.notes.data).replace(' -', '\n-');
       return agent;
     })
     .catch(err => {

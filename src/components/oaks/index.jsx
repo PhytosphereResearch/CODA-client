@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { Switch, Route } from 'react-router-dom';
 import autobind from 'react-autobind';
 import Oak from './Oak.jsx';
 
@@ -17,12 +18,12 @@ export default class Oaks extends Component {
   }
 
   onOakSelected(option) {
-    let selectedOak = this.props.oaks.find(o => o.id === option.value);
-    this.setState({ selected: option, selectedOak });
+    this.setState({ selected: option });
+    option.value ? this.context.router.history.push(`/oaks/${option.value}`) : this.context.router.history.push('/oaks');
   }
 
   render() {
-    let { selectedOak, selected } = this.state;
+    let { selected } = this.state;
     let { options } = this.props;
     return (
       <div>
@@ -32,8 +33,11 @@ export default class Oaks extends Component {
           onChange={(option) => this.onOakSelected(option)}
           value={selected}
           placeholder="Search by species or common name"
+          style={{ marginBottom: "15px" }}
         />
-        { selectedOak ? <Oak oak={selectedOak}/> : null }
+        <Switch>
+          <Route path="/oaks/:id" component={Oak} />
+        </Switch>
       </div>
     );
   }
@@ -45,4 +49,8 @@ Oaks.propTypes = {
     value: PropTypes.number
   })),
   oaks: PropTypes.arrayOf(PropTypes.object)
+};
+
+Oaks.contextTypes = {
+  router: PropTypes.object
 };

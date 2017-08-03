@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { Switch, Route } from 'react-router-dom';
 import autobind from 'react-autobind';
-// import Oak from './Oak.jsx';
+import Agent from './Agent.jsx';
 
 import 'react-select/dist/react-select.css';
 
@@ -10,19 +11,22 @@ export default class Agents extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: undefined
+      selected: undefined,
+      selectedAgent: undefined
     };
     autobind(this);
   }
 
   onAgentSelected(option) {
-    // let selectedOak = this.props.oaks.find(o => o.id === option.value);
     this.setState({ selected: option });
+    option.value ? this.context.router.history.push(`/agents/${option.value}`) : this.context.router.history.push('/agents');
+    // getAgent(option.value).then(agent => this.setState({ selectedAgent: agent }));
   }
 
   render() {
     let { selected } = this.state;
     let { options } = this.props;
+
     return (
       <div>
         <h2>Find an Agent</h2>
@@ -31,8 +35,11 @@ export default class Agents extends Component {
           onChange={(option) => this.onAgentSelected(option)}
           value={selected}
           placeholder="Search by species or common name"
+          style={{ marginBottom: "15px" }}
         />
-        {/* { selectedOak ? <Oak oak={selectedOak}/> : null } */}
+        <Switch>
+          <Route path="/agents/:id" component={Agent} />
+        </Switch>
       </div>
     );
   }
@@ -44,4 +51,8 @@ Agents.propTypes = {
     value: PropTypes.number
   })),
   agents: PropTypes.arrayOf(PropTypes.object)
+};
+
+Agents.contextTypes = {
+  router: PropTypes.object
 };

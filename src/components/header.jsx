@@ -26,10 +26,10 @@ class Header extends Component {
           </div>
           <nav className="navigation">
             <ul>
-              <li className={this.computeMatch('')||this.computeMatch('default') ? "active" : ""}><Link to="default">Home</Link></li>
-              <li className={this.computeMatch('oaks') ? "active" : ""}><Link to="oaks">Oaks</Link></li>
-              <li className={this.computeMatch('agents') ? "active" : ""}><Link to="agents">Agents</Link></li>
-              <li className={this.computeMatch('hi') ? "active" : ""}><Link to="hi">Interactions</Link></li>
+              <li className={this.computeMatch('') ? "active" : ""}><Link to="/">Home</Link></li>
+              <li className={this.computeMatch('oaks') ? "active" : ""}><Link to="/oaks">Oaks</Link></li>
+              <li className={this.computeMatch('agents') ? "active" : ""}><Link to="/agents">Agents</Link></li>
+              <li className={this.computeMatch('hi') ? "active" : ""}><Link to="/hi">Interactions</Link></li>
             </ul>
           </nav>
         </div>

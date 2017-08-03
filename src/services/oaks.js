@@ -12,14 +12,28 @@ export function getAllOaks() {
         return [];
       }
     })
-    .then(oaks => {
-      oaks.forEach(oak => {
-        oak.notes = arrayBufferToString(oak.notes.data);
-      })
-      return oaks;
-    })
     .catch(err => {
       console.warn(err);
       return [];
     });
+}
+
+export function getOak(id) {
+  return fetch(`${url}/oaks/${id}`, {mode: 'cors'})
+  .then(res => {
+    if(res.ok) {
+      return res.json();
+    } else {
+      console.warn(res);
+      return {};
+    }
+  })
+  .then(oak => {
+    oak.notes = arrayBufferToString(oak.notes.data).replace(' -', '\n-');
+    return oak;
+  })
+  .catch(err => {
+    console.warn(err);
+    return {};
+  });
 }

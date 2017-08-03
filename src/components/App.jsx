@@ -42,7 +42,6 @@ export default class App extends Component {
               <Route path="/oaks" render={() => <Oaks oaks={this.state.oaks} options={this.state.formattedOaks} />} />
               <Route path="/agents" render={() => <Agents agents={this.state.agents} options={this.state.formattedAgents} />} />
               <Route path="/hi" component={Interactions} />
-              <Route path="/default" component={Landing} />
             </Switch>
           </Shell>
         </Router>

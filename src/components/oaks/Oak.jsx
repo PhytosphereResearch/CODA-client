@@ -1,13 +1,32 @@
 import React, { Component } from 'react';
+import { getOak } from 'coda/services/oaks';
+import { ScientificName, CommonName, Notes } from '../shared/partials.jsx';
 
 export default class Oak extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+
+  componentWillMount() {
+    getOak(this.props.match.params.id)
+      .then(oak => this.setState({ oak }))
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // don't reload the oak we just loaded
+    if (this.props.match.params.id === nextProps.match.params.id) {
+      return;
+    }
+    getOak(nextProps.match.params.id)
+      .then(oak => this.setState({ oak }))
+  }
+
   render() {
-    let { oak } = this.props;
-    let commonName = (
-      <p>
-        <b>Common name(s):</b> {oak.commonName}
-      </p>
-    );
+    let { oak } = this.state;
+    if (!oak) {
+      return null;
+    }
     let subGenus = (
       <p>
         <b>Sub-genus:</b> {oak.subGenus}
@@ -24,17 +43,11 @@ export default class Oak extends Component {
         {oak.distribution} <br />
       </div>
     );
-    let notes = (
-      <div>
-        <p><b>Notes:</b></p>
-        <p>{oak.notes}</p>
-      </div>
-    );
-    console.log(oak)
+
     return (
       <div>
-        <h3><i>{oak.genus} {oak.species}</i> {oak.subSpecies} <span className="authority">{oak.authority}</span></h3>
-        { oak.commonName ? commonName : null }
+        <ScientificName genus={oak.genus} species={oak.species} subSpecies={oak.subSpecies} authority={oak.authority} />
+        { oak.commonName ? <CommonName commonName={oak.commonName} /> : null }
         { oak.subGenus ? subGenus : null }
         { oak.evergreen ? evergreen : null }
         { oak.treeForm || oak.height ? treeForm : null }
@@ -52,7 +65,7 @@ export default class Oak extends Component {
         <p>
           <b>Range map:</b> <a href={`http://plants.usda.gov/core/profile?symbol=${oak.code}`} target="_blank">Search USDA Plants Database</a>
         </p>
-        { oak.notes ? notes : null }
+        { oak.notes ? <Notes notes={oak.notes} /> : null }
       </div>
     )
   }
