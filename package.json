@@ -27,6 +27,8 @@
     "babili": "0.0.9",
     "babili-webpack-plugin": "0.0.7",
     "css-loader": "^0.26.1",
+    "d3": "^4.10.0",
+    "d3-scale": "^1.0.6",
     "eslint": "^3.16.1",
     "eslint-plugin-react": "^6.10.0",
     "file-loader": "^0.10.0",
@@ -56,6 +58,7 @@
     "react-smooth-collapse": "^1.2.0",
     "react-syntax-highlighter": "^5.5.2",
     "style-loader": "^0.13.1",
+    "topojson": "^3.0.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
