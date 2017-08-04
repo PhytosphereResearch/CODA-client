@@ -20,7 +20,7 @@ export default class Chart extends Component {
   getChartState () {
     return {
       data: this.props.data,
-      domain: this.props.domain
+      countiesByRegions: [] // TODO add in interaction information
     };
   }
 
@@ -38,6 +38,5 @@ export default class Chart extends Component {
 };
 
 Chart.propTypes = {
-  data: PropTypes.array,
-  domain: PropTypes.object
+  data: PropTypes.array
 }

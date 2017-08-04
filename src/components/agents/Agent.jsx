@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ScientificName, CommonName, Notes } from '../shared/partials.jsx';
+import RangeMap from '../shared/RangeMap.jsx';
 import { getAgent } from 'coda/services/agents';
 
 export default class Agent extends Component {
@@ -42,6 +43,15 @@ export default class Agent extends Component {
       </div>
     );
 
+    let hosts = (
+      <div>
+        <b>Hosts: </b>
+        {agent.hosts.map((h, index) => (
+          <span id={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length-  1 ? ', ' : ''}</span>
+        ))}
+      </div>
+    );
+
     return (
       <div>
         <ScientificName genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} authority={agent.primarySynonym.authority} />
@@ -56,7 +66,7 @@ export default class Agent extends Component {
           <span><b>Family: </b>{agent.family} <br /></span>
         </div>
           <br />
-          {/* <div><b>Hosts: </b><span ng-repeat="h in agent.hosts"><i>{h.genus} {h.species}<span ng-if="h.subSpecies"> {h.subSpecies}</span></i><span ng-if="!$last">, </span></span></div> */}
+           {hosts}
           <br />
           <b>Images:</b>
           <a href={`http://calphotos.berkeley.edu/cgi/img_query?where-taxon=${agent.primarySynonym.genus}+${agent.primarySynonym.species}`} target="_blank">Search CalPhotos</a>
@@ -64,7 +74,7 @@ export default class Agent extends Component {
         </div>
           <div className="range">
             <div ><b>Reported range</b> <br />
-              {/* <range-map></range-map> */}
+              <RangeMap data={agent.rangeData} />
             </div>
           </div>
         </div>

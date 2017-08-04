@@ -32,7 +32,7 @@ export default class Agents extends Component {
         <h2>Find an Agent</h2>
         <Select
           options={options}
-          onChange={(option) => this.onAgentSelected(option)}
+          onChange={this.onAgentSelected}
           value={selected}
           placeholder="Search by species or common name"
           style={{ marginBottom: "15px" }}

@@ -30,7 +30,7 @@ export default class Oaks extends Component {
         <h2>Find an oak</h2>
         <Select
           options={options}
-          onChange={(option) => this.onOakSelected(option)}
+          onChange={this.onOakSelected}
           value={selected}
           placeholder="Search by species or common name"
           style={{ marginBottom: "15px" }}
