@@ -20,7 +20,6 @@ export default class Agents extends Component {
   onAgentSelected(option) {
     this.setState({ selected: option });
     option.value ? this.context.router.history.push(`/agents/${option.value}`) : this.context.router.history.push('/agents');
-    // getAgent(option.value).then(agent => this.setState({ selectedAgent: agent }));
   }
 
   render() {

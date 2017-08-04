@@ -7,8 +7,9 @@ import Oaks from './oaks/index.jsx';
 import Interactions from './interactions/index.jsx';
 import { getAllOaks } from 'coda/services/oaks';
 import { getAllAgentSynonyms } from 'coda/services/agents';
+import { getAllSymptoms } from 'coda/services/interactions';
 
-const format = (records) => records.map(r => ({ value: r.id, label: `${r.genus} ${r.species} ${r.commonName? `(${r.commonName})` : ''}` }));
+const format = (records, idField = "id") => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.commonName? `(${r.commonName})` : ''}` }));
 
 export default class App extends Component {
   constructor(props) {
@@ -17,7 +18,9 @@ export default class App extends Component {
       oaks: [],
       formattedOaks: [],
       agents: [],
-      formattedAgents: []
+      formattedAgents: [],
+      symptoms: [],
+      formattedSymptoms: []
     };
   }
 
@@ -27,8 +30,12 @@ export default class App extends Component {
       this.setState({ oaks, formattedOaks });
     });
     getAllAgentSynonyms().then(agents => {
-      let formattedAgents = format(agents);
+      let formattedAgents = format(agents, "agentId");
       this.setState({ agents, formattedAgents });
+    });
+    getAllSymptoms().then(symptoms => {
+      let formattedSymptoms = symptoms.map(s => ({ value: s.id, label: s.symptom }));
+      this.setState({ symptoms, formattedSymptoms });
     });
   }
 
@@ -41,7 +48,7 @@ export default class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route path="/oaks" render={() => <Oaks oaks={this.state.oaks} options={this.state.formattedOaks} />} />
               <Route path="/agents" render={() => <Agents agents={this.state.agents} options={this.state.formattedAgents} />} />
-              <Route path="/hi" component={Interactions} />
+              <Route path="/hi" render={() => <Interactions oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
             </Switch>
           </Shell>
         </Router>

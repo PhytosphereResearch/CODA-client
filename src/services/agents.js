@@ -38,6 +38,15 @@ export function getAgent(id) {
       agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
       agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
       agent.notes = arrayBufferToString(agent.notes.data).replace(' -', '\n-');
+      agent.rangeData = [];
+      agent.hosts = [];
+      agent.hostInteractions.forEach(interaction => { // iterate over interactions
+        interaction.countiesByRegions.forEach(county => { // extract all range data into a single array
+          agent.rangeData.push(county.countyCode);
+        });
+        agent.hosts.push(interaction.oak);
+      });
+      console.log(agent)
       return agent;
     })
     .catch(err => {
