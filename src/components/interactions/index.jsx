@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-select';
 import { getInteractions } from 'coda/services/interactions';
-import SearchResult from './SearchResult.jsx'
+import SearchResult from './SearchResult.jsx';
 const plantParts = ['acorn', 'branch', 'leaf', 'trunk', 'flower', 'root'];
 
 export default class Interactions extends Component {
@@ -24,15 +25,13 @@ export default class Interactions extends Component {
     let { selected } = this.state;
     getInteractions(selected.plantPart, selected.symptom.value, selected.oak.value)
     .then(interactions => {
-      this.setState({ searching: false });
-      this.setState({ interactions })
-      console.log(interactions);
+      this.setState({ searching: false, interactions });
     });
   }
 
   render() {
-    let { oaks, symptoms } = this.props
-    let { selected, searching, interactions } = this.state
+    let { oaks, symptoms } = this.props;
+    let { selected, searching, interactions } = this.state;
     return (
       <div>
         <h2>Find a Host/Agent Interaction</h2>
@@ -80,3 +79,8 @@ export default class Interactions extends Component {
     );
   }
 }
+
+Interactions.propTypes = {
+  oaks: PropTypes.array,
+  symptoms: PropTypes.array
+};
