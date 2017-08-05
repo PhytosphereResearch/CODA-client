@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import Select from 'react-select';
-
+import { getInteractions } from 'coda/services/interactions';
 const plantParts = ['acorn', 'branch', 'leaf', 'trunk', 'flower', 'root'];
 
 export default class Interactions extends Component {
@@ -15,6 +15,12 @@ export default class Interactions extends Component {
 
   onSelected(option, key) {
     this.setState({ selected: { ...this.state.selected, [key]: option } });
+  }
+
+  onSearchClick(){
+    let { selected } = this.state
+    getInteractions(selected.plantPart, selected.symptom.value, selected.oak.value)
+      .then(res => console.log(res)) 
   }
 
   render() {
@@ -52,7 +58,11 @@ export default class Interactions extends Component {
               placeholder="Select a symptom"
               style={{ marginBottom: "15px" }}
             />
-            <button className="search-button">Search this combination</button>
+            <button
+              className="search-button"
+              onClick = {this.onSearchClick}>
+             Search this combination
+            </button>
           </div>
           <div>
 
