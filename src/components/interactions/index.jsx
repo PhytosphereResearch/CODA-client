@@ -73,7 +73,7 @@ export default class Interactions extends Component {
           </div>
           <div>
             { searching ? 'searching...' : '' }
-            { interactions.map( interaction => <SearchResult interaction={interaction}/>}
+            { interactions.map(interaction => <SearchResult interaction={interaction} />) }
           </div>
         </div>
       </div>
