@@ -23,3 +23,21 @@ export function getAllSymptoms() {
       return [];
     });
 }
+
+// app.route('/hi/:plantPart/:symptomId/:oakId')
+   //.get(InteractionController.searchForInterddaction);
+export function getInteractions(plantPart, symptomId, oakId) {
+  return fetch(`${url}/hi/${plantPart}/${symptomId}/${oakId}`, { mode: 'cors' })
+    .then(res => {
+      if(res.ok) {
+        return res.json();
+      } else {
+        console.warn(res);
+        return [];
+      }
+    })
+    .catch(err => {
+      console.warn(err);
+      return [];
+    });
+}
