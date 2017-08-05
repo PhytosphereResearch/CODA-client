@@ -6,6 +6,7 @@ import { getInteractions } from 'coda/services/interactions';
 import SearchResult from './SearchResult.jsx';
 const plantParts = ['acorn', 'branch', 'leaf', 'trunk', 'flower', 'root'];
 
+
 export default class Interactions extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,14 @@ export default class Interactions extends Component {
   }
 
   onSelected(option, key) {
-    this.setState({ selected: { ...this.state.selected, [key]: option } });
+    let { selected } = this.state
+    if(key === 'plantPart') {
+      if (this.state.selected.symptom && !this.state.selected.symptom[option]) {
+        selected.symptom = undefined;
+      }
+    }
+    selected[key] = option
+    this.setState({ selected });
   }
 
   canSearch() {
@@ -67,7 +75,7 @@ export default class Interactions extends Component {
             </div>
             <Select
               disabed={!selected.plantPart}
-              options={symptoms}
+              options={symptoms.filter(symptom => symptom[selected.plantPart])}
               onChange={(option) => this.onSelected(option, 'symptom')}
               value={selected.symptom}
               placeholder="Select a symptom"
