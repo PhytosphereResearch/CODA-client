@@ -34,7 +34,7 @@ export default class App extends Component {
       this.setState({ agents, formattedAgents });
     });
     getAllSymptoms().then(symptoms => {
-      let formattedSymptoms = symptoms.map(s => ({ value: s.id, label: s.symptom }));
+      let formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
       this.setState({ symptoms, formattedSymptoms });
     });
   }
