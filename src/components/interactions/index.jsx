@@ -20,7 +20,15 @@ export default class Interactions extends Component {
     this.setState({ selected: { ...this.state.selected, [key]: option } });
   }
 
+  canSearch() {
+    let { plantPart, symptom, oak } = this.state.selected;
+    return plantPart && symptom && symptom.value && oak && oak.value;
+  }
+
   onSearchClick() {
+    if (!this.canSearch()) {
+      return;
+    }
     this.setState({ searching: true });
     let { selected } = this.state;
     getInteractions(selected.plantPart, selected.symptom.value, selected.oak.value)
@@ -58,6 +66,7 @@ export default class Interactions extends Component {
               )}
             </div>
             <Select
+              disabed={!selected.plantPart}
               options={symptoms}
               onChange={(option) => this.onSelected(option, 'symptom')}
               value={selected.symptom}
@@ -65,15 +74,18 @@ export default class Interactions extends Component {
               style={{ marginBottom: "15px" }}
             />
             <button
+              disabled={!this.canSearch()}
               className="search-button"
               onClick={this.onSearchClick}>
              Search this combination
             </button>
           </div>
-          <div>
-            { searching ? 'searching...' : '' }
-            { interactions.map(interaction => <SearchResult interaction={interaction} />) }
-          </div>
+        </div>
+        <div className="interactionsList">
+          { searching ? 'searching...' : '' }
+          <ul>
+            { interactions.map(interaction => <SearchResult key={interaction.id} interaction={interaction} />) }
+          </ul>
         </div>
       </div>
     );

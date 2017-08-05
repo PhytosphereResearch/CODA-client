@@ -26,6 +26,11 @@ export function getInteractions(plantPart, symptomId, oakId) {
         return [];
       }
     })
+    .then(interactions => interactions.map(interaction => {
+      interaction.subSite = interaction.subSite.toLowerCase();
+      interaction.maturity = interaction.maturity.toLowerCase();
+      return interaction;
+    }))
     .catch(err => {
       console.warn(err);
       return [];
