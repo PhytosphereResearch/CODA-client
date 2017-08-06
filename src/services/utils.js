@@ -41,3 +41,11 @@ export function arrayBufferToString (buffer) {
   }
   return str;
 }
+
+export function checkResponse(res) {
+  if(res.ok) {
+    return res.json();
+  } else {
+    throw new Error(res.statusCode, res.message);
+  }
+}

@@ -19,8 +19,8 @@ export default class Chart extends Component {
 
   getChartState () {
     return {
-      data: this.props.data,
-      countiesByRegions: [] // TODO add in interaction information
+      range: this.props.range,
+      interactionRange: [] // TODO add in interaction information
     };
   }
 
@@ -34,9 +34,8 @@ export default class Chart extends Component {
       <div ref={(el) => this.el = el} className="Chart"></div>
     );
   }
-
-};
+}
 
 Chart.propTypes = {
-  data: PropTypes.array
-}
+  range: PropTypes.array
+};

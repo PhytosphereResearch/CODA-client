@@ -17,32 +17,30 @@ export default class Interactions extends Component {
     autobind(this);
   }
 
-  onSelected(option, key) {
-    let { selected } = this.state
-    if(key === 'plantPart') {
-      if (this.state.selected.symptom && !this.state.selected.symptom[option]) {
-        selected.symptom = undefined;
-      }
+  onSelect(option, key) {
+    let { selected } = this.state;
+    if(key === 'plantPart' && selected.symptom && !selected.symptom[option]) {
+      selected.symptom = undefined;
     }
-    selected[key] = option
+    selected[key] = option;
     this.setState({ selected });
   }
 
   canSearch() {
-    let { plantPart, symptom, oak } = this.state.selected;
-    return plantPart && symptom && symptom.value && oak && oak.value;
+    let { symptom, oak } = this.state.selected;
+    return (symptom && symptom.value) || (oak && oak.value);
   }
 
   onSearchClick() {
-    if (!this.canSearch()) {
-      return;
-    }
-    this.setState({ searching: true });
+    this.setState({ searching: true, interactions: [] });
     let { selected } = this.state;
-    getInteractions(selected.plantPart, selected.symptom.value, selected.oak.value)
+    let symptomId = selected.symptom ? selected.symptom.value : '';
+    let oakId = selected.oak ? selected.oak.value : '';
+    getInteractions(selected.plantPart, symptomId, oakId)
     .then(interactions => {
       this.setState({ searching: false, interactions });
     });
+    this.context.router.history.push(`/hi?symptom=${symptomId}&oak=${oakId}&part=${selected.plantPart}`);
   }
 
   render() {
@@ -56,7 +54,7 @@ export default class Interactions extends Component {
             <h4>Host Oak</h4>
             <Select
               options={oaks}
-              onChange={(option) => this.onSelected(option, 'oak')}
+              onChange={(option) => this.onSelect(option, 'oak')}
               value={selected.oak}
               placeholder="Select an oak"
               style={{ marginBottom: "15px" }}
@@ -67,30 +65,31 @@ export default class Interactions extends Component {
                 <button
                   style={{ flexGrow: "1" }}
                   className={selected.plantPart === part ? 'inSearch' : ''}
-                  onClick={() => this.onSelected(part, 'plantPart')}
+                  onClick={() => this.onSelect(part, 'plantPart')}
                   key={part}>
                   {part}
                 </button>)
               )}
             </div>
             <Select
-              disabed={!selected.plantPart}
+              disabled={!selected.plantPart}
               options={symptoms.filter(symptom => symptom[selected.plantPart])}
-              onChange={(option) => this.onSelected(option, 'symptom')}
+              onChange={(option) => this.onSelect(option, 'symptom')}
               value={selected.symptom}
               placeholder="Select a symptom"
               style={{ marginBottom: "15px" }}
             />
-            <button
-              disabled={!this.canSearch()}
-              className="search-button"
-              onClick={this.onSearchClick}>
-             Search this combination
-            </button>
           </div>
         </div>
+        <button
+          disabled={!this.canSearch()}
+          className="search-button"
+          onClick={this.onSearchClick}>
+          Search this combination
+        </button>
         <div className="interactionsList">
           { searching ? 'searching...' : '' }
+          { !searching && !interactions.length ? 'No results found' : ''}
           <ul>
             { interactions.map(interaction => <SearchResult key={interaction.id} interaction={interaction} />) }
           </ul>
@@ -103,4 +102,8 @@ export default class Interactions extends Component {
 Interactions.propTypes = {
   oaks: PropTypes.array,
   symptoms: PropTypes.array
+};
+
+Interactions.contextTypes = {
+  router: PropTypes.object
 };

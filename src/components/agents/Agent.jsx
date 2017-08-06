@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ScientificName, CommonName, Notes } from '../shared/partials.jsx';
+import { ScientificName, CommonName, Synonyms, CalPhotos, Notes } from '../shared/partials.jsx';
 import RangeMap from '../shared/RangeMap.jsx';
 import { getAgent } from 'coda/services/agents';
 
@@ -26,28 +26,16 @@ export default class Agent extends Component {
 
   render() {
     let { agent } = this.state;
-    console.log(agent)
+
     if (!agent) {
       return null;
     }
-    let synonyms = (
-      <div>
-        <b>Other synonyms:</b>
-        <ul className="synonyms">
-            {agent.otherSynonyms.map(s => (
-              <li key={s.genus + s.species + s.authority}>
-                <i>{s.genus} {s.species} {s.subSpecies}</i> {s.authority}
-              </li>
-            ))}
-        </ul>
-      </div>
-    );
 
     let hosts = (
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
-          <span id={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length-  1 ? ', ' : ''}</span>
+          <span key={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length-  1 ? ', ' : ''}</span>
         ))}
       </div>
     );
@@ -58,23 +46,20 @@ export default class Agent extends Component {
         { agent.commonName ?  <CommonName commonName={agent.commonName} /> : null }
         <br />
         <div className="details">
-        { agent.otherSynonyms.length ? synonyms : null }
-        <div className="taxonomy">
-          <p>{agent.type}: {agent.subType}</p>
-          <p> {agent.subSubType}</p>
-          <span><b>Order: </b>{agent.torder} <br /></span>
-          <span><b>Family: </b>{agent.family} <br /></span>
-        </div>
-          <br />
-           {hosts}
-          <br />
-          <b>Images:</b>
-          <a href={`http://calphotos.berkeley.edu/cgi/img_query?where-taxon=${agent.primarySynonym.genus}+${agent.primarySynonym.species}`} target="_blank">Search CalPhotos</a>
+          <Synonyms synonyms={agent.otherSynonyms} />
+          <div className="taxonomy">
+            <p>{agent.type}: {agent.subType}</p>
+            <p> {agent.subSubType}</p>
+            <span><b>Order: </b>{agent.torder} <br /></span>
+            <span><b>Family: </b>{agent.family} <br /></span>
+          </div>
+         {hosts}
+          <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
           { agent.notes ? <Notes notes={agent.notes} /> : null }
         </div>
           <div className="range">
             <div ><b>Reported range</b> <br />
-              <RangeMap data={agent.rangeData} />
+              <RangeMap range={agent.rangeData} />
             </div>
           </div>
         </div>

@@ -4,12 +4,13 @@ import Shell from './Shell.jsx';
 import Landing from './landing/index.jsx';
 import Agents from './agents/index.jsx';
 import Oaks from './oaks/index.jsx';
-import Interactions from './interactions/index.jsx';
+import InteractionSearch from './interactions/index.jsx';
+import InteractionPage from './interactions/InteractionPage.jsx';
 import { getAllOaks } from 'coda/services/oaks';
 import { getAllAgentSynonyms } from 'coda/services/agents';
 import { getAllSymptoms } from 'coda/services/interactions';
 
-const format = (records, idField = "id") => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.commonName? `(${r.commonName})` : ''}` }));
+const format = (records, idField = "id") => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName? `(${r.commonName})` : ''}` }));
 
 export default class App extends Component {
   constructor(props) {
@@ -48,7 +49,8 @@ export default class App extends Component {
               <Route exact path="/" component={Landing} />
               <Route path="/oaks" render={() => <Oaks oaks={this.state.oaks} options={this.state.formattedOaks} />} />
               <Route path="/agents" render={() => <Agents agents={this.state.agents} options={this.state.formattedAgents} />} />
-              <Route path="/hi" render={() => <Interactions oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
+              <Route path="/hi/interaction/:id" component={InteractionPage} />
+              <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
             </Switch>
           </Shell>
         </Router>

@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getOak } from 'coda/services/oaks';
-import { ScientificName, CommonName, Notes } from '../shared/partials.jsx';
+import { ScientificName, CommonName, CalPhotos, Notes } from '../shared/partials.jsx';
 
 export default class Oak extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
 
   componentWillMount() {
     getOak(this.props.match.params.id)
-      .then(oak => this.setState({ oak }))
+      .then(oak => this.setState({ oak }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,7 +20,7 @@ export default class Oak extends Component {
       return;
     }
     getOak(nextProps.match.params.id)
-      .then(oak => this.setState({ oak }))
+      .then(oak => this.setState({ oak }));
   }
 
   render() {
@@ -37,7 +38,7 @@ export default class Oak extends Component {
     );
     let treeForm = (
       <p>{oak.treeForm} <span> {oak.height}.</span></p>
-    )
+    );
     let range = (
       <div><b>Range</b><br />
         {oak.distribution} <br />
@@ -59,14 +60,17 @@ export default class Oak extends Component {
         <p>{oak.hybrids}</p>
         <p>{oak.varieties}</p>
         <p>
-          <b>Images:</b>{" "}
-          <a href={`http://calphotos.berkeley.edu/cgi/img_query?where-taxon=${oak.genus}+${oak.species}`} target="_blank">Search CalPhotos</a>
+          <CalPhotos genus={oak.genus} species={oak.species} />
         </p>
         <p>
           <b>Range map:</b> <a href={`http://plants.usda.gov/core/profile?symbol=${oak.code}`} target="_blank">Search USDA Plants Database</a>
         </p>
         { oak.notes ? <Notes notes={oak.notes} /> : null }
       </div>
-    )
+    );
   }
 }
+
+Oak.propTypes = {
+  match: PropTypes.object
+};

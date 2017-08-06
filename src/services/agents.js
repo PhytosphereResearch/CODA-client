@@ -46,7 +46,6 @@ export function getAgent(id) {
         });
         agent.hosts.push(interaction.oak);
       });
-      console.log(agent)
       return agent;
     })
     .catch(err => {

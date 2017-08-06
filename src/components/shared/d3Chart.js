@@ -21,17 +21,18 @@ d3Chart.create = function(el, props, state) {
     .selectAll("path")
     .data(topojson.feature(ca, ca.objects.subunits).features)
     .enter().append("path")
-    .attr("class", function(d) { return "subunit " + d.properties.name; })
+    .attr("class", d => "subunit " + d.properties.name)
     .attr("d", path);
   this.update(el, state);
 };
 
 d3Chart.update = function(el, state) {
+  let { range, interactionRange } = state;
   d3.selectAll('.subunit')
     .attr("class", function (d) {
-      if (state.data.indexOf(d.properties.name) !== -1 && state.countiesByRegions.indexOf(d.properties.name) !== -1 ) {
+      if (range.indexOf(d.properties.name) !== -1 && interactionRange.indexOf(d.properties.name) !== -1 ) {
         return "subunit " + d.properties.name + " inRange inInteraction";
-      } else if (state.data.indexOf(d.properties.name) !== -1) {
+      } else if (range.indexOf(d.properties.name) !== -1) {
         return "subunit " + d.properties.name + " inRange";
       }
       return "subunit " + d.properties.name;
