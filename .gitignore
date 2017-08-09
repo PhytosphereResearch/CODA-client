@@ -6,6 +6,10 @@ dist/**/*.js
 ################
 node_modules/
 
+# Old version #
+###############
+text/**/*
+client/**/*
 
 # Logs #
 ########
