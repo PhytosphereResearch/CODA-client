@@ -59,9 +59,9 @@ export default class Oak extends Component {
         { oak.range ? range : null }
         <p>{oak.hybrids}</p>
         <p>{oak.varieties}</p>
-        <p>
-          <CalPhotos genus={oak.genus} species={oak.species} />
-        </p>
+        <p>{' '}</p>
+        <CalPhotos genus={oak.genus} species={oak.species} />
+        <p>{' '}</p>
         <p>
           <b>Range map:</b> <a href={`http://plants.usda.gov/core/profile?symbol=${oak.code}`} target="_blank">Search USDA Plants Database</a>
         </p>
