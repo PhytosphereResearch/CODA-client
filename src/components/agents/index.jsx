@@ -34,7 +34,7 @@ export default class Agents extends Component {
           onChange={this.onAgentSelected}
           value={selected}
           placeholder="Search by species or common name"
-          style={{ marginBottom: "15px" }}
+          style={{ marginBottom: '15px' }}
         />
         <Switch>
           <Route path="/agents/:id" component={Agent} />

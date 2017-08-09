@@ -24,11 +24,6 @@ export default class Chart extends Component {
     };
   }
 
-  // componentWillUnmount () {
-  //   var el = this.getDOMNode();
-  //   d3Chart.destroy(el);
-  // },
-
   render () {
     return (
       <div ref={(el) => this.el = el} className="Chart"></div>

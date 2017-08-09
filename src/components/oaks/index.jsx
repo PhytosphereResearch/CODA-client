@@ -33,7 +33,7 @@ export default class Oaks extends Component {
           onChange={this.onOakSelected}
           value={selected}
           placeholder="Search by species or common name"
-          style={{ marginBottom: "15px" }}
+          style={{ marginBottom: '15px' }}
         />
         <Switch>
           <Route path="/oaks/:id" component={Oak} />

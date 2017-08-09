@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const ScientificName = ({ genus, species, subSpecies, authority }) =>
-  <div className="scientific-name">
-    <i>{genus} {species}</i> {subSpecies} <span className="authority">{authority}</span>
+export const ScientificName = ({ genus, species, subSpecies, authority, inline }) =>
+  <div style={{ display: inline ? 'inline-block' : 'block' }} className="scientific-name">
+    <i>{genus} {species} {subSpecies}</i> <span className="authority">{authority}</span>
   </div>;
 
 ScientificName.propTypes = {
   genus: PropTypes.string,
   species: PropTypes.string,
   subSpecies: PropTypes.string,
-  authority: PropTypes.string
+  authority: PropTypes.string,
+  inline: PropTypes.bool
 };
 
 export const CommonName = ({ commonName }) =>
-  <p>
+  <div>
     <b>Common name(s):</b> {commonName}
-  </p>;
+  </div>;
 
 CommonName.propTypes = {
   commonName: PropTypes.string
@@ -24,7 +25,7 @@ CommonName.propTypes = {
 
 export const CalPhotos = ({ genus, species }) =>
   <div>
-    <b>Images:</b>{" "}
+    <b>Images:</b>{' '}
     <a href={`http://calphotos.berkeley.edu/cgi/img_query?where-taxon=${genus}+${species}`} target="_blank">Search CalPhotos</a>
   </div>;
 
@@ -35,10 +36,11 @@ CalPhotos.propTypes = {
 
 export const AgentTaxonomy = ({ agent }) =>
   <div className="taxonomy">
-    <p>{agent.type}: {agent.subType}</p>
-    <p>{agent.subSubType}</p>
-    <span><b>Order: </b>{agent.torder} <br /></span>
-    <span><b>Family: </b>{agent.family} <br /></span>
+    <div><b>{agent.type} &mdash; {agent.subType} {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}</b></div>
+    <div style={{ marginLeft: '10px' }}>
+      {agent.torder ? <span><b>Order: </b>{agent.torder} <br /></span> : null}
+      <span><b>Family: </b>{agent.family} <br /></span>
+    </div>
   </div>;
 
 AgentTaxonomy.propTypes = {
@@ -47,8 +49,7 @@ AgentTaxonomy.propTypes = {
 
 export const Notes = ({ notes }) =>
   <div>
-    <p><b>Notes:</b></p>
-    <p>{notes}</p>
+    <b>Notes:</b> {notes}
   </div>;
 
 Notes.propTypes = {
@@ -61,7 +62,7 @@ export const Synonyms = ({ synonyms }) =>
     <b>Other synonyms:</b>
     <ul className="synonyms">
       {synonyms.map(s => (
-        <li key={s.genus + s.species + s.authority}>
+        <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.authority}>
           <i>{s.genus} {s.species} {s.subSpecies}</i> {s.authority}
         </li>
       ))}

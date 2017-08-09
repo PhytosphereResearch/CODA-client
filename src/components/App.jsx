@@ -10,7 +10,7 @@ import { getAllOaks } from 'coda/services/oaks';
 import { getAllAgentSynonyms } from 'coda/services/agents';
 import { getAllSymptoms } from 'coda/services/interactions';
 
-const format = (records, idField = "id") => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName? `(${r.commonName})` : ''}` }));
+const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}` }));
 
 export default class App extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class App extends Component {
       this.setState({ oaks, formattedOaks });
     });
     getAllAgentSynonyms().then(agents => {
-      let formattedAgents = format(agents, "agentId");
+      let formattedAgents = format(agents, 'agentId');
       this.setState({ agents, formattedAgents });
     });
     getAllSymptoms().then(symptoms => {

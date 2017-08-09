@@ -39,4 +39,4 @@ export default class SearchingCoda extends Component {
 SearchingCoda.propTypes = {
   show: PropTypes.bool,
   handleCloseModal: PropTypes.func
-}
+};

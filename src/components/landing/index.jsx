@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import Logo from '../logo.jsx';
 import SearchingCoda from './SearchingCoda.jsx';
@@ -16,20 +16,20 @@ export default class Landing extends Component {
         citing: false,
         questions: false
       }
-    }
-    autobind(this)
+    };
+    autobind(this);
   }
 
   openModal(name) {
     let show = { ...this.state.show };
     show[name] = true;
-    this.setState({ show })
+    this.setState({ show });
   }
 
   handleCloseModal(name) {
     let show = { ...this.state.show };
     show[name] = false;
-    this.setState({ show })
+    this.setState({ show });
   }
 
   render() {

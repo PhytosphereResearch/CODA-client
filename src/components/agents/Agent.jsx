@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ScientificName, CommonName, Synonyms, CalPhotos, Notes } from '../shared/partials.jsx';
+import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials.jsx';
 import RangeMap from '../shared/RangeMap.jsx';
 import { getAgent } from 'coda/services/agents';
 
@@ -35,26 +35,25 @@ export default class Agent extends Component {
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
-          <span key={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length-  1 ? ', ' : ''}</span>
+          <span key={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length - 1 ? ', ' : ''}</span>
         ))}
       </div>
     );
 
     return (
       <div>
-        <ScientificName genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} authority={agent.primarySynonym.authority} />
-        { agent.commonName ?  <CommonName commonName={agent.commonName} /> : null }
-        <br />
+        <ScientificName genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} subSpecies={agent.primarySynonym.subSpecies} authority={agent.primarySynonym.authority} />
+        <p>{' '}</p>
+        { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
+        <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
+        <p>{' '}</p>
         <div className="details">
           <Synonyms synonyms={agent.otherSynonyms} />
-          <div className="taxonomy">
-            <p>{agent.type}: {agent.subType}</p>
-            <p> {agent.subSubType}</p>
-            <span><b>Order: </b>{agent.torder} <br /></span>
-            <span><b>Family: </b>{agent.family} <br /></span>
-          </div>
+          <p>{' '}</p>
+          <AgentTaxonomy agent={agent} />
+          <p>{' '}</p>
          {hosts}
-          <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
+         <p>{' '}</p>
           { agent.notes ? <Notes notes={agent.notes} /> : null }
         </div>
           <div className="range">

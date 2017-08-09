@@ -2,10 +2,10 @@ import { arrayBufferToString } from './utils';
 
 const url = 'http://localhost:3000'; // TODO per environment setup
 
-export function getAllAgentSynonyms() {
+export const getAllAgentSynonyms = () => {
   return fetch(`${url}/syn`, { mode: 'cors' })
     .then(res => {
-      if(res.ok) {
+      if (res.ok) {
         return res.json();
       } else {
         console.warn(res);
@@ -22,12 +22,12 @@ export function getAllAgentSynonyms() {
       console.warn(err);
       return [];
     });
-}
+};
 
-export function getAgent(id) {
+export const getAgent = (id) => {
   return fetch(`${url}/agent/${id}`, { mode: 'cors' })
     .then(res => {
-      if(res.ok) {
+      if (res.ok) {
         return res.json();
       } else {
         console.warn(res);
@@ -52,4 +52,4 @@ export function getAgent(id) {
       console.warn(err);
       return {};
     });
-}
+};

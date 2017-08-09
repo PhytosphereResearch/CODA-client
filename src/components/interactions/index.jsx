@@ -4,10 +4,11 @@ import autobind from 'react-autobind';
 import Select from 'react-select';
 import { getInteractions } from 'coda/services/interactions';
 import SearchResult from './SearchResult.jsx';
-const plantParts = ['acorn', 'branch', 'leaf', 'trunk', 'flower', 'root'];
+import { withRouter } from 'react-router';
 
+const plantParts = ['flower', 'acorn', 'leaf', 'branch', 'trunk', 'root'];
 
-export default class Interactions extends Component {
+class Interactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +18,42 @@ export default class Interactions extends Component {
     autobind(this);
   }
 
+  componentWillMount() {
+    if (this.props.location.search) {
+      this.goSearch(this.props.location.search);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.search !== nextProps.location.search) {
+      this.goSearch(nextProps.location.search);
+    }
+  }
+
+  goSearch(query) {
+    if (!query) {
+      return;
+    }
+    let search = {};
+    query.replace('?', '')
+      .split('&')
+      .map(pair => pair.split('='))
+      .forEach(pair => search[pair[0]] = pair[1].split('@'));
+    let oak = search.oak[0] ? { value: search.oak[0], label: decodeURI(search.oak[1]) } : undefined;
+    let symptom = search.symptom[0] ? { value: search.symptom[0], label: decodeURI(search.symptom[1]) } : undefined;
+    let selected = { ...this.state.selected, plantPart: search.plantPart[0], oak, symptom };
+    this.setState({ searching: true, selected, interactions: [] });
+    getInteractions(search.plantPart[0], search.symptom[0], search.oak[0])
+    .then(interactions => {
+      this.setState({
+        searching: false,
+        interactions });
+    });
+  }
+
   onSelect(option, key) {
     let { selected } = this.state;
-    if(key === 'plantPart' && selected.symptom && !selected.symptom[option]) {
+    if (key === 'plantPart' && selected.symptom && !selected.symptom[option]) {
       selected.symptom = undefined;
     }
     selected[key] = option;
@@ -32,15 +66,12 @@ export default class Interactions extends Component {
   }
 
   onSearchClick() {
-    this.setState({ searching: true, interactions: [] });
     let { selected } = this.state;
-    let symptomId = selected.symptom ? selected.symptom.value : '';
-    let oakId = selected.oak ? selected.oak.value : '';
-    getInteractions(selected.plantPart, symptomId, oakId)
-    .then(interactions => {
-      this.setState({ searching: false, interactions });
-    });
-    this.context.router.history.push(`/hi?symptom=${symptomId}&oak=${oakId}&part=${selected.plantPart}`);
+    let symptom = selected.symptom ? `${selected.symptom.value}@${selected.symptom.label}` : '';
+    let oak = selected.oak ? `${selected.oak.value}@${selected.oak.label}` : '';
+    let options = { symptom, oak, plantPart: selected.plantPart };
+    let query = Object.keys(options).map(key => `${key}=${options[key]}`).join('&');
+    this.context.router.history.push(`/hi?${query}`);
   }
 
   render() {
@@ -48,22 +79,25 @@ export default class Interactions extends Component {
     let { selected, searching, interactions } = this.state;
     return (
       <div>
-        <h2>Find a Host/Agent Interaction</h2>
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "50%" }}>
-            <h4>Host Oak</h4>
+        <h2>Find an agent by symptoms</h2>
+        <div style={{ display: 'flex' }}>
+          <div style={{ width: '50%' }}>
+            <h4 style={{ marginBottom: '0' }}>Select your oak</h4>
+            <div style={{ paddingBottom: '20px' }}>
+              <small> or leave blank to search all oaks</small>
+            </div>
             <Select
               options={oaks}
               onChange={(option) => this.onSelect(option, 'oak')}
               value={selected.oak}
-              placeholder="Select an oak"
-              style={{ marginBottom: "15px" }}
+              placeholder="Search oaks by species or common name"
+              style={{ marginBottom: '15px' }}
             />
-            <h4>Symptom</h4>
-            <div style={{ marginBottom: "15px", display: "flex" }}>
+            <h4>Symptom location</h4>
+            <div style={{ marginBottom: '15px', display: 'flex' }}>
               {plantParts.map(part => (
                 <button
-                  style={{ flexGrow: "1" }}
+                  style={{ flexGrow: '1' }}
                   className={selected.plantPart === part ? 'inSearch' : ''}
                   onClick={() => this.onSelect(part, 'plantPart')}
                   key={part}>
@@ -71,13 +105,14 @@ export default class Interactions extends Component {
                 </button>)
               )}
             </div>
+            <h4>Symptom</h4>
             <Select
               disabled={!selected.plantPart}
               options={symptoms.filter(symptom => symptom[selected.plantPart])}
               onChange={(option) => this.onSelect(option, 'symptom')}
               value={selected.symptom}
               placeholder="Select a symptom"
-              style={{ marginBottom: "15px" }}
+              style={{ marginBottom: '15px' }}
             />
           </div>
         </div>
@@ -101,9 +136,12 @@ export default class Interactions extends Component {
 
 Interactions.propTypes = {
   oaks: PropTypes.array,
-  symptoms: PropTypes.array
+  symptoms: PropTypes.array,
+  location: PropTypes.object
 };
 
 Interactions.contextTypes = {
   router: PropTypes.object
 };
+
+export default withRouter(Interactions);

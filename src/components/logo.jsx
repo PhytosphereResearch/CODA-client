@@ -12,7 +12,7 @@ export default class Logo extends Component {
           </g>
           <g id="Layer_3" data-name="Layer 3">
             <text className="cls-2" transform="translate(0 47.73)">C <tspan className="cls-3" x="55.78" y="0"> </tspan>
-            <tspan className="cls-4" x="69.12" y="0" xmlSpace="preserve">  </tspan>
+            <tspan className="cls-4" x="69.12" y="0" xmlSpace="preserve">{' '} </tspan>
             <tspan className="cls-5" x="82.45" y="0">D</tspan>
             <tspan className="cls-6" x="121.77" y="0">A</tspan></text>
           </g>

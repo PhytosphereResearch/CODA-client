@@ -2,10 +2,10 @@ import { arrayBufferToString } from './utils';
 
 const url = 'http://localhost:3000'; // TODO per environment setup
 
-export function getAllOaks() {
-  return fetch(`${url}/oaks`, {mode: 'cors'})
+export const getAllOaks = () => {
+  return fetch(`${url}/oaks`, { mode: 'cors' })
     .then(res => {
-      if(res.ok) {
+      if (res.ok) {
         return res.json();
       } else {
         console.warn(res);
@@ -16,12 +16,12 @@ export function getAllOaks() {
       console.warn(err);
       return [];
     });
-}
+};
 
-export function getOak(id) {
-  return fetch(`${url}/oaks/${id}`, {mode: 'cors'})
+export const getOak = (id) => {
+  return fetch(`${url}/oaks/${id}`, { mode: 'cors' })
   .then(res => {
-    if(res.ok) {
+    if (res.ok) {
       return res.json();
     } else {
       console.warn(res);
@@ -36,4 +36,4 @@ export function getOak(id) {
     console.warn(err);
     return {};
   });
-}
+};

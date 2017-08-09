@@ -29,4 +29,4 @@ export default class Questions extends Component {
 Questions.propTypes = {
   show: PropTypes.bool,
   handleCloseModal: PropTypes.func
-}
+};

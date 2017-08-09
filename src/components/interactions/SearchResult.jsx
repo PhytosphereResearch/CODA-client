@@ -17,8 +17,8 @@ export default class SearchResult extends Component {
     let { interaction } = this.props;
     let { agent } = interaction.hostInteraction;
     let description;
-    if (interaction.maturity !== "all") {
-      description = <span>: affects {interaction.maturity} {interaction.subSite || "tissue"} </span>;
+    if (interaction.maturity !== 'all') {
+      description = <span>: affects {interaction.maturity} {interaction.subSite || 'tissue'} </span>;
     }
 
 
