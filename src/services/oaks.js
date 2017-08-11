@@ -29,7 +29,7 @@ export const getOak = (id) => {
     }
   })
   .then(oak => {
-    oak.notes = arrayBufferToString(oak.notes.data).replace(' -', '\n-');
+    oak.notes = arrayBufferToString(oak.notes.data).replace(/ -/g, '\n-');
     return oak;
   })
   .catch(err => {

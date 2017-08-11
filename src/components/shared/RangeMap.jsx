@@ -20,7 +20,7 @@ export default class Chart extends Component {
   getChartState () {
     return {
       range: this.props.range,
-      interactionRange: [] // TODO add in interaction information
+      interactionRange: this.props.interactionRange || [] // TODO add in interaction information
     };
   }
 
@@ -32,5 +32,6 @@ export default class Chart extends Component {
 }
 
 Chart.propTypes = {
+  interactionRange: PropTypes.array,
   range: PropTypes.array
 };

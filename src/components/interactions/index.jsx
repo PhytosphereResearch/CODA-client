@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
-import Select from 'react-select';
+import Select from 'react-virtualized-select';
 import { getInteractions } from 'coda/services/interactions';
 import SearchResult from './SearchResult.jsx';
 import { withRouter } from 'react-router';
+import SymptomPreview from './SymptomPreview.jsx';
 
 const plantParts = ['flower', 'acorn', 'leaf', 'branch', 'trunk', 'root'];
 
@@ -80,7 +81,7 @@ class Interactions extends Component {
     return (
       <div>
         <h2>Find an agent by symptoms</h2>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           <div style={{ width: '50%' }}>
             <h4 style={{ marginBottom: '0' }}>Select your oak</h4>
             <div style={{ paddingBottom: '20px' }}>
@@ -115,16 +116,24 @@ class Interactions extends Component {
               style={{ marginBottom: '15px' }}
             />
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: '1' }}>
+            <SymptomPreview
+              plantPart={selected.plantPart}
+              symptom={selected.symptom}
+            />
+          </div>
         </div>
-        <button
-          disabled={!this.canSearch()}
-          className="search-button"
-          onClick={this.onSearchClick}>
-          Search this combination
-        </button>
+        <div className="go-search">
+          <button
+            disabled={!this.canSearch()}
+            className="search-button"
+            onClick={this.onSearchClick}>
+            Search this combination
+          </button>
+        </div>
         <div className="interactionsList">
           { searching ? 'searching...' : '' }
-          { !searching && !interactions.length ? 'No results found' : ''}
+          { !searching && !interactions.length && this.props.location.search ? 'No results found' : ''}
           <ul>
             { interactions.map(interaction => <SearchResult key={interaction.id} interaction={interaction} />) }
           </ul>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select from 'react-virtualized-select';
 import { Switch, Route } from 'react-router-dom';
 import autobind from 'react-autobind';
 import Agent from './Agent.jsx';

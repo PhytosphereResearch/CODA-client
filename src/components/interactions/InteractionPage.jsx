@@ -91,7 +91,7 @@ export default class InteractionPage extends Component {
           <div className="range mini">
             <div>
               <h5>Reported agent range</h5>
-              <RangeMap range={interaction.range} />
+              <RangeMap interactionRange={interaction.range} range={interaction.agentRange}/>
             </div>
           </div>
         </div>

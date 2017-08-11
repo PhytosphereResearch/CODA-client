@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select from 'react-virtualized-select';
 import { Switch, Route } from 'react-router-dom';
 import autobind from 'react-autobind';
 import Oak from './Oak.jsx';
 
 import 'react-select/dist/react-select.css';
+import 'react-virtualized/styles.css';
+import 'react-virtualized-select/styles.css';
 
 export default class Oaks extends Component {
   constructor(props) {

@@ -37,7 +37,7 @@ export const getAgent = (id) => {
     .then(agent => {
       agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
       agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
-      agent.notes = arrayBufferToString(agent.notes.data).replace(' -', '\n-');
+      agent.notes = arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');
       agent.rangeData = [];
       agent.hosts = [];
       agent.hostInteractions.forEach(interaction => { // iterate over interactions
