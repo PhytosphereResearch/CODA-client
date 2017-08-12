@@ -6,6 +6,7 @@ import { getInteractions } from 'coda/services/interactions';
 import SearchResult from './SearchResult.jsx';
 import { withRouter } from 'react-router';
 import SymptomPreview from './SymptomPreview.jsx';
+import { Spinner } from '../shared/shapes.jsx';
 
 const plantParts = ['flower', 'acorn', 'leaf', 'branch', 'trunk', 'root'];
 
@@ -132,8 +133,10 @@ class Interactions extends Component {
           </button>
         </div>
         <div className="interactionsList">
-          { searching ? 'searching...' : '' }
-          { !searching && !interactions.length && this.props.location.search ? 'No results found' : ''}
+          { searching ? <Spinner /> : null }
+          { !searching && !interactions.length && this.props.location.search ? (
+            <div style={{ textAlign: 'center' }}><h3>No Results Found</h3><h4>Try modifying your search</h4></div>
+          ) : null }
           <ul>
             { interactions.map(interaction => <SearchResult key={interaction.id} interaction={interaction} />) }
           </ul>

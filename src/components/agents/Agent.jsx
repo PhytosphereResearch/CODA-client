@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials.jsx';
 import RangeMap from '../shared/RangeMap.jsx';
 import { getAgent } from 'coda/services/agents';
+import { Spinner } from '../shared/shapes.jsx';
 
 export default class Agent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false
+    };
   }
 
   componentWillMount() {
+    this.setState({ loading: true });
     getAgent(this.props.match.params.id)
-      .then(agent => this.setState({ agent }));
+      .then(agent => this.setState({ agent, loading: false }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,10 +29,12 @@ export default class Agent extends Component {
   }
 
   render() {
-    let { agent } = this.state;
+    let { agent, loading } = this.state;
 
-    if (!agent) {
+    if (!agent && !loading) {
       return null;
+    } else if (loading) {
+      return <Spinner />;
     }
 
     let hosts = (

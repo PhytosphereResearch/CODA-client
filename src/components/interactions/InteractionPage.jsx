@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getInteraction } from 'coda/services/interactions';
 import RangeMap from 'coda/components/shared/RangeMap.jsx';
+import { Spinner } from 'coda/components/shared/shapes.jsx';
 import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from 'coda/components/shared/partials.jsx';
 import Reference from './Reference.jsx';
 import Symptom from './Symptom.jsx';
@@ -28,7 +29,7 @@ export default class InteractionPage extends Component {
     let { oak, agent } = interaction;
 
     if (this.state.loading) {
-      return <div>Loading...</div>;
+      return <Spinner />;
     }
 
     let directSymptoms = interaction.directSymptoms.length ?
@@ -104,32 +105,3 @@ InteractionPage.propTypes = {
   interaction: PropTypes.object,
   match: PropTypes.object
 };
-
-
-{ /* <div ng-if="hi.directSymptoms.length" class="direct">
-  <b>Symptoms at or near the site of attack:</b>
-  <br />
-  <ul>
-    <li ng-repeat="s in hi.directSymptoms">
-      <b>{{s.plantPart | uppercase}}</b>
-      &rarr;
-      <b><span ng-repeat="symp in s.symptoms"><span ng-if="$index != 0">;</span> {{symp.symptom}}</span></b>
-      <br>
-      <span ng-if="s.maturity.toLowerCase() != 'all'">Affects {{s.maturity | lowercase}} {{s.subSite | lowercase}} </span><span ng-if="!s.subSite && s.maturity.toLowerCase() != 'all'">tissue</span>
-      <span ng-if="!s.subSite && s.maturity.toLowerCase() == 'all'">All tissue maturities affected</span>
-    </li>
-  </ul>
-</div>
-<div class="indirect" ng-if="hi.indirectSymptoms.length">
-  <b>Symptoms found away from site of attack:</b>
-  <br />
-  <ul>
-    <li ng-repeat="s in hi.indirectSymptoms">
-      <b>{{s.plantPart | uppercase}}</b>
-      &rarr; <b><span ng-repeat="symp in s.symptoms"><span ng-if="$index != 0">;</span> {{symp.symptom}}</span></b>
-      <br>
-      <span ng-if="s.maturity.toLowerCase() != 'all'">Affects {{s.maturity | lowercase}} {{s.subSite | lowercase}} </span><span ng-if="!s.subSite && s.maturity.toLowerCase() != 'all'">tissue</span>
-      <span ng-if="!s.subSite && s.maturity.toLowerCase() == 'all'">All tissue maturities affected</span>
-    </li>
-  </ul>
-</div> */ }
