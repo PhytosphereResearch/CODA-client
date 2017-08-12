@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const ScientificName = ({ genus, species, subSpecies, authority, inline }) =>
-  <div style={{ display: inline ? 'inline-block' : 'block' }} className="scientific-name">
+export const ScientificName = ({ genus, species, subSpecies, authority, inline, style }) =>
+  <div style={{ ...style, display: inline ? 'inline-block' : 'block' }} className="scientific-name">
     <i>{genus} {species} {subSpecies}</i> <span className="authority">{authority}</span>
   </div>;
 
@@ -11,7 +11,8 @@ ScientificName.propTypes = {
   species: PropTypes.string,
   subSpecies: PropTypes.string,
   authority: PropTypes.string,
-  inline: PropTypes.bool
+  inline: PropTypes.bool,
+  style: PropTypes.object
 };
 
 export const CommonName = ({ commonName }) =>
@@ -36,7 +37,7 @@ CalPhotos.propTypes = {
 
 export const AgentTaxonomy = ({ agent }) =>
   <div className="taxonomy">
-    <div><b>{agent.type} &mdash; {agent.subType} {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}</b></div>
+    <div><b>Taxonomy: {agent.type} &mdash; {agent.subType} {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}</b></div>
     <div style={{ marginLeft: '10px' }}>
       {agent.torder ? <span><b>Order: </b>{agent.torder} <br /></span> : null}
       <span><b>Family: </b>{agent.family} <br /></span>
@@ -59,7 +60,7 @@ Notes.propTypes = {
 export const Synonyms = ({ synonyms }) =>
   synonyms.length ?
   <div>
-    <b>Other synonyms:</b>
+    <b>Synonyms:</b>
     <ul className="synonyms">
       {synonyms.map(s => (
         <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.authority}>

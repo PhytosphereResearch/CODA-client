@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js && gulp sass",
     "develop": "webpack-dev-server"
   },
   "author": "Frances Swiecki",

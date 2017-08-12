@@ -1,0 +1,36 @@
+@import "../variables";
+
+//
+  // Small logo
+//
+
+.logo svg {
+  fill: $main-color;
+  width: 150px;
+  .acorn {
+    stroke: $main-color;
+    stroke-width: 5px;
+    fill: white;
+  }
+}
+
+
+//
+  // Large logo
+//
+
+.logo-large svg {
+  fill: white;
+  width: 30vw;
+  overflow: inherit;
+  // @media
+  .acorn { /*ACORN*/
+    stroke: white;
+    stroke-width: 4.5px;
+    fill: white;
+    fill-opacity: 0.7;
+  }
+  .acorn-cap {
+    fill-opacity: 1;
+  }
+}

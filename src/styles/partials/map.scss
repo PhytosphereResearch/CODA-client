@@ -1,0 +1,29 @@
+.range {
+  float: right;
+  width: 150px;
+  margin-left: 30px;
+}
+
+.mini {
+  width: 150px;
+  margin-left: 15px;
+}
+
+range-map svg {
+  stroke: white;
+  fill: white;
+}
+
+.subunit {
+  fill: #DDD;
+  stroke: white;
+  stroke-width: .7px;
+}
+
+.inRange { /*highlight for counties in agent range*/
+  fill: #d0113e;
+}
+
+.inInteraction { /*highlight for counties in host/agent interaction*/
+  fill: #9D0D2F;
+}

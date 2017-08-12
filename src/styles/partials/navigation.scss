@@ -1,0 +1,89 @@
+@import "../_variables";
+
+.header.group {
+  padding: 5px 5px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  overflow: hidden;
+  border-bottom: 3px solid $main-color;
+
+  @media screen and (max-width: 800px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.title {
+  width: 100%;
+  @media screen and (max-width: 800px) {
+    text-align: center;
+  }
+  .subtitle {
+    font-size: 10pt;
+  }
+}
+
+.navigation {
+  width: 100%;
+}
+
+.navigation ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+
+  @media screen and (max-width: 800px) {
+    justify-content: space-around;
+  }
+
+  li {
+    @media screen and (max-width: 800px) {
+      flex: 1;
+    }
+    a {
+      position: relative;
+      color: #444444;
+      font-weight: 400;
+      font-size: 15px;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+      padding: 18px 25px 12px 25px;
+      width: 100%;
+      &:before {
+        content: ''; /* To generate the box */
+      	position: absolute;
+      	top: 0; right: 0; bottom: 0; left: 0;
+      	z-index: -2;
+      	background: white;
+      	transform: perspective(4px) rotateX(1deg);
+        transition: all .3s ease;
+        border-radius: 10px 10px 0 0;
+      }
+      &:hover {
+        color: $main-darker;
+        &:before {
+          background-color: $main-lighter;
+          z-index: -1;
+        }
+      }
+      @media screen and (max-width: 800px) {
+        padding: 18px 0 12px;
+        font-size: 12px;
+      }
+    }
+  }
+  li.active {
+    a {
+      color: #FFFFFF;
+      &:before {
+        z-index: -1;
+        background-color: $main-color;
+      }
+    }
+  }
+}

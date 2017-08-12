@@ -1,0 +1,118 @@
+@import "../variables";
+
+.modal {
+  padding: 25px;
+  border: 2px solid white;
+  border-radius: 3px;
+  background-color: #ffffff;
+  width: 70vw;
+  max-height: 80vh;
+  z-index: 100;
+
+  @media screen and (max-width: 800px){
+    width: 90vw;
+    max-height: 90svh;
+  }
+
+  @media screen and (max-width: 800px){
+    width: 90vw;
+    max-height: 90vh;
+  }
+
+  .content-box {
+    height: 100%;
+    width: 100%;
+    padding: 0 25px 0 0;
+    overflow-y: scroll;
+    @media screen and (min-width: 800px){
+      overflow-y: auto;
+    }
+  }
+}
+
+.modal.optional {
+  //make overlay look natural on large screens
+  @media screen and (min-width: 800px){
+    width: calc(100vw - 370px);
+    float: right;
+    box-sizing: border-box;
+    padding: 10px 30px;
+    top: 150px;
+    right: 10px;
+    position: inherit;
+    transform: none;
+    border: 1px solid lightgrey;
+    overflow-y: auto;
+    height: auto;
+    border: none;
+  }
+}
+
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba($fade-color, .7);
+  width: 100vw;
+  height: 100vh;
+  z-index: 90;
+  transition: opacity 1s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//hide overlay on screens smaller than 800px;
+@media screen and (min-width: 800px){
+  .overlay.optional {
+    display: none;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+  }
+  a.close-modal {
+    cursor: pointer;
+  }
+}
+
+/* HI RECORD FORMATTING */
+
+.cite {
+  cursor: pointer;
+}
+
+.cite-details {
+  box-sizing: border-box;
+  margin-left: 10px;
+}
+
+.cite:hover {
+  color: grey;
+}
+
+.indirect {
+  color: #666666;
+}
+
+.read-more {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal {
+  stroke: gray;
+}
+
+@media screen and (min-width: 800px){
+  .close-modal.optional {
+    display: none;
+  }
+}

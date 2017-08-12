@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
+import { ScientificName } from 'coda/components/shared/partials.jsx';
 
 export default class SearchResult extends Component {
 
@@ -15,7 +16,7 @@ export default class SearchResult extends Component {
 
   render() {
     let { interaction } = this.props;
-    let { agent } = interaction.hostInteraction;
+    let { agent, oak } = interaction.hostInteraction;
     let description;
     if (interaction.maturity !== 'all') {
       description = <span>: affects {interaction.maturity} {interaction.subSite || 'tissue'} </span>;
@@ -29,6 +30,7 @@ export default class SearchResult extends Component {
               <b>{agent.subType} &mdash; </b>
               <i>{agent.synonyms[0].genus} {agent.synonyms[0].species}</i> {agent.synonyms[0].authority} {agent.commonName && <span>&mdash; {agent.commonName}</span>}
               <br />
+              <ScientificName style={{ fontSize: '11pt' }} genus={oak.genus} species={oak.species} subSpecies={oak.subSpecies} authority={oak.authority} inline /> &mdash;{' '}
               {interaction.plantPart}{description}
             </div>
             <button onClick={this.onRecordClick}>Read more</button>

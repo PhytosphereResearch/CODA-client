@@ -1,0 +1,25 @@
+//
+  // Brand colors
+//
+$main-color: #88A189;
+$main-darker: darken( $main-color, 15% );
+$main-lighter: lighten( $main-color, 30% );
+
+$fade-color: #132745;
+
+$bright-accent: #D0113E;
+
+
+
+//
+  // Fonts
+//
+
+$default-font: "Trebuchet MS", Arial, Helvetica, sans-serif;
+
+//
+  // Media Queries
+//
+
+$tablet: "screen and (max-width: 800px)";
+$phone: "screen and (max-width: 500px)";

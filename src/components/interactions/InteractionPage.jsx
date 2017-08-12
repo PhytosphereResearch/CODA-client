@@ -76,8 +76,9 @@ export default class InteractionPage extends Component {
             {agent.commonName && <CommonName commonName={agent.commonName} />}
             <CalPhotos genus={agent.genus} species={agent.species} />
             <p>{' '}</p>
-            <Synonyms synonyms={agent.synonyms} />
             <AgentTaxonomy agent={agent} />
+            <p>{' '}</p>
+            <Synonyms synonyms={agent.synonyms} />
           </div>
           {interaction.questionable ? <div className="cite-details"> Questionable ID </div> : null }
           <p>{' '}</p>
