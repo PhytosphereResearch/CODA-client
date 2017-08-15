@@ -2,14 +2,8 @@
   "name": "coda",
   "version": "1.0.0",
   "description": "California Oak Disease and Arthropod Database",
-  "main": "/server/app.js",
+  "main": "/src/index.jsx",
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "cors": "^2.8.4",
-    "express": "^4.13.4",
-    "morgan": "^1.7.0",
-    "mysql": "^2.10.2",
-    "sequelize": "^3.21.0"
   },
   "scripts": {
     "start": "node server/app.js",
