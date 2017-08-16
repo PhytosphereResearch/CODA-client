@@ -2,7 +2,6 @@ import { arrayBufferToString, checkResponse } from './utils';
 import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
 import { url } from './environments';
-// const url = 'http://localhost:3000'; // TODO per environment setup
 
 export const getAllSymptoms = () => {
   const headers = new Headers();

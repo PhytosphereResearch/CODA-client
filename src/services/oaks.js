@@ -1,6 +1,5 @@
 import { arrayBufferToString, checkResponse } from './utils';
 import { url } from './environments';
-// const url = 'http://localhost:3000'; // TODO per environment setup
 
 export const getAllOaks = () => {
   let headers = new Headers();
