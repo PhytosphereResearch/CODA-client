@@ -1,9 +1,9 @@
 import { arrayBufferToString } from './utils';
-
-const url = 'http://localhost:3000'; // TODO per environment setup
+import { url } from './environments';
 
 export const getAllAgentSynonyms = () => {
-  return fetch(`${url}/syn`, { mode: 'cors' })
+  const headers = new Headers();
+  return fetch(`${url}/syn`, { headers, method: 'GET', mode: 'cors' })
     .then(res => {
       if (res.ok) {
         return res.json();

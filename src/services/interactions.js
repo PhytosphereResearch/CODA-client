@@ -1,11 +1,11 @@
 import { arrayBufferToString, checkResponse } from './utils';
 import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
-
-const url = 'http://localhost:3000'; // TODO per environment setup
+import { url } from './environments';
 
 export const getAllSymptoms = () => {
-  return fetch(`${url}/symptoms`, { mode: 'cors' })
+  const headers = new Headers();
+  return fetch(`${url}/symptoms`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then(symptoms => {
       symptoms.forEach(symptom => {

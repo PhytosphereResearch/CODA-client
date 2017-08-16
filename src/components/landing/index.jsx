@@ -42,7 +42,7 @@ export default class Landing extends Component {
               California Oak Disease and Arthropod Database
             </div>
           </div>
-          <img src="../images/rockville_hills.jpg" alt="" className="landing" />
+          <img src="./images/rockville_hills.jpg" alt="" className="landing" />
         </div>
         <div className="card">
           The <b> California Oak Disease and Arthropod  host index database (CODA)</b> is a comprehensive compilation of the many agents that affect oaks in California.  A wide variety of insects, pathogens, and other agents can colonize oaks. Only a small number of these can cause serious damage, but many can cause noticeable symptoms.  CODA is a tool that can be used to help identify agents that cause symptoms on oaks in California.
