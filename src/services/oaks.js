@@ -1,9 +1,10 @@
 import { arrayBufferToString, checkResponse } from './utils';
-
-const url = 'http://localhost:3000'; // TODO per environment setup
+import { url } from './environments';
+// const url = 'http://localhost:3000'; // TODO per environment setup
 
 export const getAllOaks = () => {
-  return fetch(`${url}/oaks`, { mode: 'cors' })
+  let headers = new Headers();
+  return fetch(`${url}/oaks`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .catch(err => {
       console.warn(err);

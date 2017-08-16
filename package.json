@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "California Oak Disease and Arthropod Database",
   "main": "/src/index.jsx",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
-    "start": "node server/app.js",
-    "build": "webpack --config webpack.config.js && gulp sass",
-    "develop": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "NODE_ENV=production webpack --config webpack.config.js && gulp sass"
   },
   "author": "Frances Swiecki",
   "devDependencies": {

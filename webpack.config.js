@@ -1,53 +1,53 @@
-const { resolve } = require("path");
-const webpack = require("webpack");
+const { resolve } = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: process.env.NODE_ENV === "production"
-    ? ["./index.jsx"]
+  entry: process.env.NODE_ENV === 'production'
+    ? ['./index.jsx']
     : [
-      "react-hot-loader/patch",
+      'react-hot-loader/patch',
       // activate HMR for React
 
-      "webpack-dev-server/client?http://localhost:8080",
+      'webpack-dev-server/client?http://localhost:8080',
       // bundle the client for webpack-dev-server
       // and connect to the provided endpoint
 
-      "webpack/hot/only-dev-server",
+      'webpack/hot/only-dev-server',
       // bundle the client for hot reloading
       // only- means to only hot reload for successful updates
 
-      "./index.jsx"
+      './index.jsx'
       // the entry point of our app
     ],
   // Webpack config options on how to obtain modules
   resolve: {
     alias: {
       // react-mcp-mex-components requires will be searched in src folder, not in node_modules
-      "coda": resolve(__dirname, "src")
+      'coda': resolve(__dirname, 'src')
     }
   },
   output: {
-    filename: "bundle.js",
+    filename: 'bundle.js',
     // the output bundle
 
-    path: resolve(__dirname, "dist"),
+    path: resolve(__dirname, 'dist'),
 
-    publicPath: "/"
+    publicPath: '/'
     // necessary for HMR to know where to load the hot update chunks
   },
 
-  context: resolve(__dirname, "src"),
+  context: resolve(__dirname, 'src'),
 
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
 
   devServer: {
     hot: true,
     // enable HMR on the server
 
-    contentBase: resolve(__dirname, "dist"),
+    contentBase: resolve(__dirname, 'dist'),
     // match the output path
 
-    publicPath: "/",
+    publicPath: '/',
     // match the output `publicPath`
 
     historyApiFallback: true
@@ -57,16 +57,16 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        use: ["babel-loader"],
+        use: ['babel-loader'],
         exclude: /node_modules/
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
-        use: ["url-loader"]
+        use: ['url-loader']
       }
     ]
   },
