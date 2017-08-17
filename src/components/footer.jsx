@@ -21,7 +21,7 @@ export default class Footer extends Component {
   render() {
     return (
       <div className="copyright">
-        <a onClick={this.displayStatement}>© 2016 Phytosphere Research | Disclaimer | Nondiscrimination statement</a>
+        <a onClick={this.displayStatement}>© 2016 Phytosphere Research | Version 2.0 | Disclaimer | Nondiscrimination statement</a>
       </div>
     );
   }

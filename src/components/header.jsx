@@ -26,6 +26,7 @@ class Header extends Component {
           </div>
           <nav className="navigation">
             <ul>
+              {this.props.loggedIn && <li className={this.computeMatch('edit') ? 'active' : ''}><Link to="/edit">Edit</Link></li> }
               <li className={this.computeMatch('') ? 'active' : ''}><Link to="/">Home</Link></li>
               <li className={this.computeMatch('oaks') ? 'active' : ''}><Link to="/oaks">Oaks</Link></li>
               <li className={this.computeMatch('agents') ? 'active' : ''}><Link to="/agents">Agents</Link></li>
