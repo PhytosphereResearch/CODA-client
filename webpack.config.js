@@ -1,8 +1,14 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+var ManifestPlugin = require('webpack-manifest-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+
+
+const PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  entry: process.env.NODE_ENV === 'production'
+  entry: PROD
     ? ['./index.jsx']
     : [
       'react-hot-loader/patch',
@@ -27,7 +33,7 @@ module.exports = {
     }
   },
   output: {
-    filename: 'bundle.js',
+    filename: PROD ? '[chunkhash].bundle.js' : 'bundle.js',
     // the output bundle
 
     path: resolve(__dirname, 'dist'),
@@ -71,7 +77,25 @@ module.exports = {
     ]
   },
 
-  plugins: [
+  plugins: PROD ? [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
+    new ManifestPlugin(),
+    new HtmlWebpackPlugin({
+      template: './index.ejs'
+    }),
+    new InlineManifestWebpackPlugin({
+      name: 'webpackManifest'
+    })
+  ] : [
     new webpack.HotModuleReplacementPlugin(),
     // enable HMR globally
 
