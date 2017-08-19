@@ -4,22 +4,6 @@ import Header from './header.jsx';
 import Footer from './footer.jsx';
 
 export default class Shell extends Component {
-  componentWillMount() {
-    this.setState({ profile: {} });
-    const { userProfile, getProfile, isAuthenticated } = this.props.auth;
-    if (!isAuthenticated()) {
-      return;
-    }
-    if (!userProfile) {
-      getProfile((err, profile) => {
-        console.log(profile)
-        this.setState({ profile });
-      });
-    } else {
-      this.setState({ profile: userProfile });
-    }
-  }
-
   render() {
     return (
       <div>
@@ -34,5 +18,6 @@ export default class Shell extends Component {
 }
 
 Shell.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  auth: PropTypes.object
 };

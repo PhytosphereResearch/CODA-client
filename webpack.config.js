@@ -96,6 +96,9 @@ module.exports = {
       name: 'webpackManifest'
     })
   ] : [
+    new HtmlWebpackPlugin({
+      template: './index.ejs'
+    }),
     new webpack.HotModuleReplacementPlugin(),
     // enable HMR globally
 

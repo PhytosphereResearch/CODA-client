@@ -42,7 +42,8 @@ class Header extends Component {
 Header.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string
-  })
+  }),
+  loggedIn: PropTypes.bool
 };
 
 const WrappedHeader = withRouter(Header);
