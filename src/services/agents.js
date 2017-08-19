@@ -1,5 +1,6 @@
 import { arrayBufferToString } from './utils';
 import { url } from './environments';
+import { auth } from '../components/App.jsx';
 
 export const getAllAgentSynonyms = () => {
   const headers = new Headers();
@@ -51,5 +52,21 @@ export const getAgent = (id) => {
     .catch(err => {
       console.warn(err);
       return {};
+    });
+};
+
+export const test = () => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json'
+  });
+  return fetch(`${url}/test`, { headers, method: 'GET', mode: 'cors' })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        console.warn(res);
+        return [];
+      }
     });
 };

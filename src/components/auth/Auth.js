@@ -15,9 +15,9 @@ export default class Auth {
     domain: 'phytosphere.auth0.com',
     clientID: 'R22kc94DJVwNp2HF3u5vfqkPLvelcEoy',
     redirectUri,
-    audience: 'https://phytosphere.auth0.com/userinfo',
+    audience: 'https://auth.coda.phytosphere.com',
     responseType: 'token id_token',
-    scope: 'openid profile update:tables'
+    scope: 'openid'
   });
 
   handleAuthentication() {

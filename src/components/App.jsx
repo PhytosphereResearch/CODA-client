@@ -16,7 +16,7 @@ import Callback from './auth/Callback.jsx';
 
 const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}` }));
 
-const auth = new Auth();
+export const auth = new Auth();
 
 const handleAuthentication = (nextState) => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
