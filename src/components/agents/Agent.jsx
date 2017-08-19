@@ -49,24 +49,24 @@ export default class Agent extends Component {
     return (
       <div>
         <ScientificName genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} subSpecies={agent.primarySynonym.subSpecies} authority={agent.primarySynonym.authority} />
-        <p>{' '}</p>
-        { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
-        <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
-        <p>{' '}</p>
-        <div className="details">
-          <Synonyms synonyms={agent.otherSynonyms} />
-          <p>{' '}</p>
-          <AgentTaxonomy agent={agent} />
-          <p>{' '}</p>
-         {hosts}
-         <p>{' '}</p>
-          { agent.notes ? <Notes notes={agent.notes} /> : null }
+        <div style={{ clear: 'both' }}>
+          {/* <div style={{ flex: '1' }}> */}
+          <div style={{ float: 'right' }}><b>Reported range</b> <br />
+          <RangeMap range={agent.rangeData} />
         </div>
-          <div className="range">
-            <div ><b>Reported range</b> <br />
-              <RangeMap range={agent.rangeData} />
-            </div>
-          </div>
+            <p>{' '}</p>
+            { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
+            <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
+            <p>{' '}</p>
+            <Synonyms synonyms={agent.otherSynonyms} />
+            <p>{' '}</p>
+            <AgentTaxonomy agent={agent} />
+            <p>{' '}</p>
+            {hosts}
+            <p>{' '}</p>
+            { agent.notes ? <Notes notes={agent.notes} /> : null }
+          {/* </div> */}
+        </div>
         </div>
     );
   }

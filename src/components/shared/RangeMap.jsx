@@ -7,8 +7,8 @@ export default class Chart extends Component {
   componentDidMount () {
     var el = this.el;
     d3Chart.create(el, {
-      width: 150,
-      height: 180
+      width: 200,
+      height: 230
     }, this.getChartState());
   }
 

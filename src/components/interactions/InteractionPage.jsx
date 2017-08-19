@@ -51,6 +51,11 @@ export default class InteractionPage extends Component {
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ flex: '1' }}>
+          {/* Range map */}
+          <div style={{ float: 'right' }}>
+            <h3>Reported agent range</h3>
+            <RangeMap interactionRange={interaction.range} range={interaction.agentRange}/>
+          </div>
           {/* Data on this interaction */}
           <div>
             <h3>
@@ -87,15 +92,6 @@ export default class InteractionPage extends Component {
           {interaction.notes ? <Notes notes={interaction.notes} /> : null }
           <h3>References: <small>(click to expand)</small></h3>
           {interaction.bibs.map(cite => <Reference key={cite.id} cite={cite} /> )}
-        </div>
-        <div>
-          {/* Range map */}
-          <div className="range mini">
-            <div>
-              <h5>Reported agent range</h5>
-              <RangeMap interactionRange={interaction.range} range={interaction.agentRange}/>
-            </div>
-          </div>
         </div>
       </div>
     );

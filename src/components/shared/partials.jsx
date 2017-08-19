@@ -63,7 +63,7 @@ export const Synonyms = ({ synonyms }) =>
     <b>Synonyms:</b>
     <ul className="synonyms">
       {synonyms.map(s => (
-        <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.authority}>
+        <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.subSpecies + s.authority}>
           <i>{s.genus} {s.species} {s.subSpecies}</i> {s.authority}
         </li>
       ))}

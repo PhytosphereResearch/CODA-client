@@ -7,8 +7,8 @@ export default class Shell extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <div style={{ margin: '0 30px 30px', minHeight: 'calc(100vh - 180px)' }}>
+        <Header loggedIn={this.props.auth.isAuthenticated()}/>
+        <div style={{ margin: '0 auto', padding: '0 30px', minHeight: 'calc(100vh - 180px)', maxWidth: '1200px' }}>
           {this.props.children}
         </div>
         <Footer />
@@ -18,5 +18,6 @@ export default class Shell extends Component {
 }
 
 Shell.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  auth: PropTypes.object
 };

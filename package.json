@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "California Oak Disease and Arthropod Database",
   "main": "/src/index.jsx",
-  "dependencies": {},
+  "dependencies": {
+    "auth0-js": "^8.6.0",
+    "history": "^4.6.3",
+    "html-webpack-plugin": "^2.30.1",
+    "inline-manifest-webpack-plugin": "^3.0.1",
+    "webpack-manifest-plugin": "^1.3.1"
+  },
   "scripts": {
     "start": "webpack-dev-server",
     "build": "NODE_ENV=production webpack --config webpack.config.js && gulp sass"

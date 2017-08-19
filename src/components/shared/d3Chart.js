@@ -11,7 +11,7 @@ d3Chart.create = function(el, props, state) {
       .attr('height', props.height);
 
   var projection = d3.geoMercator()
-    .scale(700)
+    .scale(1000)
     .center([-120, 37.3])
     .translate([props.width / 2, props.height / 2]);
   var path = d3.geoPath().projection(projection);
