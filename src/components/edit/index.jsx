@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link, Switch, Route } from 'react-router-dom';
 import EditOaks from './Oaks.jsx';
 import EditAgents from './Agents.jsx';
@@ -6,13 +7,10 @@ import EditSynonyms from './Synonyms.jsx';
 import EditSymptoms from './Symptoms.jsx';
 import EditReferences from './References.jsx';
 import EditInteractions from './Interactions.jsx';
-import { test } from 'coda/services/agents';
 
 export default class Edit extends Component {
-  componentWillMount() {
-    test().then(res => console.log(res));
-  }
   render() {
+    let { formattedOaks, fetchOaks } = this.props;
     return (
       <div>
         <h2>Edit CODA</h2>
@@ -25,7 +23,7 @@ export default class Edit extends Component {
           <li><Link to="/edit/interactions">Interactions</Link></li>
         </ul>
         <Switch>
-          <Route path="/edit/oaks" component={EditOaks}/>
+          <Route path="/edit/oaks" render={() => <EditOaks options={formattedOaks} refresh={fetchOaks}/>}/>
           <Route path="/edit/agents" component={EditAgents}/>
           <Route path="/edit/synonyms" component={EditSynonyms}/>
           <Route path="/edit/symptoms" component={EditSymptoms}/>
@@ -36,3 +34,8 @@ export default class Edit extends Component {
     );
   }
 }
+
+Edit.propTypes = {
+  formattedOaks: PropTypes.array,
+  fetchOaks: PropTypes.func
+};

@@ -80,3 +80,18 @@ Spinner.propTypes = {
 Spinner.defaultProps = {
   size: 150
 };
+
+export const FullScreenSpinner = () => (
+  <div style={{
+    width: '100vw',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    background: 'rgba(255, 255, 255, .5)'
+  }}>
+    <Spinner />
+  </div>
+);

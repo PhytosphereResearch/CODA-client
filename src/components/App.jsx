@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import autobind from 'react-autobind';
 import Shell from './Shell.jsx';
 import Landing from './landing/index.jsx';
 import Agents from './agents/index.jsx';
@@ -35,20 +36,29 @@ export default class App extends Component {
       symptoms: [],
       formattedSymptoms: []
     };
+    autobind(this);
   }
 
   componentWillMount() {
-    getAllOaks().then(oaks => {
-      let formattedOaks = format(oaks);
-      this.setState({ oaks, formattedOaks });
-    });
-    getAllAgentSynonyms().then(agents => {
-      let formattedAgents = format(agents, 'agentId');
-      this.setState({ agents, formattedAgents });
-    });
+    this.fetchOaks();
+    this.fetchAgents();
     getAllSymptoms().then(symptoms => {
       let formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
       this.setState({ symptoms, formattedSymptoms });
+    });
+  }
+
+  fetchOaks() {
+    return getAllOaks().then(oaks => {
+      let formattedOaks = format(oaks);
+      this.setState({ oaks, formattedOaks });
+    });
+  }
+
+  fetchAgents() {
+    return getAllAgentSynonyms().then(agents => {
+      let formattedAgents = format(agents, 'agentId');
+      this.setState({ agents, formattedAgents });
     });
   }
 
@@ -64,7 +74,7 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" component={InteractionPage} />
               <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" render={() => <Login auth={auth} />} />
-              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit /> : <Redirect to="/" />} />
+              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} /> : <Redirect to="/" />} />
               <Route path="/callback" render={(props) => {
                 handleAuthentication(props);
                 return <Callback {...props} />;
