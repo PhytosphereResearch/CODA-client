@@ -75,22 +75,26 @@ export default class EditOaks extends Component {
           style={{ marginBottom: '15px' }}/>
         <div>
           {this.state.loading ? <FullScreenSpinner /> : null}
-          <TextInput title="Genus" value={selectedOak.genus} name="genus" onChange={this.onInputChange}/>
+          <div style={{ display: 'flex' }}>
+            <TextInput title="Genus" value={selectedOak.genus} name="genus" onChange={this.onInputChange}/>
+            <TextInput title="Species" value={selectedOak.species} name="species" onChange={this.onInputChange}/>
+            <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={this.onInputChange}/>
+            <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={this.onInputChange}/>
+          </div>
           <TextInput title="Sub-genus" value={selectedOak.subGenus} name="subGenus" onChange={this.onInputChange}/>
-          <TextInput title="Species" value={selectedOak.species} name="species" onChange={this.onInputChange}/>
-          <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={this.onInputChange}/>
           <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={this.onInputChange}/>
-          <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={this.onInputChange}/>
           <TextInput title="Evergreen?" value={selectedOak.evergreen} name="evergreen" onChange={this.onInputChange}/>
+          <div style={{ display: 'flex' }}>
+            <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={this.onInputChange}/>
+            <TextInput title="Height" value={selectedOak.height} name="height" onChange={this.onInputChange}/>
+          </div>
+          <TextArea title="Leaves" limit={500} value={selectedOak.leaves} name="leaves" onChange={this.onInputChange}/>
+          <TextArea title="Stems" value={selectedOak.stems} name="stems" onChange={this.onInputChange}/>
           <TextInput title="Acorns" value={selectedOak.acorns} name="acorns" onChange={this.onInputChange}/>
-          <TextInput title="Leaves" value={selectedOak.leaves} name="leaves" onChange={this.onInputChange}/>
-          <TextInput title="Stems" value={selectedOak.stems} name="stems" onChange={this.onInputChange}/>
-          <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={this.onInputChange}/>
-          <TextInput title="Height" value={selectedOak.height} name="height" onChange={this.onInputChange}/>
-          <TextInput title="Distribution" value={selectedOak.distribution} name="distribution" onChange={this.onInputChange}/>
           <TextInput title="Hybrids" value={selectedOak.hybrids} name="hybrids" onChange={this.onInputChange}/>
           <TextInput title="Varieties" value={selectedOak.varieties} name="varieties" onChange={this.onInputChange}/>
-          <TextArea title="Notes" value={selectedOak.notes} name="notes" onChange={this.onInputChange}/>
+          <TextInput title="Distribution (deprecated)" limit={500} value={selectedOak.distribution} name="distribution" onChange={this.onInputChange}/>
+          <TextArea title="Notes" value={selectedOak.notes} limit={65535} name="notes" onChange={this.onInputChange}/>
           <button onClick={this.onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
         </div>
       </div>
