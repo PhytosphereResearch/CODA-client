@@ -1,4 +1,5 @@
 import { arrayBufferToString, checkResponse } from './utils';
+import { auth } from '../components/App.jsx';
 import { url } from './environments';
 
 export const getAllOaks = () => {
@@ -39,4 +40,14 @@ export const getOak = (id) => {
     console.warn(err);
     return {};
   });
+};
+
+export const addOrUpdateOak = (oak) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/oaks`, { headers, method: 'POST', body: JSON.stringify(oak), mode: 'cors' })
+    .then(checkResponse);
 };

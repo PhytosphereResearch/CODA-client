@@ -93,3 +93,8 @@ button.inSearch {
   color: $main-lighter;
   box-shadow: inset 0 4px darken($main-darker, 20);
 }
+
+.field-label {
+  font-weight: bold;
+  color: $main-color;
+}
