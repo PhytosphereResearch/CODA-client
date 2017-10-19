@@ -49,12 +49,5 @@ export const addOrUpdateOak = (oak) => {
     'Content-Type': 'application/json'
   });
   return fetch(`${url}/oaks`, { headers, method: 'POST', body: JSON.stringify(oak), mode: 'cors' })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        console.warn(res);
-        throw new Error();
-      }
-    });
+    .then(checkResponse);
 };

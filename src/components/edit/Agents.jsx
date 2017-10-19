@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import { test } from 'coda/services/agents';
+
+// TODO finish porting this form from angular >> react and connect it to the server!
 
 export default class EditAgents extends Component {
   render() {
