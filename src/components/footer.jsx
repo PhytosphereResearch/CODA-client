@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
+import Legal from './landing/Legal.jsx';
 
 export default class Footer extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ export default class Footer extends Component {
   render() {
     return (
       <div className="copyright">
+        <Legal show={this.state.show} handleCloseModal={this.handleCloseModal} />
         <a onClick={this.displayStatement}>© 2016 Phytosphere Research | Version 2.0 | Disclaimer | Nondiscrimination statement</a>
       </div>
     );
