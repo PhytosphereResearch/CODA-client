@@ -30,7 +30,7 @@ export default class Agent extends Component {
       .then(agent => this.setState({ agent }));
   }
 
-  createInteractionRoute(e) {
+  goToHostInteraction(e) {
     let interactionId = e.target.getAttribute('data-interaction');
     this.context.router.history.push(`/hi/interaction/${interactionId}`);
   }
@@ -48,7 +48,14 @@ export default class Agent extends Component {
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
-          <span key={index + h.species}><a style={{ cursor: 'pointer' }} onClick={this.createInteractionRoute}><i data-interaction={h.interactionId}>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i></a>{index < agent.hosts.length - 1 ? ', ' : ''}</span>
+          <span key={index + h.species}>
+            <a style={{ cursor: 'pointer' }} onClick={this.goToHostInteraction}>
+              <i data-interaction={h.interactionId}>
+                {h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}
+              </i>
+            </a>
+            {index < agent.hosts.length - 1 ? ', ' : ''}
+          </span>
         ))}
       </div>
     );
