@@ -4,6 +4,7 @@ import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy }
 import RangeMap from '../shared/RangeMap.jsx';
 import { getAgent } from 'coda/services/agents';
 import { Spinner } from '../shared/shapes.jsx';
+import autobind from 'react-autobind';
 
 export default class Agent extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Agent extends Component {
     this.state = {
       loading: false
     };
+    autobind(this);
   }
 
   componentWillMount() {
@@ -28,6 +30,11 @@ export default class Agent extends Component {
       .then(agent => this.setState({ agent }));
   }
 
+  goToHostInteraction(e) {
+    let interactionId = e.target.getAttribute('data-interaction');
+    this.context.router.history.push(`/hi/interaction/${interactionId}`);
+  }
+
   render() {
     let { agent, loading } = this.state;
 
@@ -41,7 +48,14 @@ export default class Agent extends Component {
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
-          <span key={index + h.species}><i>{h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}</i>{index < agent.hosts.length - 1 ? ', ' : ''}</span>
+          <span key={index + h.species}>
+            <a style={{ cursor: 'pointer' }} onClick={this.goToHostInteraction}>
+              <i data-interaction={h.interactionId}>
+                {h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}
+              </i>
+            </a>
+            {index < agent.hosts.length - 1 ? ', ' : ''}
+          </span>
         ))}
       </div>
     );
@@ -74,4 +88,8 @@ export default class Agent extends Component {
 
 Agent.propTypes = {
   match: PropTypes.object
+};
+
+Agent.contextTypes = {
+  router: PropTypes.object
 };

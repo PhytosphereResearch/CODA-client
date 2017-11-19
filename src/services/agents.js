@@ -44,6 +44,7 @@ export const getAgent = (id) => {
         interaction.countiesByRegions.forEach(county => { // extract all range data into a single array
           agent.rangeData.push(county.countyCode);
         });
+        interaction.oak.interactionId = interaction.id;
         agent.hosts.push(interaction.oak);
       });
       return agent;
