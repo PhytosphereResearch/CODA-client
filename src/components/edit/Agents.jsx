@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BOOLEANS } from './constants';
+import { BOOLEANS, ECOLOGY } from './constants';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
@@ -23,12 +23,15 @@ let blankAgent = {
   species: '',
   subSpecies: '',
   authority: '',
-  commonName: '',
+  torder: '',
+  family: '',
   mostCommon: false,
   biotic: false,
   type: '',
   subType: '',
   subSubType: '',
+  ecology: '',
+  commonName: '',
   notes: ''
 };
 
@@ -48,13 +51,15 @@ export default class EditAgents extends Component {
       this.setState({ selected: null, selectedAgent: { ...blankAgent }, newAgent: true });
       return;
     }
-    this.setState({ selected: option });
+    this.setState({ selected: option, newAgent: false });
     getAgent(option.value)
       .then(agent => this.setState({ selectedAgent: agent }));
   }
 
   onInputChange (e) {
-    console.log(e.target.value)
+    console.log(this.state.selectedAgent)
+    let agent = { ...this.state.selectedAgent, [e.target.name]: e.target.value };
+    this.setState({ selectedAgent: agent });
   }
 
   render() {
@@ -88,9 +93,8 @@ export default class EditAgents extends Component {
         <input type="text" name="authority"></input><br /> */}
         {/* <!-- Current name: --> */}
         {/* <!-- <input type="text" value="{{agent.genus}} {{agent.species}}" DISABLED></input><br /> --> */}
-        <TextInput title='Order' value='test' name="torder" onChange={this.onInputChange} />
-        Family:
-        <input type="text" name="family"></input><br />
+        <TextInput title='Order' value={selectedAgent.torder} name="torder" onChange={this.onInputChange} />
+        <TextInput title='Family' value={selectedAgent.family} name="family" onChange={this.onInputChange} />
         Most common?:
         {
           Object.keys(BOOLEANS).map((boolean) => {
@@ -115,18 +119,22 @@ export default class EditAgents extends Component {
           })
         }
         <br/>
-        Type:
-        <input type="text" name="type"></input><br />
-        Sub-type:
-        <input type="text" name="subType"></input><br />
-        Sub sub-type:
-        <input type="text" name="subSubType"></input><br />
+        <TextInput title='Type' value={selectedAgent.type} name="type" onChange={this.onInputChange} />
+        <TextInput title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onInputChange} />
+        <TextInput title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onInputChange} />
         Ecology:
-        <input type="text" name="ecology"></input><br />
-        Common Name:
-        <input type="text" name="commonName"></input><br />
-        Notes:
-        <textarea name="notes" id="notes"></textarea><br />
+        {
+          ECOLOGY.map((eco) => {
+            return (
+             <span key={eco}>
+                 <label>{eco}
+                   <input name="ecology" type="radio" value={eco} required={true} onChange={this.onInputChange}/>
+                 </label>
+               </span>)
+          })
+        }
+        <TextInput title='Common Name' value={selectedAgent.commonName} name="commonName" onChange={this.onInputChange} />
+        <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={this.onInputChange}/>
         <button onClick={() => console.log('submitted')}>SUBMIT</button>
       </div>
     );
