@@ -41,6 +41,7 @@ body {
 
 a {
   color: $main-darker;
+  text-decoration: none;
   &:hover {
     color: $main-color;
   }
