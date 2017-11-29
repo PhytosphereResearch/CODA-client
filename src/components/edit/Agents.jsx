@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
 import { getAgent/*addOrUpdateAgent*/ } from 'coda/services/agents';
-import { TextInput, TextArea } from '../shared/FormInputs.jsx';
+import { TextInput, TextArea, RadioGroup, CustomToggle } from '../shared/FormInputs.jsx';
+import ToggleButton from 'react-toggle-button';
 import { FullScreenSpinner } from '../shared/shapes.jsx';
 import pickBy from 'lodash.pickBy';
 // torder: Sequelize.STRING,
@@ -58,6 +59,7 @@ export default class EditAgents extends Component {
 
   onInputChange (e) {
     console.log(this.state.selectedAgent)
+    console.log(e.target.name)
     let agent = { ...this.state.selectedAgent, [e.target.name]: e.target.value };
     this.setState({ selectedAgent: agent });
   }
@@ -95,19 +97,23 @@ export default class EditAgents extends Component {
         {/* <!-- <input type="text" value="{{agent.genus}} {{agent.species}}" DISABLED></input><br /> --> */}
         <TextInput title='Order' value={selectedAgent.torder} name="torder" onChange={this.onInputChange} />
         <TextInput title='Family' value={selectedAgent.family} name="family" onChange={this.onInputChange} />
-        Most common?:
+        {/* <CustomToggle title='Most Common' name='mostCommon' onToggle={this.onInputChange} /> */}
+        <RadioGroup title='Most Common' value={selectedAgent.mostCommon} name='mostCommon' options={Object.keys(BOOLEANS)} onChange={this.onInputChange}/>
+        {/* Most common?:
+        <div>
         {
           Object.keys(BOOLEANS).map((boolean) => {
             return (
               <span key={boolean}>
-              <label>{boolean}
-                <input name="mostCommon" type="radio" value={BOOLEANS[boolean]} required={true} />
-              </label>
+                <input id="option" name="mostCommon" type="radio" value={BOOLEANS[boolean]} required={true} />
+                <label>{boolean}</label>
             </span>)
           })
 }
-        <br/>
-        Biotic/abiotic?:
+       </div>
+        <br/> */}
+        <RadioGroup title='Biotic' name='biotic' options={Object.keys(BOOLEANS)} onChange={this.onInputChange}/>
+        {/* Biotic/abiotic?:
         {
           Object.keys(BOOLEANS).map((boolean) => {
             return (
@@ -117,12 +123,13 @@ export default class EditAgents extends Component {
                  </label>
                </span>)
           })
-        }
+        } */}
         <br/>
         <TextInput title='Type' value={selectedAgent.type} name="type" onChange={this.onInputChange} />
         <TextInput title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onInputChange} />
         <TextInput title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onInputChange} />
-        Ecology:
+        <RadioGroup title='Ecology' name='ecology' options={ECOLOGY} onChange={this.onInputChange} />
+        {/* Ecology:
         {
           ECOLOGY.map((eco) => {
             return (
@@ -132,7 +139,7 @@ export default class EditAgents extends Component {
                  </label>
                </span>)
           })
-        }
+        } */}
         <TextInput title='Common Name' value={selectedAgent.commonName} name="commonName" onChange={this.onInputChange} />
         <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={this.onInputChange}/>
         <button onClick={() => console.log('submitted')}>SUBMIT</button>
