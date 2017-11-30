@@ -55,7 +55,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func
 };
 
-export const RadioGroup = ({ title, options, name, onChange }) => {
+export const RadioGroup = ({ title, options, name, selected, onChange }) => {
   return (
   <div className="radio-group">
     <div className="field-label">{title}:</div>
@@ -63,20 +63,28 @@ export const RadioGroup = ({ title, options, name, onChange }) => {
       {options.map((option, index) => {
         return (
         <li key={title + index}>
-          <input type="radio" id={title + option} value={option} name={name} onChange={onChange}/>
-          <label htmlFor={title + option}>{option}</label>
-
+          <input
+            type="radio"
+            id={title + option}
+            value={option}
+            name={name}
+            checked={selected.toString() === option.toString() ? true : false}
+            onChange={onChange}
+            required={true}/>
+          <label htmlFor={title + option}>{option.toString()}</label>
           <div className="check">
           </div>
         </li>);
       })}
     </ul>
   </div>
-)
+  )
 }
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
+  selected: PropTypes.mixed,
+  name: PropTypes.string,
   options: PropTypes.array,
   onChange: PropTypes.func
 };
@@ -97,5 +105,6 @@ export const CustomToggle = ({ title, name, onToggle }) => {
 
 CustomToggle.propTypes = {
   title: PropTypes.string,
+  name: PropTypes.string,
   onToggle: PropTypes.func
 };

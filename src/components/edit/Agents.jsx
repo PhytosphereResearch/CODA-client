@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BOOLEANS, ECOLOGY } from './constants';
+import { BOOLEANS, BOOLEANARR, ECOLOGY } from './constants';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
@@ -59,7 +59,7 @@ export default class EditAgents extends Component {
 
   onInputChange (e) {
     console.log(this.state.selectedAgent)
-    console.log(e.target.name)
+    console.log(e.target.value)
     let agent = { ...this.state.selectedAgent, [e.target.name]: e.target.value };
     this.setState({ selectedAgent: agent });
   }
@@ -84,65 +84,21 @@ export default class EditAgents extends Component {
               <TextInput title="Sub-species" value={selectedAgent.subSpecies} name="subSpecies" onChange={this.onInputChange}/>
               <TextInput title="Taxonomic authority" value={selectedAgent.authority} name="authority" onChange={this.onInputChange}/>
             </div>
-          : null/* If we're adding a new agent we need to create a primary synonym w/ the following fields:
-        Genus:
-        <input type="text" name="genus"></input><br />
-        Species:
-        <input type="text" name="species"></input><br />
-        Sub-species:
-        <input type="text" name="subSpecies"></input><br />
-        Taxonomic authority:
-        <input type="text" name="authority"></input><br /> */}
+          : null}
         {/* <!-- Current name: --> */}
         {/* <!-- <input type="text" value="{{agent.genus}} {{agent.species}}" DISABLED></input><br /> --> */}
         <TextInput title='Order' value={selectedAgent.torder} name="torder" onChange={this.onInputChange} />
         <TextInput title='Family' value={selectedAgent.family} name="family" onChange={this.onInputChange} />
         {/* <CustomToggle title='Most Common' name='mostCommon' onToggle={this.onInputChange} /> */}
-        <RadioGroup title='Most Common' value={selectedAgent.mostCommon} name='mostCommon' options={Object.keys(BOOLEANS)} onChange={this.onInputChange}/>
-        {/* Most common?:
-        <div>
-        {
-          Object.keys(BOOLEANS).map((boolean) => {
-            return (
-              <span key={boolean}>
-                <input id="option" name="mostCommon" type="radio" value={BOOLEANS[boolean]} required={true} />
-                <label>{boolean}</label>
-            </span>)
-          })
-}
-       </div>
-        <br/> */}
-        <RadioGroup title='Biotic' name='biotic' options={Object.keys(BOOLEANS)} onChange={this.onInputChange}/>
-        {/* Biotic/abiotic?:
-        {
-          Object.keys(BOOLEANS).map((boolean) => {
-            return (
-             <span key={boolean}>
-                 <label>{boolean}
-                   <input name="biotic" type="radio" value={BOOLEANS[boolean]} required={true} />
-                 </label>
-               </span>)
-          })
-        } */}
-        <br/>
+        <RadioGroup title='Most Common' selected={selectedAgent.mostCommon} name='mostCommon' options={BOOLEANARR} onChange={this.onInputChange}/>
+        <RadioGroup title='Biotic' selected={selectedAgent.biotic} name='biotic' options={BOOLEANARR} onChange={this.onInputChange}/>
         <TextInput title='Type' value={selectedAgent.type} name="type" onChange={this.onInputChange} />
         <TextInput title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onInputChange} />
         <TextInput title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onInputChange} />
-        <RadioGroup title='Ecology' name='ecology' options={ECOLOGY} onChange={this.onInputChange} />
-        {/* Ecology:
-        {
-          ECOLOGY.map((eco) => {
-            return (
-             <span key={eco}>
-                 <label>{eco}
-                   <input name="ecology" type="radio" value={eco} required={true} onChange={this.onInputChange}/>
-                 </label>
-               </span>)
-          })
-        } */}
+        <RadioGroup title='Ecology' selected={selectedAgent.ecology} name='ecology' options={ECOLOGY} onChange={this.onInputChange} />
         <TextInput title='Common Name' value={selectedAgent.commonName} name="commonName" onChange={this.onInputChange} />
         <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={this.onInputChange}/>
-        <button onClick={() => console.log('submitted')}>SUBMIT</button>
+        <button onClick={() => console.log(selectedAgent)}>SUBMIT</button>
       </div>
     );
   }

@@ -10,6 +10,8 @@ export const BOOLEANS = {
   false: 0
 };
 
+export const BOOLEANARR = [true, false];
+
 export const PLANT_PARTS = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 
 export const MATURITIES = ['All', 'Dead', 'Mature', 'Senescent', 'Young'];

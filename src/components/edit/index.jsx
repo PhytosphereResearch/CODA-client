@@ -10,7 +10,7 @@ import EditInteractions from './Interactions.jsx';
 
 export default class Edit extends Component {
   render() {
-    let { formattedOaks, fetchOaks } = this.props;
+    let { formattedOaks, fetchOaks, formattedAgents, fetchAgents } = this.props;
     return (
       <div>
         <h2>Edit CODA</h2>
@@ -24,7 +24,7 @@ export default class Edit extends Component {
         </ul>
         <Switch>
           <Route path="/edit/oaks" render={() => <EditOaks options={formattedOaks} refresh={fetchOaks}/>}/>
-          <Route path="/edit/agents" component={EditAgents}/>
+          <Route path="/edit/agents" render={() => <EditAgents options={formattedAgents} refresh={fetchAgents}/>}/>
           <Route path="/edit/synonyms" component={EditSynonyms}/>
           <Route path="/edit/symptoms" component={EditSymptoms}/>
           <Route path="/edit/references" component={EditReferences}/>
