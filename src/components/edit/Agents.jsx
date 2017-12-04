@@ -1,33 +1,17 @@
 import React, { Component } from 'react';
-import { BOOLEANS, BOOLEANARR, ECOLOGY } from './constants';
+import { BOOLEANARR, ECOLOGY } from './constants';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
-import { getAgent/*addOrUpdateAgent*/ } from 'coda/services/agents';
-import { TextInput, TextArea, RadioGroup, CustomToggle } from '../shared/FormInputs.jsx';
-import ToggleButton from 'react-toggle-button';
+import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent/*addOrUpdateAgent*/ } from 'coda/services/agents';
+import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs.jsx';
 import { FullScreenSpinner } from '../shared/shapes.jsx';
-import pickBy from 'lodash.pickBy';
-// torder: Sequelize.STRING,
-// family: Sequelize.STRING,
-// mostCommon: Sequelize.BOOLEAN,
-// biotic: Sequelize.BOOLEAN,
-// type: Sequelize.STRING,
-// subType: Sequelize.STRING,
-// subSubType: Sequelize.STRING,
-// ecology: Sequelize.STRING,
-// commonName: Sequelize.STRING,
-// notes: Sequelize.BLOB
-// TODO finish porting this form from angular >> react and connect it to the server!
+
 let blankAgent = {
-  genus: '',
-  species: '',
-  subSpecies: '',
-  authority: '',
   torder: '',
   family: '',
   mostCommon: false,
-  biotic: false,
+  biotic: true,
   type: '',
   subType: '',
   subSubType: '',
@@ -36,20 +20,46 @@ let blankAgent = {
   notes: ''
 };
 
+let blankSynonym = {
+  genus: '',
+  species: '',
+  subSpecies: '',
+  authority: '',
+  isPrimary: true
+};
+
 export default class EditAgents extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: undefined,
+      selectedSynonym: { ...blankSynonym },
       selectedAgent: { ...blankAgent },
-      newAgent: true
+      newAgent: true,
+      fields: {},
+      loading: false
     };
     autobind(this);
   }
 
+  componentWillMount() {
+    getAgentFields()
+      .then((fields) => {
+        let formatted = formatAgentFields(fields);
+        this.updateFields(formatted);
+      });
+
+  }
+
+  updateFields(fields) {
+    this.setState({
+      fields: fields
+    });
+  }
+
   onAgentSelected(option) {
-    if (!option.value) {
-      this.setState({ selected: null, selectedAgent: { ...blankAgent }, newAgent: true });
+    if (!option || !option.value) {
+      this.setState({ selected: null, selectedAgent: { ...blankAgent }, selectedSynonym: { ...blankSynonym }, newAgent: true });
       return;
     }
     this.setState({ selected: option, newAgent: false });
@@ -57,16 +67,49 @@ export default class EditAgents extends Component {
       .then(agent => this.setState({ selectedAgent: agent }));
   }
 
+  onSelectChange(selected) {
+    console.log(selected)
+    console.log(selected.field, selected.value);
+    let agent = { ...this.state.selectedAgent, [selected.field]: selected.value };
+    this.setState({ selectedAgent: agent });
+    console.log(this.state.selectedAgent);
+  }
+
   onInputChange (e) {
-    console.log(this.state.selectedAgent)
-    console.log(e.target.value)
     let agent = { ...this.state.selectedAgent, [e.target.name]: e.target.value };
     this.setState({ selectedAgent: agent });
   }
 
+  onSynonymChange (e) {
+    let synonym = { ...this.state.selectedSynonym, [e.target.name]: e.target.value };
+    this.setState({ selectedSynonym: synonym });
+  }
+
+  onSubmit() {
+    this.setState({ loading: true });
+    let agent;
+    if (this.state.newAgent) {
+      agent = {};
+      agent.agent = this.state.selectedAgent;
+      agent.synonym = this.state.selectedSynonym;
+    } else {
+      agent = this.state.selectedAgent;
+    }
+    addOrUpdateAgent(agent)
+      .then(this.props.refresh)
+      .then(() => this.setState({
+        loading: false,
+        selectedAgent: { ...blankAgent },
+        selectedSynonym: { ...blankSynonym },
+        selected: undefined,
+        newAgent: true
+      }))
+      .catch(() => this.setState({ loading: false, error: true }));
+  }
+
   render() {
     let options = this.props.options;
-    let { selected, selectedAgent } = this.state;
+    let { selected, selectedAgent, selectedSynonym } = this.state;
     return (
       <div>
         <h3>Agents</h3>
@@ -76,29 +119,27 @@ export default class EditAgents extends Component {
           value={selected}
           placeholder="Search by species or common name"
           style={{ marginBottom: '15px' }}/>
+          {this.state.loading ? <FullScreenSpinner /> : null}
         {
           this.state.newAgent
           ? <div style={{ display: 'flex' }}>
-              <TextInput title="Genus" value={selectedAgent.genus} name="genus" onChange={this.onInputChange}/>
-              <TextInput title="Species" value={selectedAgent.species} name="species" onChange={this.onInputChange}/>
-              <TextInput title="Sub-species" value={selectedAgent.subSpecies} name="subSpecies" onChange={this.onInputChange}/>
-              <TextInput title="Taxonomic authority" value={selectedAgent.authority} name="authority" onChange={this.onInputChange}/>
+              <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={this.onSynonymChange}/>
+              <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={this.onSynonymChange}/>
+              <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={this.onSynonymChange}/>
+              <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={this.onSynonymChange}/>
             </div>
           : null}
-        {/* <!-- Current name: --> */}
-        {/* <!-- <input type="text" value="{{agent.genus}} {{agent.species}}" DISABLED></input><br /> --> */}
-        <TextInput title='Order' value={selectedAgent.torder} name="torder" onChange={this.onInputChange} />
-        <TextInput title='Family' value={selectedAgent.family} name="family" onChange={this.onInputChange} />
-        {/* <CustomToggle title='Most Common' name='mostCommon' onToggle={this.onInputChange} /> */}
+        <EnhancedCreatable title='Order' name='torder' value={selectedAgent.torder} onChange={this.onSelectChange} options={this.state.fields.torder} />
+        <EnhancedCreatable title='Family' name="family" value={selectedAgent.family} onChange={this.onSelectChange} options={this.state.fields.family} />
         <RadioGroup title='Most Common' selected={selectedAgent.mostCommon} name='mostCommon' options={BOOLEANARR} onChange={this.onInputChange}/>
         <RadioGroup title='Biotic' selected={selectedAgent.biotic} name='biotic' options={BOOLEANARR} onChange={this.onInputChange}/>
-        <TextInput title='Type' value={selectedAgent.type} name="type" onChange={this.onInputChange} />
-        <TextInput title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onInputChange} />
-        <TextInput title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onInputChange} />
+        <EnhancedCreatable title='Type' value={selectedAgent.type} name="type" onChange={this.onSelectChange} options={this.state.fields.type} />
+        <EnhancedCreatable title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onSelectChange} options={this.state.fields.subType} />
+        <EnhancedCreatable title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onSelectChange} options={this.state.fields.subSubType} />
         <RadioGroup title='Ecology' selected={selectedAgent.ecology} name='ecology' options={ECOLOGY} onChange={this.onInputChange} />
         <TextInput title='Common Name' value={selectedAgent.commonName} name="commonName" onChange={this.onInputChange} />
         <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={this.onInputChange}/>
-        <button onClick={() => console.log(selectedAgent)}>SUBMIT</button>
+        <button onClick={this.onSubmit}>SUBMIT</button>
       </div>
     );
   }

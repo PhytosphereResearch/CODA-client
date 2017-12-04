@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ToggleButton from 'react-toggle-button';
+import { Creatable } from 'react-select';
 
 export const TextInput = ({ title, name, limit, value, onChange }) => {
   return (
@@ -78,8 +79,8 @@ export const RadioGroup = ({ title, options, name, selected, onChange }) => {
       })}
     </ul>
   </div>
-  )
-}
+  );
+};
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
@@ -100,11 +101,45 @@ export const CustomToggle = ({ title, name, onToggle }) => {
         inactiveLabel="false"
       />
     </div>
-  )
-}
+  );
+};
 
 CustomToggle.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
   onToggle: PropTypes.func
+};
+
+export class EnhancedCreatable extends Component {
+  constructor(props) {
+    super(props);
+    this.createOption = this.createOption.bind(this);
+  }
+
+  createOption(option) {
+    return { label: option.label, value: option.label, field: this.props.name };
+  }
+
+  render() {
+    return (
+      <div className="creatable">
+        <div className="field-label">
+          {this.props.title}:
+        </div>
+        <Creatable name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          newOptionCreator={this.createOption}
+          options={this.props.options} />
+    </div>
+    );
+  }
+}
+
+EnhancedCreatable.propTypes = {
+  title: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  options: PropTypes.array
 };

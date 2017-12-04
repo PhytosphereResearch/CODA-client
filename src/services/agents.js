@@ -1,5 +1,6 @@
-import { arrayBufferToString } from './utils';
+import { arrayBufferToString, checkResponse } from './utils';
 import { url } from './environments';
+import { auth } from '../components/App.jsx';
 
 export const getAllAgentSynonyms = () => {
   const headers = new Headers();
@@ -22,6 +23,28 @@ export const getAllAgentSynonyms = () => {
       console.warn(err);
       return [];
     });
+};
+
+export const getAgentFields = () => {
+  const headers = new Headers();
+  return fetch(`${url}/agent/fields`, { headers, method: 'GET', mode: 'cors' })
+    .then(checkResponse)
+    .then(res => {
+      console.log(res);
+      return res;
+    })
+    .catch(() => {});
+};
+
+export const formatAgentFields = (fields) => {
+  let formattedFields = {};
+  for (var field in fields) {
+    let formattedField = fields[field].map((entry) => {
+      return { value: entry, label: entry, field: field };
+    });
+    formattedFields[field] = formattedField;
+  }
+  return formattedFields;
 };
 
 export const getAgent = (id) => {
@@ -53,4 +76,14 @@ export const getAgent = (id) => {
       console.warn(err);
       return {};
     });
+};
+
+export const addOrUpdateAgent = (agent) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/agents`, { headers, method: 'POST', body: JSON.stringify(agent), mode: 'cors' })
+    .then(checkResponse);
 };
