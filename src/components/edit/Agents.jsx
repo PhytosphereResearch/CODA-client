@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BOOLEANARR, ECOLOGY } from './constants';
+import { BOOLEANS, ECOLOGY } from './constants';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
@@ -128,8 +128,8 @@ export default class EditAgents extends Component {
           : null}
         <EnhancedCreatable title='Order' name='torder' value={selectedAgent.torder} onChange={this.onSelectChange} options={this.state.fields.torder} />
         <EnhancedCreatable title='Family' name="family" value={selectedAgent.family} onChange={this.onSelectChange} options={this.state.fields.family} />
-        <RadioGroup title='Most Common' selected={selectedAgent.mostCommon} name='mostCommon' options={BOOLEANARR} onChange={this.onInputChange}/>
-        <RadioGroup title='Biotic' selected={selectedAgent.biotic} name='biotic' options={BOOLEANARR} onChange={this.onInputChange}/>
+        <RadioGroup title='Most Common' selected={selectedAgent.mostCommon} name='mostCommon' options={BOOLEANS} onChange={this.onInputChange}/>
+        <RadioGroup title='Biotic' selected={selectedAgent.biotic} name='biotic' options={BOOLEANS} onChange={this.onInputChange}/>
         <EnhancedCreatable title='Type' value={selectedAgent.type} name="type" onChange={this.onSelectChange} options={this.state.fields.type} />
         <EnhancedCreatable title='Sub-type' value={selectedAgent.subType} name="subType" onChange={this.onSelectChange} options={this.state.fields.subType} />
         <EnhancedCreatable title='Sub sub-type' value={selectedAgent.subSubType} name="subSubType" onChange={this.onSelectChange} options={this.state.fields.subSubType} />
