@@ -90,7 +90,8 @@ export const FullScreenSpinner = () => (
     position: 'fixed',
     top: '0',
     left: '0',
-    background: 'rgba(255, 255, 255, .5)'
+    background: 'rgba(255, 255, 255, .5)',
+    zIndex: '10'
   }}>
     <Spinner />
   </div>
