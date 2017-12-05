@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ToggleButton from 'react-toggle-button';
 import { Creatable } from 'react-select';
 
 export const TextInput = ({ title, name, limit, value, onChange }) => {
@@ -88,26 +87,6 @@ RadioGroup.propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
   onChange: PropTypes.func
-};
-
-export const CustomToggle = ({ title, name, onToggle }) => {
-  return (
-    <div className="toggle" name={name}>
-      <div className="field-label">{title}:</div>
-      <ToggleButton
-        value={false}
-        onToggle={onToggle}
-        activeLabel="true"
-        inactiveLabel="false"
-      />
-    </div>
-  );
-};
-
-CustomToggle.propTypes = {
-  title: PropTypes.string,
-  name: PropTypes.string,
-  onToggle: PropTypes.func
 };
 
 export class EnhancedCreatable extends Component {

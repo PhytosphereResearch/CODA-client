@@ -68,11 +68,8 @@ export default class EditAgents extends Component {
   }
 
   onSelectChange(selected) {
-    console.log(selected)
-    console.log(selected.field, selected.value);
     let agent = { ...this.state.selectedAgent, [selected.field]: selected.value };
     this.setState({ selectedAgent: agent });
-    console.log(this.state.selectedAgent);
   }
 
   onInputChange (e) {

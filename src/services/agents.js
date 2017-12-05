@@ -30,7 +30,6 @@ export const getAgentFields = () => {
   return fetch(`${url}/agent/fields`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then(res => {
-      console.log(res);
       return res;
     })
     .catch(() => {});
@@ -84,6 +83,6 @@ export const addOrUpdateAgent = (agent) => {
     Accept: 'application/json',
     'Content-Type': 'application/json'
   });
-  return fetch(`${url}/agents`, { headers, method: 'POST', body: JSON.stringify(agent), mode: 'cors' })
+  return fetch(`${url}/agent`, { headers, method: 'POST', body: JSON.stringify(agent), mode: 'cors' })
     .then(checkResponse);
 };
