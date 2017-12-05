@@ -5,12 +5,7 @@ export const ECOLOGY = [
 
 export const SITUATION = ['wildland', 'landscape', 'nursery', 'experimental'];
 
-export const BOOLEANS = {
-  true: 1,
-  false: 0
-};
-
-export const BOOLEANARR = [true, false];
+export const BOOLEANS = [true, false];
 
 export const PLANT_PARTS = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 
