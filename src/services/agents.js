@@ -86,3 +86,19 @@ export const addOrUpdateAgent = (agent) => {
   return fetch(`${url}/agent`, { headers, method: 'POST', body: JSON.stringify(agent), mode: 'cors' })
     .then(checkResponse);
 };
+
+export const formatAgentSynonyms = (agent) => {
+  return agent.synonyms.map((synonym) => {
+    return { label: `${synonym.genus} ${synonym.species} ${synonym.subSpecies} ${synonym.authority}`, value: synonym };
+  });
+};
+
+export const addOrUpdateSynonym = (synonym) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/syn`, { headers, method: 'POST', body: JSON.stringify(synonym), mode: 'cors' })
+    .then(checkResponse);
+};

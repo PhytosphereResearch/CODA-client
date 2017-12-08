@@ -3,7 +3,7 @@ import { BOOLEANS, ECOLOGY } from './constants';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
-import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent/*addOrUpdateAgent*/ } from 'coda/services/agents';
+import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from 'coda/services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs.jsx';
 import { FullScreenSpinner } from '../shared/shapes.jsx';
 
@@ -48,7 +48,6 @@ export default class EditAgents extends Component {
         let formatted = formatAgentFields(fields);
         this.updateFields(formatted);
       });
-
   }
 
   updateFields(fields) {

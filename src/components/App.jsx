@@ -15,7 +15,7 @@ import Auth from './auth/Auth';
 import Login from './auth/Login';
 import Callback from './auth/Callback.jsx';
 
-const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}` }));
+const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}`, synId: r.id ? r.id : null }));
 
 export const auth = new Auth();
 
