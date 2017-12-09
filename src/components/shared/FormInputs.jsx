@@ -55,9 +55,9 @@ Checkbox.propTypes = {
   onChange: PropTypes.func
 };
 
-export const RadioGroup = ({ title, options, name, selected, onChange }) => {
+export const RadioGroup = ({ title, options, name, selected, onChange, disabled }) => {
   return (
-  <div className="radio-group">
+  <div className={ disabled ? 'radio-group disabled' : 'radio-group' }>
     <div className="field-label">{title}:</div>
     <ul>
       {options.map((option, index) => {
@@ -70,7 +70,9 @@ export const RadioGroup = ({ title, options, name, selected, onChange }) => {
             name={name}
             checked={selected.toString() === option.toString() ? true : false}
             onChange={onChange}
-            required={true}/>
+            required={true}
+            disabled={disabled}
+           />
           <label htmlFor={title + option}>{option.toString()}</label>
           <div className="check">
           </div>
@@ -83,10 +85,11 @@ export const RadioGroup = ({ title, options, name, selected, onChange }) => {
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
-  selected: PropTypes.mixed,
+  selected: PropTypes.any,
   name: PropTypes.string,
   options: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 export class EnhancedCreatable extends Component {

@@ -21,6 +21,11 @@
     cursor: pointer;
     -webkit-transition: all 0.25s linear;
   }
+  &.disabled {
+    label {
+      cursor: not-allowed;
+    }
+  }
 
   ul li:hover label{
     color: $main-lighter;
@@ -67,5 +72,17 @@
 
   input[type=radio]:checked ~ label{
     color: $main-color;
+  }
+
+  input[type=radio]:checked:disabled ~ .check {
+    border-color: darkgrey;
+  }
+
+  input[type=radio]:checked:disabled ~ .check::before{
+    background: darkgrey;
+  }
+
+  input[type=radio]:checked:disabled ~ label{
+    color: darkgrey;
   }
 }

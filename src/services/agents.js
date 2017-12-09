@@ -57,6 +57,9 @@ export const getAgent = (id) => {
       }
     })
     .then(agent => {
+      agent.synonyms.forEach((synonym) => {
+        synonym.notes = arrayBufferToString(synonym.notes.data).replace(/ -/g, '\n-')
+      })
       agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
       agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
       agent.notes = arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');
@@ -84,5 +87,15 @@ export const addOrUpdateAgent = (agent) => {
     'Content-Type': 'application/json'
   });
   return fetch(`${url}/agent`, { headers, method: 'POST', body: JSON.stringify(agent), mode: 'cors' })
+    .then(checkResponse);
+};
+
+export const addOrUpdateSynonym = (synonym) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/syn`, { headers, method: 'POST', body: JSON.stringify(synonym), mode: 'cors' })
     .then(checkResponse);
 };

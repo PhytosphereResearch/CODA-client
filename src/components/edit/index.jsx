@@ -25,7 +25,7 @@ export default class Edit extends Component {
         <Switch>
           <Route path="/edit/oaks" render={() => <EditOaks options={formattedOaks} refresh={fetchOaks}/>}/>
           <Route path="/edit/agents" render={() => <EditAgents options={formattedAgents} refresh={fetchAgents}/>}/>
-          <Route path="/edit/synonyms" component={EditSynonyms}/>
+          <Route path="/edit/synonyms" render={() => <EditSynonyms options={formattedAgents} refresh={fetchAgents}/>}/>
           <Route path="/edit/symptoms" component={EditSymptoms}/>
           <Route path="/edit/references" component={EditReferences}/>
           <Route path="/edit/interactions" component={EditInteractions}/>
@@ -37,5 +37,7 @@ export default class Edit extends Component {
 
 Edit.propTypes = {
   formattedOaks: PropTypes.array,
-  fetchOaks: PropTypes.func
+  fetchOaks: PropTypes.func,
+  fetchAgents: PropTypes.func,
+  formattedAgents: PropTypes.array
 };
