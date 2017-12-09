@@ -4,7 +4,6 @@ import Select from 'react-virtualized-select';
 import { ScientificName, Synonyms } from '../shared/partials.jsx';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs.jsx';
 import { getAgent, addOrUpdateSynonym } from 'coda/services/agents';
-import { arrayBufferToString } from 'coda/services/utils';
 import { BOOLEANS } from './constants';
 import autobind from 'react-autobind';
 
@@ -17,30 +16,25 @@ let blankSynonym = {
   notes: ''
 };
 
+let initialState = {
+  selected: undefined,
+  selectedAgent: undefined,
+  formattedSynonyms: [],
+  selectedSynonym: undefined,
+  newSynonym: false,
+  prevSynonym: undefined
+};
+
 export default class EditSynonyms extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: undefined,
-      selectedAgent: undefined,
-      formattedSynonyms: [],
-      selectedSynonym: undefined,
-      newSynonym: false,
-      prevSynonym: undefined
-    };
+    this.state = { ...initialState };
     autobind(this);
   }
 
   onAgentSelected(option) {
     if (!option || !option.value) {
-      this.setState({
-        selected: undefined,
-        selectedAgent: undefined,
-        formattedSynonyms: [],
-        selectedSynonym: undefined,
-        newSynonym: false,
-        prevSynonym: undefined
-      });
+      this.setState({ ...initialState });
       return;
     }
     getAgent(option.value)
@@ -49,7 +43,6 @@ export default class EditSynonyms extends Component {
           return synonym.id === option.synId;
         });
         selectedSynonym = { ...selectedSynonym };
-        selectedSynonym.notes = arrayBufferToString(selectedSynonym.notes.data).replace(/ -/g, '\n-');
         this.setState({ selectedAgent: agent, selectedSynonym: selectedSynonym, selected: option, newSynonym: false });
       });
   }
@@ -64,9 +57,7 @@ export default class EditSynonyms extends Component {
 
   onSynonymChange(e) {
     let updatedSynonym = { ...this.state.selectedSynonym, [e.target.name]: e.target.value };
-    this.setState({
-      selectedSynonym: updatedSynonym
-    });
+    this.setState({ selectedSynonym: updatedSynonym });
   }
 
   onAgentChange(e) {
@@ -98,14 +89,7 @@ export default class EditSynonyms extends Component {
 
     addOrUpdateSynonym(submittedSynonym)
       .then(this.props.refresh)
-      .then(this.setState({
-        selected: undefined,
-        selectedAgent: undefined,
-        formattedSynonyms: [],
-        selectedSynonym: undefined,
-        newSynonym: false,
-        prevSynonym: undefined
-      }));
+      .then(this.setState({ ...initialState }));
   }
 
   render() {

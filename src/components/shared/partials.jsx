@@ -71,6 +71,5 @@ export const Synonyms = ({ synonyms }) =>
   </div> : null;
 
 Synonyms.propTypes = {
-  synonyms: PropTypes.array,
-  onClick: PropTypes.func
+  synonyms: PropTypes.array
 };
