@@ -3,6 +3,7 @@ const webpack = require('webpack');
 var ManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 const PROD = process.env.NODE_ENV === 'production';
@@ -67,8 +68,20 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ["css-loader", "sass-loader"]
+        })
+        // use: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+        // use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
@@ -88,6 +101,7 @@ module.exports = {
         warnings: false
       }
     }),
+    new ExtractTextPlugin({ filename: 'style-[contenthash].css', allChunks: true }),
     new ManifestPlugin(),
     new HtmlWebpackPlugin({
       template: './index.ejs'
