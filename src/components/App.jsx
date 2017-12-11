@@ -43,10 +43,6 @@ export default class App extends Component {
     this.fetchOaks();
     this.fetchAgents();
     this.fetchSymptoms();
-    // getAllSymptoms().then(symptoms => {
-    //   let formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
-    //   this.setState({ symptoms, formattedSymptoms });
-    // });
   }
 
   fetchSymptoms() {
