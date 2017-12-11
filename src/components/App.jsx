@@ -42,6 +42,10 @@ export default class App extends Component {
   componentWillMount() {
     this.fetchOaks();
     this.fetchAgents();
+    this.fetchSymptoms();
+  }
+
+  fetchSymptoms() {
     getAllSymptoms().then(symptoms => {
       let formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
       this.setState({ symptoms, formattedSymptoms });
@@ -74,7 +78,7 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" component={InteractionPage} />
               <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" render={() => <Login auth={auth} />} />
-              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} /> : <Redirect to="/" />} />
+              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms}/> : <Redirect to="/" />} />
               <Route path="/callback" render={(props) => {
                 handleAuthentication(props);
                 return <Callback {...props} />;

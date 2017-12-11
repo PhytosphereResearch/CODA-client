@@ -43,7 +43,7 @@ TextArea.propTypes = {
 export const Checkbox = ({ title, name, isChecked }) => {
   return (
     <span style={{ marginRight: '15px' }}>
-      <input type="checkbox" name={name} checked={isChecked}/> <span className="field-label">{title}</span>
+      <input type="checkbox" name={name} checked={isChecked} /> <span className="field-label">{title}</span>
     </span>
   );
 };
@@ -51,8 +51,7 @@ export const Checkbox = ({ title, name, isChecked }) => {
 Checkbox.propTypes = {
   title: PropTypes.string,
   isChecked: PropTypes.bool,
-  name: PropTypes.string,
-  onChange: PropTypes.func
+  name: PropTypes.string
 };
 
 export const RadioGroup = ({ title, options, name, selected, onChange, disabled }) => {

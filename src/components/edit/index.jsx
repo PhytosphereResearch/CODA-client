@@ -10,7 +10,7 @@ import EditInteractions from './Interactions.jsx';
 
 export default class Edit extends Component {
   render() {
-    let { formattedOaks, fetchOaks, formattedAgents, fetchAgents } = this.props;
+    let { formattedOaks, fetchOaks, formattedAgents, fetchAgents, formattedSymptoms, fetchSymptoms } = this.props;
     return (
       <div>
         <h2>Edit CODA</h2>
@@ -26,7 +26,7 @@ export default class Edit extends Component {
           <Route path="/edit/oaks" render={() => <EditOaks options={formattedOaks} refresh={fetchOaks}/>}/>
           <Route path="/edit/agents" render={() => <EditAgents options={formattedAgents} refresh={fetchAgents}/>}/>
           <Route path="/edit/synonyms" render={() => <EditSynonyms options={formattedAgents} refresh={fetchAgents}/>}/>
-          <Route path="/edit/symptoms" component={EditSymptoms}/>
+          <Route path="/edit/symptoms" render={() => <EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms}/>}/>
           <Route path="/edit/references" component={EditReferences}/>
           <Route path="/edit/interactions" component={EditInteractions}/>
         </Switch>
@@ -39,5 +39,7 @@ Edit.propTypes = {
   formattedOaks: PropTypes.array,
   fetchOaks: PropTypes.func,
   fetchAgents: PropTypes.func,
-  formattedAgents: PropTypes.array
+  formattedAgents: PropTypes.array,
+  formattedSymptoms: PropTypes.array,
+  fetchSymptoms: PropTypes.func
 };
