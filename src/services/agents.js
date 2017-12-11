@@ -1,6 +1,7 @@
-import { arrayBufferToString, checkResponse } from './utils';
+import { checkResponse } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App.jsx';
+import arrayBufferToString from 'arraybuffer-to-string';
 
 export const getAllAgentSynonyms = () => {
   const headers = new Headers();
@@ -58,8 +59,8 @@ export const getAgent = (id) => {
     })
     .then(agent => {
       agent.synonyms.forEach((synonym) => {
-        synonym.notes = arrayBufferToString(synonym.notes.data).replace(/ -/g, '\n-')
-      })
+        synonym.notes = arrayBufferToString(synonym.notes.data).replace(/ -/g, '\n-');
+      });
       agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
       agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
       agent.notes = arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');

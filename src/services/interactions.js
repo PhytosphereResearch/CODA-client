@@ -1,4 +1,5 @@
-import { arrayBufferToString, checkResponse } from './utils';
+import { checkResponse } from './utils';
+import arrayBufferToString from 'arraybuffer-to-string';
 import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
 import { url } from './environments';

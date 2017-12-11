@@ -4,6 +4,7 @@
   "description": "California Oak Disease and Arthropod Database",
   "main": "/src/index.jsx",
   "dependencies": {
+    "arraybuffer-to-string": "^1.0.1",
     "auth0-js": "^8.6.0",
     "history": "^4.6.3",
     "html-webpack-plugin": "^2.30.1",
