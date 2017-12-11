@@ -50,7 +50,7 @@ AgentTaxonomy.propTypes = {
 
 export const Notes = ({ notes }) =>
   <div>
-    <b>Notes:</b> {notes}
+    <b>Notes:</b> {notes.split('\n').map(note => <div key={note}>{note}</div>)}
   </div>;
 
 Notes.propTypes = {

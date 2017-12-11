@@ -1,4 +1,5 @@
-import { arrayBufferToString, checkResponse } from './utils';
+import { checkResponse } from './utils';
+import arrayBufferToString from 'arraybuffer-to-string';
 import { auth } from '../components/App.jsx';
 import { url } from './environments';
 
