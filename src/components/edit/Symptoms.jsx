@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs.jsx';
+import Select from 'react-virtualized-select';
+import { addOrUpdateSymptom } from 'coda/services/interactions';
+import PropTypes from 'prop-types';
 
 const blankSymptom = {
   symptom: '',
@@ -13,18 +16,31 @@ const blankSymptom = {
   trunk: false
 };
 
+const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
+
 export default class EditSymptoms extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      symptom: { ...blankSymptom }
+      symptom: { ...blankSymptom },
+      selected: undefined
     };
     autobind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('Submit!', this.state.symptom);
+    let symptom = { ...this.state.symptom };
+    addOrUpdateSymptom(symptom)
+      .then(this.props.refresh)
+      .then(this.setState({ symptom: { ...blankSymptom }, selected: undefined }));
+  }
+  onSymptomSelected(option) {
+    if (!option || !option.value) {
+      this.setState({ selected: undefined, symptom: { ...blankSymptom } });
+      return;
+    }
+    this.setState({ selected: option, symptom: option });
   }
 
   onInputChange(e) {
@@ -39,12 +55,20 @@ export default class EditSymptoms extends Component {
   }
 
   render() {
-    let { symptom } = this.state;
+    let { symptom, selected } = this.state;
+    let { options } = this.props;
+    let disabled = !(plantParts.some(pp => symptom[pp]) && symptom.symptom);
+
     return (
       <div>
         <h3>Symptoms</h3>
-        <h2>Add or Edit a symptom</h2>
-        {/* symptom dropdown goes here */}
+        <Select
+          options={options}
+          onChange={this.onSymptomSelected}
+          value={selected}
+          placeholder="Search by species or common name"
+          style={{ marginBottom: '15px' }}/>
+          <h4>{this.state.selected ? 'Edit a Symptom:' : 'Add a Symptom:'}</h4>
         <form onSubmit={this.handleSubmit} onChange={this.onInputChange}>
           <TextInput title="Symptom Name" value={symptom.symptom} name="symptom"/>
           Plant parts:
@@ -57,9 +81,14 @@ export default class EditSymptoms extends Component {
             <Checkbox name={'trunk'} title={'trunk'} isChecked={symptom.trunk} />
           </div>
           <TextArea title="Description" value={symptom.description} limit={65535} name="description"/>
-          <button onClick={this.handleSubmit}>{symptom.id ? 'UPDATE' : 'SUBMIT'}</button>
+          <button disabled={disabled} onClick={this.handleSubmit}>{symptom.id ? 'UPDATE' : 'SUBMIT'}</button>
         </form>
       </div>
     );
   }
 }
+
+EditSymptoms.propTypes = {
+  refresh: PropTypes.func,
+  options: PropTypes.array
+};

@@ -3,6 +3,7 @@ import arrayBufferToString from 'arraybuffer-to-string';
 import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
 import { url } from './environments';
+import { auth } from '../components/App.jsx';
 
 export const getAllSymptoms = () => {
   const headers = new Headers();
@@ -18,6 +19,16 @@ export const getAllSymptoms = () => {
       console.warn(err);
       return [];
     });
+};
+
+export const addOrUpdateSymptom = (symptom) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/symptoms`, { headers, method: 'POST', body: JSON.stringify(symptom), mode: 'cors' })
+    .then(checkResponse);
 };
 
 export const getInteractions = (plantPart, symptomId, oakId) => {
