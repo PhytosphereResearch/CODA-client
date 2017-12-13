@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs.jsx';
+import Image from '../shared/Image.jsx';
 import Select from 'react-virtualized-select';
 import { addOrUpdateSymptom } from 'coda/services/interactions';
 import PropTypes from 'prop-types';
+import SymptomPreview from '../interactions/SymptomPreview.jsx';
 
 const blankSymptom = {
   symptom: '',
@@ -14,6 +16,15 @@ const blankSymptom = {
   leaf: false,
   root: false,
   trunk: false
+};
+
+const style = {
+  height: '100px',
+  width: '100px',
+  border: '1px solid lightgrey',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
 };
 
 const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
@@ -58,6 +69,7 @@ export default class EditSymptoms extends Component {
     let { symptom, selected } = this.state;
     let { options } = this.props;
     let disabled = !(plantParts.some(pp => symptom[pp]) && symptom.symptom);
+    let selectedPlantParts = plantParts.filter(plantPart => symptom[plantPart]);
 
     return (
       <div>
@@ -81,6 +93,22 @@ export default class EditSymptoms extends Component {
             <Checkbox name={'trunk'} title={'trunk'} isChecked={symptom.trunk} />
           </div>
           <TextArea title="Description" value={symptom.description} limit={65535} name="description"/>
+          { this.state.selected ? (
+          <div>
+            Photos in CODA:
+            <div style={{ display: 'flex' }}>
+            {selectedPlantParts.map(plantPart => (
+              <SymptomPreview
+                key={plantPart}
+                style={{ width: '150px', margin: '20px' }}
+                symptom={symptom}
+                plantPart={plantPart}
+                description={`${symptom.label} on ${plantPart}`}
+              />
+            ))}
+            </div>
+          </div> ) : null
+        }
           <button disabled={disabled} onClick={this.handleSubmit}>{symptom.id ? 'UPDATE' : 'SUBMIT'}</button>
         </form>
       </div>

@@ -79,3 +79,20 @@ export const getInteraction = (id) => {
       return {};
     });
 };
+
+export const getReferences = () => {
+  return fetch(`${url}/bib`, { mode: 'cors' })
+    .then(checkResponse)
+    .then(references => references.map(reference => {
+      reference.title = arrayBufferToString(reference.title);
+      reference.notes = arrayBufferToString(reference.notes);
+      reference.label = reference.title;
+      reference.value = reference.id;
+      return reference;
+    })
+  )
+  .catch(err => {
+    console.warn(err);
+    return [];
+  });
+};

@@ -10,7 +10,7 @@ import InteractionSearch from './interactions/index.jsx';
 import InteractionPage from './interactions/InteractionPage.jsx';
 import { getAllOaks } from 'coda/services/oaks';
 import { getAllAgentSynonyms } from 'coda/services/agents';
-import { getAllSymptoms } from 'coda/services/interactions';
+import { getAllSymptoms, getReferences } from 'coda/services/interactions';
 import Auth from './auth/Auth';
 import Login from './auth/Login';
 import Callback from './auth/Callback.jsx';
@@ -34,7 +34,8 @@ export default class App extends Component {
       agents: [],
       formattedAgents: [],
       symptoms: [],
-      formattedSymptoms: []
+      formattedSymptoms: [],
+      formattedReferences: []
     };
     autobind(this);
   }
@@ -43,6 +44,7 @@ export default class App extends Component {
     this.fetchOaks();
     this.fetchAgents();
     this.fetchSymptoms();
+    this.fetchReferences();
   }
 
   fetchSymptoms() {
@@ -66,6 +68,12 @@ export default class App extends Component {
     });
   }
 
+  fetchReferences() {
+    return getReferences().then(references => {
+      this.setState({ formattedReferences: references });
+    })
+  }
+
   render() {
     return (
       <div>
@@ -78,7 +86,7 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" component={InteractionPage} />
               <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" render={() => <Login auth={auth} />} />
-              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms}/> : <Redirect to="/" />} />
+              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences}/> : <Redirect to="/" />} />
               <Route path="/callback" render={(props) => {
                 handleAuthentication(props);
                 return <Callback {...props} />;
