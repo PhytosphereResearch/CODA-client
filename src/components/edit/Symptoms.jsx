@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs.jsx';
-import Image from '../shared/Image.jsx';
 import Select from 'react-virtualized-select';
 import { addOrUpdateSymptom } from 'coda/services/interactions';
 import PropTypes from 'prop-types';
