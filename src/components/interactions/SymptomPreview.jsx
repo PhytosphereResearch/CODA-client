@@ -70,5 +70,6 @@ export default class SymptomPreview extends Component {
 SymptomPreview.propTypes = {
   plantPart: PropTypes.string,
   symptom: PropTypes.object,
-  description: PropTypes.string
+  description: PropTypes.string,
+  style: PropTypes.object
 };

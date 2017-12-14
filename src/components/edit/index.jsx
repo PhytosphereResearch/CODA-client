@@ -41,5 +41,7 @@ Edit.propTypes = {
   fetchAgents: PropTypes.func,
   formattedAgents: PropTypes.array,
   formattedSymptoms: PropTypes.array,
-  fetchSymptoms: PropTypes.func
+  fetchSymptoms: PropTypes.func,
+  formattedReferences: PropTypes.array,
+  fetchReferences: PropTypes.func
 };

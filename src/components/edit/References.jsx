@@ -3,6 +3,7 @@ import Select from 'react-virtualized-select';
 import autobind from 'react-autobind';
 import { TextInput, TextArea } from '../shared/FormInputs.jsx';
 import { addOrUpdateReference } from 'coda/services/interactions';
+import PropTypes from 'prop-types';
 // import { test } from 'coda/services/agents';
 let blankRef = {
   year: '',
@@ -16,7 +17,7 @@ let blankRef = {
 let initialState = {
   selected: undefined,
   reference: { ...blankRef }
-}
+};
 
 export default class EditReferences extends Component {
   constructor(props) {
@@ -35,14 +36,14 @@ export default class EditReferences extends Component {
 
   onInputChange(e) {
     let reference = { ...this.state.reference, [e.target.name]: e.target.value };
-    this.setState({ reference: reference });
+    this.setState({ reference });
   }
 
   handleSubmit() {
     let reference = { ...this.state.reference };
     addOrUpdateReference(reference)
       .then(this.props.refresh)
-      .then(() => { this.setState(initialState); });
+      .then(() => this.setState(initialState));
   }
 
   render() {
@@ -71,3 +72,8 @@ export default class EditReferences extends Component {
     );
   }
 }
+
+EditReferences.propTypes = {
+  refresh: PropTypes.func,
+  options: PropTypes.array
+};

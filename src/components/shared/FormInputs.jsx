@@ -25,6 +25,7 @@ TextInput.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string,
   limit: PropTypes.number,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func
 };
 

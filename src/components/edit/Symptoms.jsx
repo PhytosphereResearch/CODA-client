@@ -17,15 +17,6 @@ const blankSymptom = {
   trunk: false
 };
 
-const style = {
-  height: '100px',
-  width: '100px',
-  border: '1px solid lightgrey',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-};
-
 const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 
 export default class EditSymptoms extends Component {
