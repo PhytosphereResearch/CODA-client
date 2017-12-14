@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 
-export const TextInput = ({ title, name, limit, value, onChange }) => {
+export const TextInput = ({ title, name, limit, value, onChange, placeholder = '' }) => {
   return (
     <div style={{ padding: '5px 0', width: '100%' }}>
       <div className="field-label">
         {title}:
       </div>
-      <input type="text" maxLength={limit || 255} style={{ width: '100%' }} name={name} value={value || ''} onChange={onChange}/>
+      <input
+        type="text"
+        maxLength={limit || 255}
+        placeholder={placeholder}
+        style={{ width: '100%' }}
+        name={name}
+        value={value || ''}
+        onChange={onChange}/>
     </div>
   );
 };

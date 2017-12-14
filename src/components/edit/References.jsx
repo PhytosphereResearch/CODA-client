@@ -1,16 +1,53 @@
 import React, { Component } from 'react';
 import Select from 'react-virtualized-select';
-import { getReferences } from 'coda/services/interactions';
+import autobind from 'react-autobind';
+import { TextInput, TextArea } from '../shared/FormInputs.jsx';
+import { addOrUpdateReference } from 'coda/services/interactions';
 // import { test } from 'coda/services/agents';
+let blankRef = {
+  year: '',
+  description: '',
+  author: '',
+  title: '',
+  source: '',
+  notes: ''
+};
+
+let initialState = {
+  selected: undefined,
+  reference: { ...blankRef }
+}
 
 export default class EditReferences extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    }
+    this.state = initialState;
+    autobind(this);
   }
+
+  onRefSelected(option) {
+    if (!option) {
+      this.setState(initialState);
+      return;
+    }
+    this.setState({ selected: option, reference: { ...option } });
+  }
+
+  onInputChange(e) {
+    let reference = { ...this.state.reference, [e.target.name]: e.target.value };
+    this.setState({ reference: reference });
+  }
+
+  handleSubmit() {
+    let reference = { ...this.state.reference };
+    addOrUpdateReference(reference)
+      .then(this.props.refresh)
+      .then(() => { this.setState(initialState); });
+  }
+
   render() {
     let { options } = this.props;
+    let { selected, reference } = this.state;
     return (
       <div>
         <h3>References</h3>
@@ -18,39 +55,19 @@ export default class EditReferences extends Component {
           options={options}
           onChange={this.onRefSelected}
           value={selected}
-          placeholder="Search by symptom"
+          placeholder="Search by reference"
           style={{ marginBottom: '15px' }}/>
-          Form Goes Here
-          <button onClick={() => console.log('submitted')}>SUBMIT</button>
+          <h4>{this.state.selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
+          <form onSubmit={this.handleSubmit} onChange={this.onInputChange}>
+            <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year"/>
+            <TextInput title="Description" placeholder="Authors (YYYY): short title" value={reference.description} name="description"/>
+            <TextInput title="Author" value={reference.author} name="author"/>
+            <TextInput title="Title" value={reference.title} name="title"/>
+            <TextInput title="Source" value={reference.source} name="source"/>
+            <TextArea title="Notes" value={reference.notes} name="notes"/>
+          </form>
+          <button onClick={this.handleSubmit}>{reference.id ? 'UPDATE' : 'SUBMIT'}</button>
       </div>
     );
   }
 }
-
-
-/* <h2>Edit a reference</h2>
-Filter results: <input class="filter" type="text" ng-model="filter">
-<div class="refList">
-  <ul>
-    <li ng-repeat="ref in allRefs | orderBy:'description' | filter:filter" ng-click="pickRef(ref.id)">{{ref.id}}. {{ref.description}}</li>
-  </ul>
-</div>
-
-
-<form ng-submit="update()">
-  ID:
-  <input type="text" ng-model="thisRef.id" DISABLED></input><br />
-  Year:
-  <input type="text" ng-model="thisRef.year" placeholder="YYYY"></input><br />
-  Description:
-  <input type="text" ng-model="thisRef.description" placeholder="Authors (YYYY): short title"></input><br />
-  Author:
-  <input type="text" ng-model="thisRef.author"></input><br />
-  Title:
-  <input type="text" ng-model="thisRef.title"></input><br />
-  Source:
-  <input type="text" ng-model="thisRef.source"></input><br />
-  Notes:
-  <textarea ng-model="thisRef.notes" id="notes"></textarea><br />
-  <button>SUBMIT</button>
-</form> */

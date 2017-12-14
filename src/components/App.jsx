@@ -70,8 +70,9 @@ export default class App extends Component {
 
   fetchReferences() {
     return getReferences().then(references => {
-      this.setState({ formattedReferences: references });
-    })
+      let formattedReferences = references.map(ref => ({ ...ref, value: ref.id, label: ref.description }))
+      this.setState({ formattedReferences: formattedReferences });
+    });
   }
 
   render() {
