@@ -28,7 +28,7 @@ export default class Edit extends Component {
           <Route path="/edit/synonyms" render={() => <EditSynonyms options={formattedAgents} refresh={fetchAgents}/>}/>
           <Route path="/edit/symptoms" render={() => <EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms}/>}/>
           <Route path="/edit/references" render={() => <EditReferences options={formattedReferences} refresh={fetchReferences}/>}/>
-          <Route path="/edit/interactions" component={EditInteractions}/>
+          <Route path="/edit/interactions" render={() => <EditInteractions agents={formattedAgents} oaks={formattedOaks}/>}/>
         </Switch>
       </div>
     );

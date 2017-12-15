@@ -5,6 +5,7 @@ import uniq from 'lodash.uniq';
 import { url } from './environments';
 import { auth } from '../components/App.jsx';
 
+
 export const getAllSymptoms = () => {
   const headers = new Headers();
   return fetch(`${url}/symptoms`, { headers, method: 'GET', mode: 'cors' })
@@ -42,6 +43,20 @@ export const getInteractions = (plantPart, symptomId, oakId) => {
     .catch(err => {
       console.warn(err);
       return [];
+    });
+};
+
+export const getInteractionsByOakAndAgent = (interactionQuery) => {
+  return fetch(`${url}/hi?agentId=${interactionQuery.agentId}&oakId=${interactionQuery.oakId}`, { mode: 'cors' })
+    .then(checkResponse)
+    .then(interaction => {
+      interaction.notes = arrayBufferToString(interaction.notes.data);
+      console.log(interaction);
+      return interaction;
+    })
+    .catch(err => {
+      console.warn(err);
+      return {};
     });
 };
 
