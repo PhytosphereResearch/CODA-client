@@ -79,3 +79,29 @@ export const getInteraction = (id) => {
       return {};
     });
 };
+
+export const getReferences = () => {
+  let headers = new Headers();
+  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
+    .then(checkResponse)
+    .then(references => references.map(reference => {
+      reference.title = arrayBufferToString(reference.title.data);
+      reference.notes = arrayBufferToString(reference.notes.data);
+      return reference;
+    })
+  )
+  .catch(err => {
+    console.warn(err);
+    return [];
+  });
+};
+
+export const addOrUpdateReference = (reference) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  });
+  return fetch(`${url}/bib`, { headers, method: 'POST', body: JSON.stringify(reference), mode: 'cors' })
+    .then(checkResponse);
+};
