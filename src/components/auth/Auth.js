@@ -4,7 +4,6 @@ import autobind from 'react-autobind';
 const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:8080/callback';
 
 export default class Auth {
-
   constructor() {
     autobind(this);
   }
@@ -17,7 +16,7 @@ export default class Auth {
     redirectUri,
     audience: 'https://auth.coda.phytosphere.com',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid',
   });
 
   handleAuthentication() {
@@ -27,8 +26,8 @@ export default class Auth {
         window.location.replace('/');
       } else if (err) {
         window.location.replace('/');
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
+        console.warn(`Error: ${err.error}. Check the console for further details.`);
+        console.warn(err);
       }
     });
   }
@@ -37,7 +36,7 @@ export default class Auth {
     const scopes = authResult.scope || this.requestedScopes || '';
     localStorage.setItem('scopes', JSON.stringify(scopes));
     // Set the time that the access token will expire at
-    let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
@@ -48,7 +47,7 @@ export default class Auth {
   isAuthenticated() {
     // Check whether the current time is past the
     // access token's expiry time
-    let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
 
@@ -61,7 +60,7 @@ export default class Auth {
   }
 
   getProfile(cb) {
-    let accessToken = this.getAccessToken();
+    const accessToken = this.getAccessToken();
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;

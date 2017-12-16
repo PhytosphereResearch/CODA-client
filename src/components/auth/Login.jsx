@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class Login extends Component {
-
   componentWillMount() {
     if (this.props.auth.isAuthenticated()) {
       return;
@@ -11,11 +10,11 @@ export default class Login extends Component {
     this.props.auth.login();
   }
 
-  render () {
+  render() {
     return this.props.auth.isAuthenticated() ? <Redirect to="/" /> : null;
   }
 }
 
 Login.propTypes = {
-  auth: PropTypes.object
+  auth: PropTypes.object,
 };

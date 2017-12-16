@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getOak } from 'coda/services/oaks';
-import { ScientificName, CommonName, CalPhotos, Notes } from '../shared/partials.jsx';
-import { Spinner } from '../shared/shapes.jsx';
+import { ScientificName, CommonName, CalPhotos, Notes } from '../shared/partials';
+import { Spinner } from '../shared/shapes';
 
 export default class Oak extends Component {
   constructor(props) {

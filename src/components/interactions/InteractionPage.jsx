@@ -1,52 +1,53 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { getInteraction } from 'coda/services/interactions';
-import RangeMap from 'coda/components/shared/RangeMap.jsx';
-import { Spinner } from 'coda/components/shared/shapes.jsx';
-import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from 'coda/components/shared/partials.jsx';
-import Reference from './Reference.jsx';
-import Symptom from './Symptom.jsx';
+import { getInteraction } from '../../services/interactions';
+import RangeMap from '../shared/RangeMap';
+import { Spinner } from '../shared/shapes';
+import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from '../shared/partials';
+import Reference from './Reference';
+import Symptom from './Symptom';
 
 export default class InteractionPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       interaction: {},
-      loading: false
+      loading: false,
     };
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({ loading: true });
     getInteraction(this.props.match.params.id)
       .then(interaction => this.setState({ interaction, loading: false }));
   }
 
   render() {
-    let { interaction } = this.state;
-    let { oak, agent } = interaction;
+    const { interaction } = this.state;
+    const { oak, agent } = interaction;
 
     if (this.state.loading) {
       return <Spinner />;
     }
 
-    let directSymptoms = interaction.directSymptoms.length ?
+    const directSymptoms = interaction.directSymptoms.length ? (
       <div>
         <h3>Symptoms at or near the site of attack:</h3>
         <ul>
           {interaction.directSymptoms.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
         </ul>
-      </div> : null;
+      </div>
+    ) : null;
 
-    let indirectSymptoms = interaction.indirectSymptoms.length ?
+    const indirectSymptoms = interaction.indirectSymptoms.length ? (
       <div>
         <h3>Symptoms found away from site of attack:</h3>
         <ul>
           {interaction.indirectSymptoms.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
         </ul>
-      </div> : null;
+      </div>
+    ) : null;
 
     return (
       <div style={{ display: 'flex' }}>
@@ -54,7 +55,7 @@ export default class InteractionPage extends Component {
           {/* Range map */}
           <div style={{ float: 'right' }}>
             <h3>Reported agent range</h3>
-            <RangeMap interactionRange={interaction.range} range={interaction.agentRange}/>
+            <RangeMap interactionRange={interaction.range} range={interaction.agentRange} />
           </div>
           {/* Data on this interaction */}
           <div>
@@ -64,7 +65,7 @@ export default class InteractionPage extends Component {
                 <ScientificName inline genus={oak.genus} species={oak.species} subSpecies={oak.subSpecies} authority={oak.authority} />
               </Link>
             </h3>
-            <p>{' '}</p>
+            <p />
             {oak.commonName && <CommonName commonName={oak.commonName} />}
           </div>
           <div>
@@ -77,21 +78,21 @@ export default class InteractionPage extends Component {
                 <ScientificName inline genus={agent.genus} species={agent.species} subSpecies={agent.subSpecies} authority={agent.authority} />
               </Link>
             </h3>
-            <p>{' '}</p>
+            <p />
             {agent.commonName && <CommonName commonName={agent.commonName} />}
             <CalPhotos genus={agent.genus} species={agent.species} />
-            <p>{' '}</p>
+            <p />
             <AgentTaxonomy agent={agent} />
-            <p>{' '}</p>
+            <p />
             <Synonyms synonyms={agent.synonyms} />
           </div>
           {interaction.questionable ? <div className="cite-details"> Questionable ID </div> : null }
-          <p>{' '}</p>
+          <p />
           {directSymptoms}
           {indirectSymptoms}
           {interaction.notes ? <Notes notes={interaction.notes} /> : null }
           <h3>References: <small>(click to expand)</small></h3>
-          {interaction.bibs.map(cite => <Reference key={cite.id} cite={cite} /> )}
+          {interaction.bibs.map(cite => <Reference key={cite.id} cite={cite} />)}
         </div>
       </div>
     );
@@ -99,6 +100,5 @@ export default class InteractionPage extends Component {
 }
 
 InteractionPage.propTypes = {
-  interaction: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
 };

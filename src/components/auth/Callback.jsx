@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
-import { Spinner } from '../shared/shapes.jsx';
+import React from 'react';
+import { Spinner } from '../shared/shapes';
 
-class Callback extends Component {
-  render() {
-    return (
-      <div>
-        <Spinner />
-      </div>
-    );
-  }
-}
+const Callback = () => (
+  <div>
+    <Spinner />
+  </div>
+);
 
 export default Callback;
