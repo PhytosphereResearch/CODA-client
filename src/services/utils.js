@@ -5,3 +5,6 @@ export const checkResponse = (res) => {
     throw new Error(res.statusCode, res.message);
   }
 };
+
+export const splitSemicolons = (string) => string.split(';').map(s => s.trim());
+export const joinSemicolons = (array) => array.join('; ');

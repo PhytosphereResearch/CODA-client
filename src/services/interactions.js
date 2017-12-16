@@ -4,6 +4,7 @@ import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
 import { url } from './environments';
 import { auth } from '../components/App.jsx';
+import { splitSemicolons } from './utils.js';
 
 
 export const getAllSymptoms = () => {
@@ -51,7 +52,15 @@ export const getInteractionsByOakAndAgent = (interactionQuery) => {
     .then(checkResponse)
     .then(interaction => {
       interaction.notes = arrayBufferToString(interaction.notes.data);
-      console.log(interaction);
+      interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
+      interaction.situation = splitSemicolons(interaction.situation);
+      interaction.hiSymptoms.forEach(hiSymptom => {
+        hiSymptom.maturity = splitSemicolons(hiSymptom.maturity);
+        hiSymptom.subSite = splitSemicolons(hiSymptom.subSite);
+        if (hiSymptom.isPrimary === 'Secondary (attacks stressed, injured or compromise') {
+          hiSymptom.isPrimary = 'Secondary (attacks stressed, injured, or compromised tissue)';
+        }
+      });
       return interaction;
     })
     .catch(err => {
@@ -92,6 +101,15 @@ export const getInteraction = (id) => {
     .catch(err => {
       console.warn(err);
       return {};
+    });
+};
+
+export const getSubSites = () => {
+  return fetch(`${url}/hi/symptoms`, { mode: 'cors ' })
+    .then(res => res.json())
+    .catch(err => {
+      console.warn(err);
+      return [];
     });
 };
 

@@ -67,12 +67,13 @@ export const RadioGroup = ({ title, options, name, selected, onChange, disabled 
   <div className={ disabled ? 'radio-group disabled' : 'radio-group' }>
     <div className="field-label">{title}:</div>
     <ul>
-      {options.map((option, index) => {
+      {options.map(option => {
+        const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
         return (
-        <li key={title + index}>
+        <li key={uniqueId}>
           <input
             type="radio"
-            id={title + option}
+            id={uniqueId}
             value={option}
             name={name}
             checked={selected.toString() === option.toString() ? true : false}
@@ -80,7 +81,7 @@ export const RadioGroup = ({ title, options, name, selected, onChange, disabled 
             required={true}
             disabled={disabled}
            />
-          <label htmlFor={title + option}>{option.toString()}</label>
+          <label htmlFor={uniqueId}>{option.toString()}</label>
           <div className="check">
           </div>
         </li>);
@@ -119,7 +120,8 @@ export class EnhancedCreatable extends Component {
           value={this.props.value}
           onChange={this.props.onChange}
           newOptionCreator={this.createOption}
-          options={this.props.options} />
+          options={this.props.options}
+          multi={this.props.multi || false} />
     </div>
     );
   }
@@ -130,5 +132,6 @@ EnhancedCreatable.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  options: PropTypes.array
+  options: PropTypes.array,
+  multi: PropTypes.bool
 };
