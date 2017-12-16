@@ -8,7 +8,7 @@ import { getInteractionsByOakAndAgent } from '../../services/interactions';
 import { TextInput, RadioGroup } from '../shared/FormInputs';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
-import { ButtonGroup } from '../shared/ButtonGroup';
+import ButtonGroup from '../shared/ButtonGroup';
 
 export default class EditInteractions extends Component {
   constructor(props) {
