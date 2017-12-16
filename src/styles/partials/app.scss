@@ -89,7 +89,7 @@ button {
   }
 }
 
-button.inSearch {
+button.inSearch, button.selected {
   background: darken($main-darker, 15);
   color: $main-lighter;
   box-shadow: inset 0 4px darken($main-darker, 20);
