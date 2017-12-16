@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import autobind from 'react-autobind';
-import Shell from './Shell.jsx';
-import Landing from './landing/index.jsx';
-import Agents from './agents/index.jsx';
-import Oaks from './oaks/index.jsx';
-import Edit from './edit/index.jsx';
-import InteractionSearch from './interactions/index.jsx';
-import InteractionPage from './interactions/InteractionPage.jsx';
-import { getAllOaks } from 'coda/services/oaks';
-import { getAllAgentSynonyms } from 'coda/services/agents';
-import { getAllSymptoms, getReferences } from 'coda/services/interactions';
+import Shell from './Shell';
+import Landing from './landing';
+import Agents from './agents';
+import Oaks from './oaks';
+import Edit from './edit';
+import InteractionSearch from './interactions';
+import InteractionPage from './interactions/InteractionPage';
+import { getAllOaks } from '../services/oaks';
+import { getAllAgentSynonyms } from '../services/agents';
+import { getAllSymptoms, getReferences } from '../services/interactions';
 import Auth from './auth/Auth';
 import Login from './auth/Login';
-import Callback from './auth/Callback.jsx';
+import Callback from './auth/Callback';
 
 const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}`, synId: r.id ? r.id : null }));
 
@@ -35,7 +35,7 @@ export default class App extends Component {
       formattedAgents: [],
       symptoms: [],
       formattedSymptoms: [],
-      formattedReferences: []
+      formattedReferences: [],
     };
     autobind(this);
   }
@@ -48,30 +48,30 @@ export default class App extends Component {
   }
 
   fetchSymptoms() {
-    getAllSymptoms().then(symptoms => {
-      let formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
+    getAllSymptoms().then((symptoms) => {
+      const formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
       this.setState({ symptoms, formattedSymptoms });
     });
   }
 
   fetchOaks() {
-    return getAllOaks().then(oaks => {
-      let formattedOaks = format(oaks);
+    return getAllOaks().then((oaks) => {
+      const formattedOaks = format(oaks);
       this.setState({ oaks, formattedOaks });
     });
   }
 
   fetchAgents() {
-    return getAllAgentSynonyms().then(agents => {
-      let formattedAgents = format(agents, 'agentId');
+    return getAllAgentSynonyms().then((agents) => {
+      const formattedAgents = format(agents, 'agentId');
       this.setState({ agents, formattedAgents });
     });
   }
 
   fetchReferences() {
-    return getReferences().then(references => {
-      let formattedReferences = references.map(ref => ({ ...ref, value: ref.id, label: ref.description }))
-      this.setState({ formattedReferences: formattedReferences });
+    return getReferences().then((references) => {
+      const formatted = references.map(r => ({ ...r, value: r.id, label: r.description }));
+      this.setState({ formattedReferences: formatted });
     });
   }
 
@@ -87,11 +87,14 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" component={InteractionPage} />
               <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" render={() => <Login auth={auth} />} />
-              <Route path="/edit" render={() => auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences}/> : <Redirect to="/" />} />
-              <Route path="/callback" render={(props) => {
+              <Route path="/edit" render={() => (auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Redirect to="/" />)} />
+              <Route
+                path="/callback"
+                render={(props) => {
                 handleAuthentication(props);
                 return <Callback {...props} />;
-              }}/>
+              }}
+              />
             </Switch>
           </Shell>
         </Router>

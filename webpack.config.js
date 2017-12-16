@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
-var ManifestPlugin = require('webpack-manifest-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -23,15 +23,16 @@ module.exports = {
       // bundle the client for hot reloading
       // only- means to only hot reload for successful updates
 
-      './index.jsx'
+      './index.jsx',
       // the entry point of our app
     ],
   // Webpack config options on how to obtain modules
   resolve: {
     alias: {
       // react-mcp-mex-components requires will be searched in src folder, not in node_modules
-      'coda': resolve(__dirname, 'src')
-    }
+      coda: resolve(__dirname, 'src'),
+    },
+    extensions: ['.js', '.jsx'],
   },
   output: {
     filename: PROD ? '[chunkhash].bundle.js' : 'bundle.js',
@@ -39,7 +40,7 @@ module.exports = {
 
     path: resolve(__dirname, 'dist'),
 
-    publicPath: '/'
+    publicPath: '/',
     // necessary for HMR to know where to load the hot update chunks
   },
 
@@ -57,7 +58,7 @@ module.exports = {
     publicPath: '/',
     // match the output `publicPath`
 
-    historyApiFallback: true
+    historyApiFallback: true,
   },
 
   module: {
@@ -65,56 +66,56 @@ module.exports = {
       {
         test: /\.jsx?$/,
         use: ['babel-loader'],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
         use: PROD ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        }) : ['style-loader', 'css-loader', 'sass-loader']
+          use: ['css-loader', 'sass-loader'],
+        }) : ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.css$/,
         use: PROD ? ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
-        }) : ['style-loader', 'css-loader']
+          use: 'css-loader',
+        }) : ['style-loader', 'css-loader'],
       },
       {
         test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
-        use: ['url-loader']
-      }
-    ]
+        use: ['url-loader'],
+      },
+    ],
   },
 
   plugins: PROD ? [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
+        NODE_ENV: JSON.stringify('production'),
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
     new ExtractTextPlugin({ filename: 'style-[contenthash].css', allChunks: true }),
     new ManifestPlugin(),
     new HtmlWebpackPlugin({
-      template: './index.ejs'
+      template: './index.ejs',
     }),
     new InlineManifestWebpackPlugin({
-      name: 'webpackManifest'
-    })
+      name: 'webpackManifest',
+    }),
   ] : [
     new HtmlWebpackPlugin({
-      template: './index.ejs'
+      template: './index.ejs',
     }),
     new webpack.HotModuleReplacementPlugin(),
     // enable HMR globally
 
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
     // prints more readable module names in the browser console on HMR updates
-  ]
+  ],
 };
