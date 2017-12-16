@@ -2,23 +2,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 
-export const TextInput = ({ title, name, limit, value, onChange, placeholder = '' }) => {
-  return (
-    <div style={{ padding: '5px 0', width: '100%' }}>
-      <div className="field-label">
-        {title}:
-      </div>
-      <input
-        type="text"
-        maxLength={limit || 255}
-        placeholder={placeholder}
-        style={{ width: '100%' }}
-        name={name}
-        value={value || ''}
-        onChange={onChange}/>
+export const TextInput = ({
+  title, name, limit, value, onChange, placeholder = '',
+}) => (
+  <div style={{ padding: '5px 0', width: '100%' }}>
+    <div className="field-label">
+      {title}:
     </div>
-  );
-};
+    <input
+      type="text"
+      maxLength={limit || 255}
+      placeholder={placeholder}
+      style={{ width: '100%' }}
+      name={name}
+      value={value || ''}
+      onChange={onChange}
+    />
+  </div>
+);
 
 TextInput.propTypes = {
   title: PropTypes.string,
@@ -26,70 +27,67 @@ TextInput.propTypes = {
   name: PropTypes.string,
   limit: PropTypes.number,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
-export const TextArea = ({ title, name, value, onChange, limit }) => {
-  return (
-    <div style={{ padding: '5px 0' }}>
-      <div className="field-label">
-        {title}:
-      </div>
-      <textarea type="text" maxLength={limit || 255} style={{ width: '100%' }} name={name} value={value || ''} onChange={onChange}/>
+export const TextArea = ({
+  title, name, value, onChange, limit,
+}) => (
+  <div style={{ padding: '5px 0' }}>
+    <div className="field-label">
+      {title}:
     </div>
-  );
-};
+    <textarea type="text" maxLength={limit || 255} style={{ width: '100%' }} name={name} value={value || ''} onChange={onChange} />
+  </div>
+);
 
 TextArea.propTypes = {
   title: PropTypes.string,
   value: PropTypes.string,
   name: PropTypes.string,
   limit: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
-export const Checkbox = ({ title, name, isChecked }) => {
-  return (
-    <span style={{ marginRight: '15px' }}>
-      <input type="checkbox" name={name} checked={isChecked} /> <span className="field-label">{title}</span>
-    </span>
-  );
-};
+export const Checkbox = ({ title, name, isChecked }) => (
+  <span style={{ marginRight: '15px' }}>
+    <input type="checkbox" name={name} checked={isChecked} /> <span className="field-label">{title}</span>
+  </span>
+);
 
 Checkbox.propTypes = {
   title: PropTypes.string,
   isChecked: PropTypes.bool,
-  name: PropTypes.string
+  name: PropTypes.string,
 };
 
-export const RadioGroup = ({ title, options, name, selected, onChange, disabled }) => {
-  return (
-  <div className={ disabled ? 'radio-group disabled' : 'radio-group' }>
+export const RadioGroup = ({
+  title, options, name, selected, onChange, disabled,
+}) => (
+  <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
     <div className="field-label">{title}:</div>
     <ul>
-      {options.map(option => {
+      {options.map((option) => {
         const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
         return (
-        <li key={uniqueId}>
-          <input
-            type="radio"
-            id={uniqueId}
-            value={option}
-            name={name}
-            checked={selected.toString() === option.toString() ? true : false}
-            onChange={onChange}
-            required={true}
-            disabled={disabled}
-           />
-          <label htmlFor={uniqueId}>{option.toString()}</label>
-          <div className="check">
-          </div>
-        </li>);
+          <li key={uniqueId}>
+            <input
+              type="radio"
+              id={uniqueId}
+              value={option}
+              name={name}
+              checked={selected.toString() === option.toString()}
+              onChange={onChange}
+              required
+              disabled={disabled}
+            />
+            <label htmlFor={uniqueId}>{option.toString()}</label>
+            <div className="check" />
+          </li>);
       })}
     </ul>
   </div>
-  );
-};
+);
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
@@ -97,7 +95,7 @@ RadioGroup.propTypes = {
   name: PropTypes.string,
   options: PropTypes.array,
   onChange: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export class EnhancedCreatable extends Component {
@@ -116,13 +114,15 @@ export class EnhancedCreatable extends Component {
         <div className="field-label">
           {this.props.title}:
         </div>
-        <Creatable name={this.props.name}
+        <Creatable
+          name={this.props.name}
           value={this.props.value}
           onChange={this.props.onChange}
           newOptionCreator={this.createOption}
           options={this.props.options}
-          multi={this.props.multi || false} />
-    </div>
+          multi={this.props.multi || false}
+        />
+      </div>
     );
   }
 }
@@ -133,5 +133,5 @@ EnhancedCreatable.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.array,
-  multi: PropTypes.bool
+  multi: PropTypes.bool,
 };

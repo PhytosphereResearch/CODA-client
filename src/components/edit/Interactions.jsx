@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
 import autobind from 'react-autobind';
-import { getAgent } from 'coda/services/agents';
-import { getOak } from 'coda/services/oaks';
-import { getInteractionsByOakAndAgent } from 'coda/services/interactions';
-import { TextInput, RadioGroup } from '../shared/FormInputs.jsx';
+import { getAgent } from '../../services/agents';
+import { getOak } from '../../services/oaks';
+import { getInteractionsByOakAndAgent } from '../../services/interactions';
+import { TextInput, RadioGroup } from '../shared/FormInputs';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
-import HiSymptom from './HiSymptom.jsx';
-import { ButtonGroup } from '../shared/ButtonGroup.jsx';
+import HiSymptom from './HiSymptom';
+import ButtonGroup from '../shared/ButtonGroup';
 
 export default class EditInteractions extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class EditInteractions extends Component {
       hiAgent: undefined,
       selectedOak: undefined,
       hiOak: undefined,
-      hi: undefined
+      hi: undefined,
     };
     autobind(this);
   }
@@ -29,7 +29,7 @@ export default class EditInteractions extends Component {
       return;
     }
     getAgent(option.value)
-          .then(agent => this.setState({ selectedAgent: option, hiAgent: agent }));
+      .then(agent => this.setState({ selectedAgent: option, hiAgent: agent }));
   }
 
   onOakSelected(option) {
@@ -38,15 +38,15 @@ export default class EditInteractions extends Component {
       return;
     }
     getOak(option.value)
-        .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
+      .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
   }
 
   getHi() {
-    let hiQuery = {};
+    const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
-      .then( interaction => this.setState({ hi: interaction }));
+      .then(interaction => this.setState({ hi: interaction }));
   }
 
   onInteractionSubmit(e) {
@@ -54,8 +54,8 @@ export default class EditInteractions extends Component {
   }
 
   render() {
-    let { agents, oaks } = this.props;
-    let { selectedAgent, selectedOak, hi } = this.state;
+    const { agents, oaks } = this.props;
+    const { selectedAgent, selectedOak, hi } = this.state;
     return (
       <div>
         <h3>Host-Agent Interactions</h3>
@@ -82,18 +82,18 @@ export default class EditInteractions extends Component {
         >
           Find my interaction!
         </button>
-          { hi ? (
-            <div>
-            <RadioGroup title='Questionable' selected={hi.questionable} name='questionable' options={BOOLEANS} />
-            <ButtonGroup title='Situation' selected={hi.situation} name='situation' options={SITUATION} />
-            <ButtonGroup title='Host Life Stage' selected={hi.hostLifeStage} name='hostLifeStage' options={LIFE_STAGES} />
-            <TextInput title='Notes' value={hi.notes} name='notes' />
-            {/*TODO: Inputs for HI Range
+        { hi ? (
+          <div>
+            <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} />
+            <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} />
+            <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} />
+            <TextInput title="Notes" value={hi.notes} name="notes" />
+            {/* TODO: Inputs for HI Range
                TODO: Inputs for HI References   */}
-          {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
-        </div>
+            {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
+          </div>
       ) : null}
-      {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
+        {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
       </div>
     );
   }

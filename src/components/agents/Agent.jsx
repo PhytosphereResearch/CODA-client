@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials.jsx';
-import RangeMap from '../shared/RangeMap.jsx';
+import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
+import RangeMap from '../shared/RangeMap';
 import { getAgent } from 'coda/services/agents';
-import { Spinner } from '../shared/shapes.jsx';
+import { Spinner } from '../shared/shapes';
 import autobind from 'react-autobind';
 
 export default class Agent extends Component {

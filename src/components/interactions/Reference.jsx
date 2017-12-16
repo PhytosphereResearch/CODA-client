@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Notes } from 'coda/components/shared/partials.jsx';
 import Collapse from 'react-smooth-collapse';
+import { Notes } from '../shared/partials';
 
 export default class Reference extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
     };
   }
 
   render() {
-    let { cite } = this.props;
+    const { cite } = this.props;
     return (
       <div>
         <span className="cite" onClick={() => this.setState({ show: !this.state.show })}> • {cite.description}</span>
@@ -30,5 +30,5 @@ export default class Reference extends Component {
 }
 
 Reference.propTypes = {
-  cite: PropTypes.object
+  cite: PropTypes.object,
 };

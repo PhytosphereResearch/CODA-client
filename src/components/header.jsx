@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import autobind from 'react-autobind';
-import Logo from './logo.jsx';
+import Logo from './logo';
 
 class Header extends Component {
-
   constructor(props) {
     super(props);
     autobind(this);
@@ -16,7 +15,7 @@ class Header extends Component {
     return this.props.location.pathname.split('/')[1] === string;
   }
 
-  render () {
+  render() {
     return (
       <div className="group">
         <div className="header group">
@@ -41,9 +40,9 @@ class Header extends Component {
 
 Header.propTypes = {
   location: PropTypes.shape({
-    pathname: PropTypes.string
+    pathname: PropTypes.string,
   }),
-  loggedIn: PropTypes.bool
+  loggedIn: PropTypes.bool,
 };
 
 const WrappedHeader = withRouter(Header);

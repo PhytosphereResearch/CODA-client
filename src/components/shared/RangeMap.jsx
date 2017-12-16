@@ -3,35 +3,34 @@ import PropTypes from 'prop-types';
 import d3Chart from './d3Chart';
 
 export default class Chart extends Component {
-
-  componentDidMount () {
-    var el = this.el;
+  componentDidMount() {
+    const { el } = this;
     d3Chart.create(el, {
       width: 200,
-      height: 230
+      height: 230,
     }, this.getChartState());
   }
 
-  componentDidUpdate () {
-    var el = this.el;
+  componentDidUpdate() {
+    const { el } = this;
     d3Chart.update(el, this.getChartState());
   }
 
-  getChartState () {
+  getChartState() {
     return {
       range: this.props.range,
-      interactionRange: this.props.interactionRange || [] // TODO add in interaction information
+      interactionRange: this.props.interactionRange || [], // TODO add in interaction information
     };
   }
 
-  render () {
+  render() {
     return (
-      <div ref={(el) => this.el = el} className="Chart"></div>
+      <div ref={(el) => { this.el = el; }} className="Chart" />
     );
   }
 }
 
 Chart.propTypes = {
   interactionRange: PropTypes.array,
-  range: PropTypes.array
+  range: PropTypes.array,
 };

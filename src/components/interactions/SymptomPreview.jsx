@@ -11,14 +11,14 @@ const defaultStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  flexShrink: 0
+  flexShrink: 0,
 };
 
 export default class SymptomPreview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hasError: false
+      hasError: false,
     };
     autobind(this);
   }
@@ -32,9 +32,11 @@ export default class SymptomPreview extends Component {
   }
 
   render() {
-    let { plantPart, symptom, description, style } = this.props;
+    const {
+      plantPart, symptom, description, style,
+    } = this.props;
 
-    if (!plantPart || !symptom ) {
+    if (!plantPart || !symptom) {
       return (
         <div style={{ ...defaultStyle, ...style, textAlign: 'center' }}>
           <h4>An image of the selected symptom will appear here</h4>
@@ -42,21 +44,22 @@ export default class SymptomPreview extends Component {
       );
     }
 
-    let image = this.state.hasError ? (
-        <div
-          style={defaultStyle}>
-          <h4>
+    const image = this.state.hasError ? (
+      <div
+        style={defaultStyle}
+      >
+        <h4>
             No image available
-          </h4>
-        </div>
-      ) : (
-        <img
-          style={{ maxWidth: '100%' }}
-          src={`/images/symptoms/${plantPart}/${symptom.label.replace(/ /g, '_')}.jpg`}
-          alt={`${symptom.label} on ${plantPart}`}
-          onError={() => this.handleError()}
-        />
-      );
+        </h4>
+      </div>
+    ) : (
+      <img
+        style={{ maxWidth: '100%' }}
+        src={`/images/symptoms/${plantPart}/${symptom.label.replace(/ /g, '_')}.jpg`}
+        alt={`${symptom.label} on ${plantPart}`}
+        onError={() => this.handleError()}
+      />
+    );
 
     return (
       <div style={{ ...style }}>
@@ -71,5 +74,5 @@ SymptomPreview.propTypes = {
   plantPart: PropTypes.string,
   symptom: PropTypes.object,
   description: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };

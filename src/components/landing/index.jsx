@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import Logo from '../logo.jsx';
-import SearchingCoda from './SearchingCoda.jsx';
-import About from './About.jsx';
-import Citing from './Citing.jsx';
-import Questions from './Questions.jsx';
+import Logo from '../logo';
+import SearchingCoda from './SearchingCoda';
+import About from './About';
+import Citing from './Citing';
+import Questions from './Questions';
 
 export default class Landing extends Component {
   constructor(props) {
@@ -14,20 +14,20 @@ export default class Landing extends Component {
         searchInfo: false,
         about: false,
         citing: false,
-        questions: false
-      }
+        questions: false,
+      },
     };
     autobind(this);
   }
 
   openModal(name) {
-    let show = { ...this.state.show };
+    const show = { ...this.state.show };
     show[name] = true;
     this.setState({ show });
   }
 
   handleCloseModal(name) {
-    let show = { ...this.state.show };
+    const show = { ...this.state.show };
     show[name] = false;
     this.setState({ show });
   }
@@ -64,19 +64,20 @@ export default class Landing extends Component {
           </ul>
 
           <p>
-            <b><a href="../publications/Fieldguide.htm">A field guide to insects and diseases of California oaks</a></b> has descriptions and photos of some of the most common and conspicuous diseases and arthropods, based on information in CODA and other sources. </p>
+            <b><a href="../publications/Fieldguide.htm">A field guide to insects and diseases of California oaks</a></b> has descriptions and photos of some of the most common and conspicuous diseases and arthropods, based on information in CODA and other sources.
+          </p>
           <br />
-            <ul className="home-links">
-              <li><a onClick={() => this.openModal('searchInfo')}>Searching CODA</a></li>
-              <li><a onClick={() => this.openModal('about')}>About CODA</a></li>
-              <li><a onClick={() => this.openModal('citing')}>Citing CODA </a></li>
-              <li><a onClick={() => this.openModal('questions')}>Questions</a></li>
-            </ul>
-            <SearchingCoda show={this.state.show.searchInfo} handleCloseModal={() => this.handleCloseModal('searchInfo')} />
-            <About show={this.state.show.about} handleCloseModal={() => this.handleCloseModal('about')} />
-            <Citing show={this.state.show.citing} handleCloseModal={() => this.handleCloseModal('citing')} />
-            <Questions show={this.state.show.questions} handleCloseModal={() => this.handleCloseModal('questions')} />
-          </div>
+          <ul className="home-links">
+            <li><a onClick={() => this.openModal('searchInfo')}>Searching CODA</a></li>
+            <li><a onClick={() => this.openModal('about')}>About CODA</a></li>
+            <li><a onClick={() => this.openModal('citing')}>Citing CODA </a></li>
+            <li><a onClick={() => this.openModal('questions')}>Questions</a></li>
+          </ul>
+          <SearchingCoda show={this.state.show.searchInfo} handleCloseModal={() => this.handleCloseModal('searchInfo')} />
+          <About show={this.state.show.about} handleCloseModal={() => this.handleCloseModal('about')} />
+          <Citing show={this.state.show.citing} handleCloseModal={() => this.handleCloseModal('citing')} />
+          <Questions show={this.state.show.questions} handleCloseModal={() => this.handleCloseModal('questions')} />
+        </div>
       </div>
     );
   }
