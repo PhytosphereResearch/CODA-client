@@ -26,11 +26,11 @@ export default class HiSymptom extends Component {
     const { subSites } = this.state;
     return (
       <div>
-        <h3>{`${symptom.symptoms[0].symptom}: ${symptom.plantPart}`}</h3>
+        <h3>{`${symptom.plantPart}: ${symptom.symptoms.map(symptom => ` ${symptom.symptom}`)}` }</h3>
         <RadioGroup title="Is Indirect?" selected={symptom.isIndirect} name={`isIndirect${symptom.id}`} options={BOOLEANS} />
         <RadioGroup title="Primary?" selected={symptom.isPrimary} name={`isPrimary${symptom.id}`} options={PRIMARY} />
         <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={this.onButtonChange} />
-        <RadioGroup title="Plant Part" selected={symptom.plantPart} name={`plantPart${symptom.id}`} options={PLANT_PARTS} />
+        {/* <RadioGroup title="Plant Part" selected={symptom.plantPart} name={`plantPart${symptom.id}`} options={PLANT_PARTS} /> */}
         <EnhancedCreatable
           title="SubSites"
           name="subSites"

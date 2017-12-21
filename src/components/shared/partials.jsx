@@ -72,6 +72,7 @@ export const Synonyms = ({ synonyms }) => (
         {synonyms.map((s, index) => (
           <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.subSpecies + s.authority}>
             <i data-synonym={index}>{s.genus} {s.species} {s.subSpecies}</i> {s.authority}
+            {/* {s.notes ? <div>-{s.notes}</div> : null} */}
           </li>
       ))}
       </ul>

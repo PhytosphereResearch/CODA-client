@@ -37,7 +37,7 @@ export default class Agent extends Component {
 
   render() {
     let { agent, loading } = this.state;
-
+      console.log(agent);
     if (!agent && !loading) {
       return null;
     } else if (loading) {
@@ -73,6 +73,8 @@ export default class Agent extends Component {
             <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
             <p>{' '}</p>
             <Synonyms synonyms={agent.otherSynonyms} />
+            <p>{' '}</p>
+            {agent.synonyms.map(synonym => synonym.notes ? <div>{synonym.notes}</div> : null)}
             <p>{' '}</p>
             <AgentTaxonomy agent={agent} />
             <p>{' '}</p>
