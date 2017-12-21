@@ -130,7 +130,7 @@ export class EnhancedCreatable extends Component {
 EnhancedCreatable.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   onChange: PropTypes.func,
   options: PropTypes.array,
   multi: PropTypes.bool,

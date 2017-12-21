@@ -42,6 +42,10 @@ export default class EditInteractions extends Component {
       .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
   }
 
+  onInputChange(e) {
+    const hi = { ...this.state.hi, [e.target.name]: e.target.value }
+    this.setState({ hi })
+  }
 
   onInteractionSubmit(e) {
     e.preventDefault();
@@ -58,6 +62,7 @@ export default class EditInteractions extends Component {
   render() {
     const { agents, oaks } = this.props;
     const { selectedAgent, selectedOak, hi } = this.state;
+    console.log(hi)
     return (
       <div>
         <h3>Host-Agent Interactions</h3>
@@ -86,7 +91,7 @@ export default class EditInteractions extends Component {
         </button>
         { hi ? (
           <div>
-            <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} />
+            <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={this.onInputChange} />
             <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} />
             <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} />
             <TextInput title="Notes" value={hi.notes} name="notes" />
