@@ -73,7 +73,7 @@ export default class Agent extends Component {
           <p />
           <Synonyms synonyms={agent.otherSynonyms} />
           <p />
-          {agent.synonyms.map(synonym => (synonym.notes ? <div>{synonym.notes}</div> : null))}
+          {agent.synonyms.map(synonym => (synonym.notes ? <div key={synonym.notes}>{synonym.notes}</div> : null))}
           <p />
           <AgentTaxonomy agent={agent} />
           <p />
