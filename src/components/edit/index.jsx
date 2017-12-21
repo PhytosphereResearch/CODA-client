@@ -29,7 +29,7 @@ const Edit = (props) => {
         <Route path="/edit/synonyms" render={() => <EditSynonyms options={formattedAgents} refresh={fetchAgents} />} />
         <Route path="/edit/symptoms" render={() => <EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms} />} />
         <Route path="/edit/references" render={() => <EditReferences options={formattedReferences} refresh={fetchReferences} />} />
-        <Route path="/edit/interactions" render={() => <EditInteractions agents={formattedAgents} oaks={formattedOaks} />} />
+        <Route path="/edit/interactions" render={() => <EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} />} />
       </Switch>
     </div>
   );
