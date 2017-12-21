@@ -61,6 +61,11 @@ export default class EditInteractions extends Component {
     }
   }
 
+  onBibSelectChange(options) {
+    const hi = { ...this.state.hi, bibs: options };
+    this.setState({ hi });
+  }
+
   onInteractionSubmit(e) {
     e.preventDefault();
   }
@@ -112,9 +117,7 @@ export default class EditInteractions extends Component {
             {hi.countiesByRegions.map(county => <div>{county.countyName}</div>)}
             <RangeMap range={hi.rangeData} />
             <h4>References</h4>
-            {hi.bibs.map(bib => <div>{bib.description}</div>)}
-            {/* TODO: Inputs for HI Range
-               TODO: Inputs for HI References   */}
+            <Select options={this.props.references} value={hi.bibs} onChange={this.onBibSelectChange} multi />
             {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
           </div>
       ) : null}
@@ -127,4 +130,5 @@ export default class EditInteractions extends Component {
 EditInteractions.propTypes = {
   oaks: PropTypes.array,
   agents: PropTypes.array,
+  references: PropTypes.array,
 };
