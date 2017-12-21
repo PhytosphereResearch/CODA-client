@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'react-autobind';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
 import RangeMap from '../shared/RangeMap';
-import { getAgent } from 'coda/services/agents';
+import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
-import autobind from 'react-autobind';
 
 export default class Agent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
     };
     autobind(this);
   }
@@ -31,24 +31,23 @@ export default class Agent extends Component {
   }
 
   goToHostInteraction(e) {
-    let interactionId = e.target.getAttribute('data-interaction');
+    const interactionId = e.target.getAttribute('data-interaction');
     this.context.router.history.push(`/hi/interaction/${interactionId}`);
   }
 
   render() {
-    let { agent, loading } = this.state;
-
+    const { agent, loading } = this.state;
     if (!agent && !loading) {
       return null;
     } else if (loading) {
       return <Spinner />;
     }
 
-    let hosts = (
+    const hosts = (
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
-          <span key={index + h.species}>
+          <span key={h.genus + h.species}>
             <a style={{ cursor: 'pointer' }} onClick={this.goToHostInteraction}>
               <i data-interaction={h.interactionId}>
                 {h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}
@@ -66,30 +65,31 @@ export default class Agent extends Component {
         <div style={{ clear: 'both' }}>
           {/* <div style={{ flex: '1' }}> */}
           <div style={{ float: 'right' }}><b>Reported range</b> <br />
-          <RangeMap range={agent.rangeData} />
+            <RangeMap range={agent.rangeData} />
+          </div>
+          <p />
+          { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
+          <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
+          <p />
+          <Synonyms synonyms={agent.otherSynonyms} />
+          <p />
+          {agent.synonyms.map(synonym => (synonym.notes ? <div key={synonym.notes}>{synonym.notes}</div> : null))}
+          <p />
+          <AgentTaxonomy agent={agent} />
+          <p />
+          {hosts}
+          <p />
+          { agent.notes ? <Notes notes={agent.notes} /> : null }
         </div>
-            <p>{' '}</p>
-            { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
-            <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
-            <p>{' '}</p>
-            <Synonyms synonyms={agent.otherSynonyms} />
-            <p>{' '}</p>
-            <AgentTaxonomy agent={agent} />
-            <p>{' '}</p>
-            {hosts}
-            <p>{' '}</p>
-            { agent.notes ? <Notes notes={agent.notes} /> : null }
-          {/* </div> */}
-        </div>
-        </div>
+      </div>
     );
   }
 }
 
 Agent.propTypes = {
-  match: PropTypes.object
+  match: PropTypes.object,
 };
 
 Agent.contextTypes = {
-  router: PropTypes.object
+  router: PropTypes.object,
 };

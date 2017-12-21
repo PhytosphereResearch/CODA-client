@@ -6,6 +6,7 @@ import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent } from '../../services/interactions';
 import { TextInput, RadioGroup } from '../shared/FormInputs';
+import RangeMap from '../shared/RangeMap';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -41,16 +42,17 @@ export default class EditInteractions extends Component {
       .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
   }
 
+
+  onInteractionSubmit(e) {
+    e.preventDefault();
+  }
+
   getHi() {
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
       .then(interaction => this.setState({ hi: interaction }));
-  }
-
-  onInteractionSubmit(e) {
-    e.preventDefault();
   }
 
   render() {
@@ -88,6 +90,11 @@ export default class EditInteractions extends Component {
             <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} />
             <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} />
             <TextInput title="Notes" value={hi.notes} name="notes" />
+            <h4>Range</h4>
+            {hi.countiesByRegions.map(county => <div>{county.countyName}</div>)}
+            <RangeMap range={hi.rangeData} />
+            <h4>References</h4>
+            {hi.bibs.map(bib => <div>{bib.description}</div>)}
             {/* TODO: Inputs for HI Range
                TODO: Inputs for HI References   */}
             {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
