@@ -50,12 +50,6 @@ export default class EditAgents extends Component {
       });
   }
 
-  updateFields(fields) {
-    this.setState({
-      fields,
-    });
-  }
-
   onAgentSelected(option) {
     if (!option || !option.value) {
       this.setState({
@@ -102,11 +96,15 @@ export default class EditAgents extends Component {
         selected: undefined,
         newAgent: true,
       }))
-      .catch(() => this.setState({ loading: false, error: true }));
+      .catch(() => this.setState({ loading: false }));
+  }
+
+  updateFields(fields) {
+    this.setState({ fields });
   }
 
   render() {
-    const options = this.props.options;
+    const { options } = this.props;
     const { selected, selectedAgent, selectedSynonym } = this.state;
     return (
       <div>
@@ -120,14 +118,14 @@ export default class EditAgents extends Component {
         />
         {this.state.loading ? <FullScreenSpinner /> : null}
         {
-          this.state.newAgent
-          ? <div style={{ display: 'flex' }}>
-            <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={this.onSynonymChange} />
-            <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={this.onSynonymChange} />
-            <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={this.onSynonymChange} />
-            <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={this.onSynonymChange} />
+          this.state.newAgent ? (
+            <div style={{ display: 'flex' }}>
+              <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={this.onSynonymChange} />
+              <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={this.onSynonymChange} />
+              <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={this.onSynonymChange} />
+              <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={this.onSynonymChange} />
             </div>
-          : null}
+        ) : null}
         <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={this.onSelectChange} options={this.state.fields.torder} />
         <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={this.onSelectChange} options={this.state.fields.family} />
         <RadioGroup title="Most Common" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={this.onInputChange} />

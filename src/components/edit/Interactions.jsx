@@ -42,6 +42,11 @@ export default class EditInteractions extends Component {
       .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
   }
 
+
+  onInteractionSubmit(e) {
+    e.preventDefault();
+  }
+
   getHi() {
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
@@ -50,14 +55,9 @@ export default class EditInteractions extends Component {
       .then(interaction => this.setState({ hi: interaction }));
   }
 
-  onInteractionSubmit(e) {
-    e.preventDefault();
-  }
-
   render() {
     const { agents, oaks } = this.props;
     const { selectedAgent, selectedOak, hi } = this.state;
-    console.log(hi)
     return (
       <div>
         <h3>Host-Agent Interactions</h3>
