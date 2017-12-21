@@ -43,8 +43,22 @@ export default class EditInteractions extends Component {
   }
 
   onInputChange(e) {
-    const hi = { ...this.state.hi, [e.target.name]: e.target.value }
-    this.setState({ hi })
+    const hi = { ...this.state.hi, [e.target.name]: e.target.value };
+    this.setState({ hi });
+  }
+
+  onMultiInputChange(e) {
+    const hi = { ...this.state.hi };
+    const inputArray = hi[e.target.name];
+    const { value } = e.target;
+    if (inputArray.includes(value)) {
+      const index = inputArray.indexOf(value);
+      inputArray.splice(index, 1);
+      this.setState({ ...this.state.hi, [e.target.name]: inputArray });
+    } else {
+      inputArray.push(value);
+      this.setState({ ...this.state.hi, [e.target.name]: inputArray });
+    }
   }
 
   onInteractionSubmit(e) {
@@ -62,7 +76,6 @@ export default class EditInteractions extends Component {
   render() {
     const { agents, oaks } = this.props;
     const { selectedAgent, selectedOak, hi } = this.state;
-    console.log(hi)
     return (
       <div>
         <h3>Host-Agent Interactions</h3>
@@ -92,9 +105,9 @@ export default class EditInteractions extends Component {
         { hi ? (
           <div>
             <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={this.onInputChange} />
-            <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} />
-            <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} />
-            <TextInput title="Notes" value={hi.notes} name="notes" />
+            <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} onClick={this.onMultiInputChange} />
+            <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={this.onMultiInputChange} />
+            <TextInput title="Notes" value={hi.notes} name="notes" onChange={this.onInputChange} />
             <h4>Range</h4>
             {hi.countiesByRegions.map(county => <div>{county.countyName}</div>)}
             <RangeMap range={hi.rangeData} />
