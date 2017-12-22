@@ -30,7 +30,13 @@ export default class HiSymptom extends Component {
   }
 
   onButtonChange(e) {
-    console.log(e.target.value, e.target.name);
+    const { id } = this.state;
+    this.props.onButtonChange(e, id);
+  }
+
+  onRadioChange(e) {
+    const { id } = this.state;
+    this.props.onRadioChange(e, id);
   }
 
   render() {
@@ -39,8 +45,8 @@ export default class HiSymptom extends Component {
     return (
       <div>
         <h3>{`${symptom.plantPart}: ${symptom.symptoms.map(s => ` ${s.symptom}`)}` }</h3>
-        <RadioGroup title="Is Indirect?" selected={symptom.isIndirect} name={`isIndirect${symptom.id}`} options={BOOLEANS} />
-        <RadioGroup title="Primary?" selected={symptom.isPrimary} name={`isPrimary${symptom.id}`} options={PRIMARY} />
+        <RadioGroup key={symptom.id} title="Is Indirect?" selected={symptom.isIndirect} name={`isIndirect&${symptom.id}`} options={BOOLEANS} onChange={this.onRadioChange} />
+        <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={this.onButtonChange} />
         <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={this.onButtonChange} />
         <EnhancedCreatable
           title="SubSites"
@@ -58,4 +64,6 @@ export default class HiSymptom extends Component {
 HiSymptom.propTypes = {
   symptom: PropTypes.object,
   onSelectChange: PropTypes.func,
+  onButtonChange: PropTypes.func,
+  onRadioChange: PropTypes.func,
 };

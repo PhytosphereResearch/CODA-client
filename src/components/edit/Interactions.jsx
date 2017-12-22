@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
 import autobind from 'react-autobind';
+import { remove } from 'lodash';
 import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent } from '../../services/interactions';
@@ -60,6 +61,37 @@ export default class EditInteractions extends Component {
       inputArray.push(value);
       this.setState({ ...this.state.hi, [e.target.name]: inputArray });
     }
+  }
+
+  onHisymptomMultiInputChange(e, id) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    const inputArray = hiSymptToUpdate[e.target.name];
+    const { value } = e.target;
+    if (inputArray.includes(value)) {
+      remove(inputArray, element => element === value);
+      this.setState({ hiSymptoms });
+      return;
+    }
+
+    if (value === 'All' || value === 'Unknown') {
+      const symptArr = [];
+      symptArr.push(value);
+      hiSymptToUpdate[e.target.name] = symptArr;
+      this.setState({ hiSymptoms });
+      return;
+    }
+
+    remove(inputArray, element => element === 'All' || element === 'Unknown');
+    inputArray.push(value);
+    this.setState({ hiSymptoms });
+  }
+
+  onHisymptomRadioChange(e, id) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    hiSymptToUpdate[e.target.name.split('&')[0]] = e.target.value;
+    this.setState({ hiSymptoms });
   }
 
   onBibSelectChange(options) {
@@ -126,7 +158,7 @@ export default class EditInteractions extends Component {
             <RangeMap range={hi.rangeData} />
             <h4>References</h4>
             <Select options={this.props.references} value={hi.bibs} onChange={this.onBibSelectChange} multi />
-            {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={this.onSubsiteSelectChange} />)}
+            {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={this.onSubsiteSelectChange} onButtonChange={this.onHisymptomMultiInputChange} onRadioChange={this.onHisymptomRadioChange} />)}
           </div>
       ) : null}
         {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
