@@ -122,7 +122,7 @@ export default class EditInteractions extends Component {
             <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={this.onMultiInputChange} />
             <TextInput title="Notes" value={hi.notes} name="notes" onChange={this.onInputChange} />
             <h4>Range</h4>
-            {hi.countiesByRegions.map(county => <div>{county.countyName}</div>)}
+            {hi.countiesByRegions.map(county => <div key={county.countyName}>{county.countyName}</div>)}
             <RangeMap range={hi.rangeData} />
             <h4>References</h4>
             <Select options={this.props.references} value={hi.bibs} onChange={this.onBibSelectChange} multi />
