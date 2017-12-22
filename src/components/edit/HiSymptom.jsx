@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
 import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -10,12 +11,22 @@ export default class HiSymptom extends Component {
     super(props);
     this.state = {
       subSites: [],
+      id: undefined,
     };
+    autobind(this);
   }
 
   componentWillMount() {
     getSubSites()
-      .then(subSites => this.setState({ subSites: subSites.map(s => ({ label: s, value: s })) }));
+      .then(subSites => this.setState({
+        subSites: subSites.map(s => ({ label: s, value: s })),
+        id: this.props.symptom.id,
+      }));
+  }
+
+  onSelectChange(options) {
+    const { id } = this.state;
+    this.props.onSelectChange(id, options);
   }
 
   onButtonChange(e) {
@@ -35,7 +46,7 @@ export default class HiSymptom extends Component {
           title="SubSites"
           name="subSites"
           value={symptom.subSite}
-          onChange={this.props.onInputChange}
+          onChange={this.onSelectChange}
           options={subSites}
           multi
         />
@@ -46,6 +57,5 @@ export default class HiSymptom extends Component {
 
 HiSymptom.propTypes = {
   symptom: PropTypes.object,
-  onInputChange: PropTypes.func,
-
+  onSelectChange: PropTypes.func,
 };

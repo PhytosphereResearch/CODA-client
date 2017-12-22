@@ -20,6 +20,7 @@ export default class EditInteractions extends Component {
       selectedOak: undefined,
       hiOak: undefined,
       hi: undefined,
+      hiSymptoms: undefined,
     };
     autobind(this);
   }
@@ -66,6 +67,13 @@ export default class EditInteractions extends Component {
     this.setState({ hi });
   }
 
+  onSubsiteSelectChange(id, options) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    hiSymptToUpdate.subSite = options;
+    this.setState({ hiSymptoms });
+  }
+
   onInteractionSubmit(e) {
     e.preventDefault();
   }
@@ -75,12 +83,12 @@ export default class EditInteractions extends Component {
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
-      .then(interaction => this.setState({ hi: interaction }));
+      .then(interaction => this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms }));
   }
 
   render() {
     const { agents, oaks } = this.props;
-    const { selectedAgent, selectedOak, hi } = this.state;
+    const { selectedAgent, selectedOak, hi, hiSymptoms } = this.state;
     return (
       <div>
         <h3>Host-Agent Interactions</h3>
@@ -118,7 +126,7 @@ export default class EditInteractions extends Component {
             <RangeMap range={hi.rangeData} />
             <h4>References</h4>
             <Select options={this.props.references} value={hi.bibs} onChange={this.onBibSelectChange} multi />
-            {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
+            {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={this.onSubsiteSelectChange} />)}
           </div>
       ) : null}
         {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
