@@ -13,7 +13,7 @@ const ButtonGroup = ({
         className={selected.includes(option) ? 'selected' : ''}
         value={option}
         key={`${option}-${Math.floor(Math.random() * 0xffff)}`}
-      >{option}
+      >{option || '(blank)'}
       </button>
       ))}
   </div>
