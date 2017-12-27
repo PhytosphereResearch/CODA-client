@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
 import autobind from 'react-autobind';
+import remove from 'lodash/remove';
 import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent } from '../../services/interactions';
-import { TextInput, RadioGroup } from '../shared/FormInputs';
-import RangeMap from '../shared/RangeMap';
-import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
-import HiSymptom from './HiSymptom';
-import ButtonGroup from '../shared/ButtonGroup';
+import HiEntry from './HiEntry';
 
 export default class EditInteractions extends Component {
   constructor(props) {
@@ -20,6 +16,7 @@ export default class EditInteractions extends Component {
       selectedOak: undefined,
       hiOak: undefined,
       hi: undefined,
+      hiSymptoms: undefined,
     };
     autobind(this);
   }
@@ -61,9 +58,48 @@ export default class EditInteractions extends Component {
     }
   }
 
+  onHisymptomMultiInputChange(e, id) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    const inputArray = hiSymptToUpdate[e.target.name];
+    const { value } = e.target;
+
+    if (inputArray.includes(value)) {
+      remove(inputArray, element => element === value);
+      this.setState({ hiSymptoms });
+      return;
+    }
+
+    if (value === 'All' || value === 'Unknown' || value === '') {
+      const symptArr = [];
+      symptArr.push(value);
+      hiSymptToUpdate[e.target.name] = symptArr;
+      this.setState({ hiSymptoms });
+      return;
+    }
+
+    remove(inputArray, element => element === 'All' || element === 'Unknown' || element === '');
+    inputArray.push(value);
+    this.setState({ hiSymptoms });
+  }
+
+  onHisymptomRadioChange(e, id) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    hiSymptToUpdate[e.target.name.split('&')[0]] = e.target.value;
+    this.setState({ hiSymptoms });
+  }
+
   onBibSelectChange(options) {
     const hi = { ...this.state.hi, bibs: options };
     this.setState({ hi });
+  }
+
+  onSubsiteSelectChange(id, options) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    hiSymptToUpdate.subSite = options;
+    this.setState({ hiSymptoms });
   }
 
   onInteractionSubmit(e) {
@@ -75,54 +111,41 @@ export default class EditInteractions extends Component {
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
-      .then(interaction => this.setState({ hi: interaction }));
+      .then(interaction => this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms }));
   }
 
   render() {
-    const { agents, oaks } = this.props;
-    const { selectedAgent, selectedOak, hi } = this.state;
+    const { agents, oaks, references } = this.props;
+    const {
+      selectedAgent, selectedOak, hi, hiSymptoms,
+    } = this.state;
+    const {
+      onAgentSelected, onOakSelected, getHi, onInputChange,
+      onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
+      onHisymptomRadioChange,
+    } = this;
+    const entryProps = {
+      agents,
+      oaks,
+      references,
+      selectedAgent,
+      selectedOak,
+      hi,
+      hiSymptoms,
+      onAgentSelected,
+      onOakSelected,
+      getHi,
+      onInputChange,
+      onMultiInputChange,
+      onBibSelectChange,
+      onSubsiteSelectChange,
+      onHisymptomMultiInputChange,
+      onHisymptomRadioChange,
+    };
     return (
-      <div>
-        <h3>Host-Agent Interactions</h3>
-        <h4>Find an agent</h4>
-        <Select
-          options={agents}
-          onChange={this.onAgentSelected}
-          value={selectedAgent}
-          placeholder="Search by synonym"
-          style={{ marginBottom: '15px' }}
-        />
-        <h4>Find an oak</h4>
-        <Select
-          options={oaks}
-          onChange={this.onOakSelected}
-          value={selectedOak}
-          placeholder="Search by species or common name"
-          style={{ marginBottom: '15px' }}
-        />
-        <button
-          className="search-button"
-          disabled={!(selectedAgent && selectedOak)}
-          onClick={this.getHi}
-        >
-          Find my interaction!
-        </button>
-        { hi ? (
-          <div>
-            <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={this.onInputChange} />
-            <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} onClick={this.onMultiInputChange} />
-            <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={this.onMultiInputChange} />
-            <TextInput title="Notes" value={hi.notes} name="notes" onChange={this.onInputChange} />
-            <h4>Range</h4>
-            {hi.countiesByRegions.map(county => <div>{county.countyName}</div>)}
-            <RangeMap range={hi.rangeData} />
-            <h4>References</h4>
-            <Select options={this.props.references} value={hi.bibs} onChange={this.onBibSelectChange} multi />
-            {hi.hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} />)}
-          </div>
-      ) : null}
-        {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
-      </div>
+      <HiEntry
+        {...entryProps}
+      />
     );
   }
 }

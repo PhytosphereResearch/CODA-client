@@ -1,6 +1,7 @@
 import arrayBufferToString from 'arraybuffer-to-string';
 import flatMap from 'lodash.flatmap';
 import uniq from 'lodash.uniq';
+import { remove } from 'lodash';
 import { checkResponse, splitSemicolons } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App';
@@ -57,8 +58,10 @@ export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi
     interaction.hiSymptoms.forEach((hiSymptom) => {
       hiSymptom.maturity = splitSemicolons(hiSymptom.maturity);
       hiSymptom.subSite = splitSemicolons(hiSymptom.subSite);
-      if (hiSymptom.isPrimary === 'Secondary (attacks stressed, injured or compromise') {
-        hiSymptom.isPrimary = 'Secondary (attacks stressed, injured, or compromised tissue)';
+      hiSymptom.isPrimary = splitSemicolons(hiSymptom.isPrimary);
+      if (hiSymptom.isPrimary.includes('Secondary (attacks stressed, injured or compromise')) {
+        remove(hiSymptom.isPrimary, 'Secondary (attacks stressed, injured or compromise');
+        hiSymptom.isPrimary.push('Secondary (attacks stressed, injured, or compromised tissue)');
       }
     });
     return interaction;
