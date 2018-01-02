@@ -106,11 +106,27 @@ export default class EditInteractions extends Component {
     e.preventDefault();
   }
 
+
+  onMapChange(county) {
+    const hi = { ...this.state.hi };
+    if (hi.countiesByRegions.includes(county)) {
+      remove(hi.countiesByRegions, element => element === county);
+      this.setState({ hi });
+      return;
+    }
+    hi.countiesByRegions.push(county);
+    this.setState({ hi });
+  }
+
   getHi() {
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
+      .then((interaction) => {
+        interaction.countiesByRegions = interaction.countiesByRegions.map(c => c.countyCode);
+        return interaction;
+      })
       .then(interaction => this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms }));
   }
 
@@ -122,7 +138,7 @@ export default class EditInteractions extends Component {
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
       onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange,
+      onHisymptomRadioChange, onMapChange,
     } = this;
     const entryProps = {
       agents,
@@ -141,6 +157,7 @@ export default class EditInteractions extends Component {
       onSubsiteSelectChange,
       onHisymptomMultiInputChange,
       onHisymptomRadioChange,
+      onMapChange,
     };
     return (
       <HiEntry

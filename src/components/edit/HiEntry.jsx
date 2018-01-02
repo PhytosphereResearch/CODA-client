@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
 import { TextInput, RadioGroup } from '../shared/FormInputs';
-import RangeMap from '../shared/RangeMap';
+import CAMap from './Map';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -11,6 +11,7 @@ const HiEntry = ({
   agents, oaks, selectedAgent, selectedOak, hi, hiSymptoms, references,
   onAgentSelected, onOakSelected, getHi, onInputChange, onMultiInputChange,
   onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
+  onMapChange,
 }) =>
   (
     <div>
@@ -45,8 +46,7 @@ const HiEntry = ({
           <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextInput title="Notes" value={hi.notes} name="notes" onChange={onInputChange} />
           <h4>Range</h4>
-          {hi.countiesByRegions.map(county => <div key={county.countyName}>{county.countyName}</div>)}
-          <RangeMap range={hi.rangeData} />
+          <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} />
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
           {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} />)}
@@ -72,6 +72,7 @@ HiEntry.propTypes = {
   onSubsiteSelectChange: PropTypes.func,
   onHisymptomMultiInputChange: PropTypes.func,
   onHisymptomRadioChange: PropTypes.func,
+  onMapChange: PropTypes.func,
 };
 
 export default HiEntry;
