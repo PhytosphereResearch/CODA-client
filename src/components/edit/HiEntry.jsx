@@ -11,7 +11,7 @@ const HiEntry = ({
   agents, oaks, selectedAgent, selectedOak, hi, hiSymptoms, references,
   onAgentSelected, onOakSelected, getHi, onInputChange, onMultiInputChange,
   onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
-  onMapChange,
+  onMapChange, onHiSubmit,
 }) =>
   (
     <div>
@@ -50,9 +50,10 @@ const HiEntry = ({
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
           {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} />)}
+          <button onClick={onHiSubmit}>Update</button>
         </div>
     ) : null}
-      {/* <button onClick={this.onInteractionSubmit}>SUBMIT</button> */}
+
     </div>
   );
 HiEntry.propTypes = {
@@ -73,6 +74,7 @@ HiEntry.propTypes = {
   onHisymptomMultiInputChange: PropTypes.func,
   onHisymptomRadioChange: PropTypes.func,
   onMapChange: PropTypes.func,
+  onHiSubmit: PropTypes.func,
 };
 
 export default HiEntry;

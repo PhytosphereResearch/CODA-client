@@ -141,3 +141,15 @@ export const addOrUpdateReference = (reference) => {
   })
     .then(checkResponse);
 };
+
+export const addOrUpdateHi = (hi) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  });
+  return fetch(`${url}/hi`, {
+    headers, method: 'POST', body: JSON.stringify(hi), mode: 'cors',
+  })
+    .then(checkResponse);
+};
