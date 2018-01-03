@@ -27,3 +27,7 @@ range-map svg {
 .inInteraction { /*highlight for counties in host/agent interaction*/
   fill: #9D0D2F;
 }
+
+path:focus {
+  outline: none;
+}
