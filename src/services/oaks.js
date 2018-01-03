@@ -33,7 +33,7 @@ export const getOak = id => fetch(`${url}/oaks/${id}`, { mode: 'cors' })
   .then(checkResponse)
   .then(getPlantCode)
   .then((oak) => {
-    oak.notes = arrayBufferToString(oak.notes.data).replace(/ -/g, '\n-');
+    oak.notes = oak.notes && arrayBufferToString(oak.notes.data).replace(/ -/g, '\n-');
     return oak;
   })
   .catch((err) => {
