@@ -13,7 +13,7 @@ export const getAllSymptoms = () => {
     .then(checkResponse)
     .then((symptoms) => {
       symptoms.forEach((symptom) => {
-        symptom.description = arrayBufferToString(symptom.description.data);
+        symptom.description = symptom.description && arrayBufferToString(symptom.description.data);
       });
       return symptoms;
     })
@@ -50,7 +50,7 @@ export const getInteractions = (plantPart, symptomId, oakId) => fetch(`${url}/in
 export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi?agentId=${interactionQuery.agentId}&oakId=${interactionQuery.oakId}`, { mode: 'cors' })
   .then(checkResponse)
   .then((interaction) => {
-    interaction.notes = arrayBufferToString(interaction.notes.data);
+    interaction.notes = interaction.notes && arrayBufferToString(interaction.notes.data);
     interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
     interaction.situation = splitSemicolons(interaction.situation);
     interaction.rangeData = interaction.countiesByRegions.map(county => county.countyCode);
@@ -80,16 +80,16 @@ export const getInteraction = id => fetch(`${url}/hi/${id}`, { mode: 'cors' })
     const {
       authority, genus, species, subspecies,
     } = primarySynonym;
-    interaction.agent.notes = arrayBufferToString(interaction.agent.notes.data).replace(/ -/g, '\n-');
+    interaction.agent.notes = interaction.agent.notes && arrayBufferToString(interaction.agent.notes.data).replace(/ -/g, '\n-');
     interaction.agent = {
       ...interaction.agent, authority, genus, species, subspecies, synonyms,
     };
     // decode notes
-    interaction.notes = arrayBufferToString(interaction.notes.data).replace(/ -/g, '\n-');
+    interaction.notes = interaction.notes && arrayBufferToString(interaction.notes.data).replace(/ -/g, '\n-');
     // decode citation titles and notes
     interaction.bibs.forEach((bib) => {
-      bib.title = arrayBufferToString(bib.title.data);
-      bib.notes = arrayBufferToString(bib.notes.data).replace(/ -/g, '\n-');
+      bib.title = bib.title && arrayBufferToString(bib.title.data);
+      bib.notes = bib.notes && arrayBufferToString(bib.notes.data).replace(/ -/g, '\n-');
     });
     // map interaction range data
     interaction.range = interaction.countiesByRegions.map(county => county.countyCode);
@@ -120,8 +120,8 @@ export const getReferences = () => {
   return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then(references => references.map((reference) => {
-      reference.title = arrayBufferToString(reference.title.data);
-      reference.notes = arrayBufferToString(reference.notes.data);
+      reference.title = reference.title && arrayBufferToString(reference.title.data);
+      reference.notes = reference.notes && arrayBufferToString(reference.notes.data);
       return reference;
     }))
     .catch((err) => {
@@ -138,6 +138,18 @@ export const addOrUpdateReference = (reference) => {
   });
   return fetch(`${url}/bib`, {
     headers, method: 'POST', body: JSON.stringify(reference), mode: 'cors',
+  })
+    .then(checkResponse);
+};
+
+export const addOrUpdateHi = (hi) => {
+  const headers = new Headers({
+    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  });
+  return fetch(`${url}/hi`, {
+    headers, method: 'POST', body: JSON.stringify(hi), mode: 'cors',
   })
     .then(checkResponse);
 };

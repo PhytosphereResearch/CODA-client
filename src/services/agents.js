@@ -53,11 +53,11 @@ export const getAgent = id => fetch(`${url}/agent/${id}`, { mode: 'cors' })
   })
   .then((agent) => {
     agent.synonyms.forEach((synonym) => {
-      synonym.notes = arrayBufferToString(synonym.notes.data).replace(/ -/g, '\n-');
+      synonym.notes = synonym.notes && arrayBufferToString(synonym.notes.data).replace(/ -/g, '\n-');
     });
     agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
     agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
-    agent.notes = arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');
+    agent.notes = agent.notes && arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');
     agent.rangeData = [];
     agent.hosts = [];
     agent.hostInteractions.forEach((interaction) => { // iterate over interactions

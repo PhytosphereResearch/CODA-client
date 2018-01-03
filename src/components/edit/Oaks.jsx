@@ -61,7 +61,7 @@ export default class EditOaks extends Component {
   }
 
   render() {
-    const options = this.props.options;
+    const { options } = this.props;
     const { selected, selectedOak } = this.state;
 
     return (

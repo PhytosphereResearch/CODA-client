@@ -4,7 +4,7 @@ import autobind from 'react-autobind';
 import remove from 'lodash/remove';
 import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
-import { getInteractionsByOakAndAgent } from '../../services/interactions';
+import { getInteractionsByOakAndAgent, addOrUpdateHi } from '../../services/interactions';
 import HiEntry from './HiEntry';
 
 export default class EditInteractions extends Component {
@@ -118,6 +118,22 @@ export default class EditInteractions extends Component {
     this.setState({ hi });
   }
 
+
+  onHiSubmit() {
+    const hi = { ...this.state.hi };
+    const hiSymptoms = { ...this.state.hiSymptoms };
+    hi.hiSymptoms = hiSymptoms;
+    addOrUpdateHi(hi)
+      .then(() => this.setState({
+        selectedAgent: undefined,
+        hiAgent: undefined,
+        selectedOak: undefined,
+        hiOak: undefined,
+        hi: undefined,
+        hiSymptoms: undefined,
+      }));
+  }
+
   getHi() {
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
@@ -138,7 +154,7 @@ export default class EditInteractions extends Component {
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
       onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange, onMapChange,
+      onHisymptomRadioChange, onMapChange, onHiSubmit,
     } = this;
     const entryProps = {
       agents,
@@ -158,6 +174,7 @@ export default class EditInteractions extends Component {
       onHisymptomMultiInputChange,
       onHisymptomRadioChange,
       onMapChange,
+      onHiSubmit,
     };
     return (
       <HiEntry
