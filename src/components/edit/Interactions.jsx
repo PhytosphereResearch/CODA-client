@@ -6,6 +6,7 @@ import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent, addOrUpdateHi } from '../../services/interactions';
 import HiEntry from './HiEntry';
+import { FullScreenSpinner } from '../shared/shapes';
 
 export default class EditInteractions extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export default class EditInteractions extends Component {
       hiOak: undefined,
       hi: undefined,
       hiSymptoms: undefined,
+      loading: false,
     };
     autobind(this);
   }
@@ -120,9 +122,16 @@ export default class EditInteractions extends Component {
 
 
   onHiSubmit() {
+    this.setState({ loading: true });
     const hi = { ...this.state.hi };
     const hiSymptoms = { ...this.state.hiSymptoms };
     hi.bibs = hi.bibs.map(bib => bib.value);
+    for (var key in hiSymptoms) {
+      const symptom = hiSymptoms[key];
+      symptom.isPrimary = symptom.isPrimary.join(';');
+      symptom.maturity = symptom.maturity.join(';');
+      symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';');
+    }
     hi.hiSymptoms = hiSymptoms;
     addOrUpdateHi(hi)
       .then(() => this.setState({
@@ -132,10 +141,13 @@ export default class EditInteractions extends Component {
         hiOak: undefined,
         hi: undefined,
         hiSymptoms: undefined,
-      }));
+        loading: false,
+      }))
+      .catch(() => this.setState({ loading: false }))
   }
 
   getHi() {
+    this.setState({ loading: true })
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
@@ -144,13 +156,14 @@ export default class EditInteractions extends Component {
         interaction.countiesByRegions = interaction.countiesByRegions.map(c => c.countyCode);
         return interaction;
       })
-      .then(interaction => this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms }));
+      .then(interaction => this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms, loading: false }))
+      .catch(() => this.setState({ loading: false }));
   }
 
   render() {
     const { agents, oaks, references } = this.props;
     const {
-      selectedAgent, selectedOak, hi, hiSymptoms,
+      selectedAgent, selectedOak, hi, hiSymptoms, loading,
     } = this.state;
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
@@ -178,9 +191,9 @@ export default class EditInteractions extends Component {
       onHiSubmit,
     };
     return (
-      <HiEntry
-        {...entryProps}
-      />
+      <div>
+        { loading ? <FullScreenSpinner /> : <HiEntry {...entryProps} /> }
+      </div>
     );
   }
 }

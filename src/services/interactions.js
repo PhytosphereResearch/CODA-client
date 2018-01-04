@@ -55,6 +55,7 @@ export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi
     interaction.situation = splitSemicolons(interaction.situation);
     interaction.rangeData = interaction.countiesByRegions.map(county => county.countyCode);
     interaction.bibs = interaction.bibs.map(bib => ({ label: bib.description, value: bib.id }));
+    interaction.countiesByRegions = interaction.countiesByRegions || [];
     interaction.hiSymptoms.forEach((hiSymptom) => {
       hiSymptom.maturity = splitSemicolons(hiSymptom.maturity);
       hiSymptom.subSite = splitSemicolons(hiSymptom.subSite);
