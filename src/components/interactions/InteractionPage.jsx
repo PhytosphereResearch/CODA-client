@@ -26,7 +26,6 @@ export default class InteractionPage extends Component {
   render() {
     const { interaction } = this.state;
     const { oak, agent } = interaction;
-    console.log(interaction)
     if (this.state.loading) {
       return <Spinner />;
     }
