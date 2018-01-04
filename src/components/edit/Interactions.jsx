@@ -122,6 +122,7 @@ export default class EditInteractions extends Component {
   onHiSubmit() {
     const hi = { ...this.state.hi };
     const hiSymptoms = { ...this.state.hiSymptoms };
+    hi.bibs = hi.bibs.map(bib => bib.value);
     hi.hiSymptoms = hiSymptoms;
     addOrUpdateHi(hi)
       .then(() => this.setState({
