@@ -8,10 +8,10 @@ import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';
 
 const HiEntry = ({
-  agents, oaks, selectedAgent, selectedOak, hi, hiSymptoms, references,
+  agents, oaks, symptoms, selectedAgent, selectedOak, hi, hiSymptoms, references,
   onAgentSelected, onOakSelected, getHi, onInputChange, onMultiInputChange,
   onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
-  onMapChange, onHiSubmit,
+  onMapChange, onSymptomChange, onHiSubmit,
 }) =>
   (
     <div>
@@ -49,7 +49,7 @@ const HiEntry = ({
           <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} />
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
-          {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} />)}
+          {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} />)}
           <button onClick={onHiSubmit}>Update</button>
         </div>
     ) : null}
@@ -59,6 +59,7 @@ const HiEntry = ({
 HiEntry.propTypes = {
   agents: PropTypes.array,
   oaks: PropTypes.array,
+  symptoms: PropTypes.array,
   selectedAgent: PropTypes.object,
   selectedOak: PropTypes.object,
   hi: PropTypes.object,

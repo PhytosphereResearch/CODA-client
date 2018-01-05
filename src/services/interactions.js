@@ -61,7 +61,7 @@ export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi
       hiSymptom.subSite = splitSemicolons(hiSymptom.subSite);
       hiSymptom.isPrimary = splitSemicolons(hiSymptom.isPrimary);
       if (hiSymptom.isPrimary.includes('Secondary (attacks stressed, injured or compromise')) {
-        remove(hiSymptom.isPrimary, 'Secondary (attacks stressed, injured or compromise');
+        remove(hiSymptom.isPrimary, element => element === 'Secondary (attacks stressed, injured or compromise');
         hiSymptom.isPrimary.push('Secondary (attacks stressed, injured, or compromised tissue)');
       }
     });

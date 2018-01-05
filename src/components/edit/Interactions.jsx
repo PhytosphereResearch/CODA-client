@@ -65,7 +65,6 @@ export default class EditInteractions extends Component {
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     const inputArray = hiSymptToUpdate[e.target.name];
     const { value } = e.target;
-
     if (inputArray.includes(value)) {
       remove(inputArray, element => element === value);
       this.setState({ hiSymptoms });
@@ -101,6 +100,13 @@ export default class EditInteractions extends Component {
     const hiSymptoms = [...this.state.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     hiSymptToUpdate.subSite = options;
+    this.setState({ hiSymptoms });
+  }
+
+  onSymptomChange(id, options) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
+    hiSymptToUpdate.symptoms = options;
     this.setState({ hiSymptoms });
   }
 
@@ -143,11 +149,11 @@ export default class EditInteractions extends Component {
         hiSymptoms: undefined,
         loading: false,
       }))
-      .catch(() => this.setState({ loading: false }))
+      .catch(() => this.setState({ loading: false }));
   }
 
   getHi() {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     const hiQuery = {};
     hiQuery.agentId = this.state.hiAgent.id;
     hiQuery.oakId = this.state.hiOak.id;
@@ -161,19 +167,20 @@ export default class EditInteractions extends Component {
   }
 
   render() {
-    const { agents, oaks, references } = this.props;
+    const { agents, oaks, references, symptoms } = this.props;
     const {
       selectedAgent, selectedOak, hi, hiSymptoms, loading,
     } = this.state;
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
       onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange, onMapChange, onHiSubmit,
+      onHisymptomRadioChange, onMapChange, onSymptomChange, onHiSubmit,
     } = this;
     const entryProps = {
       agents,
       oaks,
       references,
+      symptoms,
       selectedAgent,
       selectedOak,
       hi,
@@ -188,6 +195,7 @@ export default class EditInteractions extends Component {
       onHisymptomMultiInputChange,
       onHisymptomRadioChange,
       onMapChange,
+      onSymptomChange,
       onHiSubmit,
     };
     return (
@@ -201,5 +209,6 @@ export default class EditInteractions extends Component {
 EditInteractions.propTypes = {
   oaks: PropTypes.array,
   agents: PropTypes.array,
+  symptoms: PropTypes.array,
   references: PropTypes.array,
 };
