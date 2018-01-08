@@ -21,7 +21,7 @@ const HiEntry = ({
         options={agents}
         onChange={onAgentSelected}
         value={selectedAgent}
-        placeholder="Type to search by species or common name"
+        placeholder="Search by synonym"
         style={{ marginBottom: '15px' }}
       />
       <h4>Find an oak</h4>
@@ -29,7 +29,7 @@ const HiEntry = ({
         options={oaks}
         onChange={onOakSelected}
         value={selectedOak}
-        placeholder="Type to search by species or common name"
+        placeholder="Search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <button
@@ -46,7 +46,7 @@ const HiEntry = ({
           <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
-          <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} />
+          <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} editable />
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
           {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} />)}

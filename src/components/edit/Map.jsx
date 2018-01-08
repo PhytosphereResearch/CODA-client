@@ -59,6 +59,9 @@ export default class CAMap extends Component {
   }
 
   handleClick(e) {
+    if (!this.props.editable) {
+      return;
+    }
     const county = e.properties.name;
     this.props.onMapChange(county);
   }
@@ -81,10 +84,10 @@ export default class CAMap extends Component {
               {county}
           </div>
         )}
-        <ComposableMap projectionConfig={{
+        <ComposableMap width={300} height={450} projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={1} disablePanning center={[-110, 37.3]}>
+          <ZoomableGroup zoom={1} disablePanning center={[-119, 37.3]}>
             <Geographies geography={counties} disableOptimization>
               {(geographies, projection) => geographies.map(geography => (
                 <Geography
@@ -108,4 +111,5 @@ export default class CAMap extends Component {
 CAMap.propTypes = {
   countyRange: PropTypes.array,
   onMapChange: PropTypes.func,
+  editable: PropTypes.bool,
 };

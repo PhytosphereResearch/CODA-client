@@ -7,6 +7,7 @@ import { Spinner } from '../shared/shapes';
 import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from '../shared/partials';
 import Reference from './Reference';
 import Symptom from './Symptom';
+import CAMap from '../edit/Map';
 
 export default class InteractionPage extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ export default class InteractionPage extends Component {
   render() {
     const { interaction } = this.state;
     const { oak, agent } = interaction;
+    console.log(interaction)
     if (this.state.loading) {
       return <Spinner />;
     }
@@ -54,7 +56,7 @@ export default class InteractionPage extends Component {
           {/* Range map */}
           <div style={{ float: 'right' }}>
             <h3>Reported agent range</h3>
-            <RangeMap interactionRange={interaction.range} range={interaction.agentRange} />
+            <CAMap countyRange={interaction.range} />
           </div>
           {/* Data on this interaction */}
           <div>
