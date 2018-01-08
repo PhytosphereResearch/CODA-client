@@ -68,7 +68,7 @@ export default class EditSymptoms extends Component {
           options={options}
           onChange={this.onSymptomSelected}
           value={selected}
-          placeholder="Search by symptom"
+          placeholder="Type to search by symptom"
           style={{ marginBottom: '15px' }}
         />
         <h4>{this.state.selected ? 'Edit a Symptom:' : 'Add a Symptom:'}</h4>

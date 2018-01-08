@@ -56,7 +56,7 @@ export default class EditReferences extends Component {
           options={options}
           onChange={this.onRefSelected}
           value={selected}
-          placeholder="Search by reference"
+          placeholder="Type to search by reference"
           style={{ marginBottom: '15px' }}
         />
         <h4>{this.state.selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
