@@ -134,7 +134,7 @@ export default class EditInteractions extends Component {
       const symptom = hiSymptoms[key];
       symptom.isPrimary = symptom.isPrimary.join(';');
       symptom.maturity = symptom.maturity.join(';');
-      symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';');
+      symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';') || '';
     });
     hi.hiSymptoms = hiSymptoms;
     addOrUpdateHi(hi)
@@ -177,9 +177,9 @@ export default class EditInteractions extends Component {
     getInteractionsByOakAndAgent(hiQuery)
       .then((interaction) => {
         interaction.countiesByRegions = interaction.countiesByRegions.map(c => c.countyCode);
-        return interaction;
-      })
-      .then((interaction) => {
+        interaction.hiSymptoms.forEach((hiSymptom) => {
+          hiSymptom.subSite = hiSymptom.subSite.map(s => ({ label: s, value: s }));
+        });
         const symptPlantParts = interaction.hiSymptoms.map(hiSymptom => hiSymptom.plantPart);
         const plantParts = PLANT_PARTS.filter(plantPart => !symptPlantParts.includes(plantPart));
         this.setState({

@@ -57,9 +57,9 @@ export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi
     interaction.bibs = interaction.bibs.map(bib => ({ label: bib.description, value: bib.id }));
     interaction.countiesByRegions = interaction.countiesByRegions || [];
     interaction.hiSymptoms.forEach((hiSymptom) => {
-      hiSymptom.maturity = splitSemicolons(hiSymptom.maturity);
-      hiSymptom.subSite = splitSemicolons(hiSymptom.subSite);
-      hiSymptom.isPrimary = splitSemicolons(hiSymptom.isPrimary);
+      hiSymptom.maturity = hiSymptom.maturity ? splitSemicolons(hiSymptom.maturity) : [];
+      hiSymptom.subSite = hiSymptom.subSite ? splitSemicolons(hiSymptom.subSite) : [];
+      hiSymptom.isPrimary = hiSymptom.isPrimary ? splitSemicolons(hiSymptom.isPrimary) : [];
       if (hiSymptom.isPrimary.includes('Secondary (attacks stressed, injured or compromise')) {
         remove(hiSymptom.isPrimary, element => element === 'Secondary (attacks stressed, injured or compromise');
         hiSymptom.isPrimary.push('Secondary (attacks stressed, injured, or compromised tissue)');
