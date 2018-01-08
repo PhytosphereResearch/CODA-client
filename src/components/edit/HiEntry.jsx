@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
-import { TextInput, RadioGroup } from '../shared/FormInputs';
+import { TextArea, RadioGroup } from '../shared/FormInputs';
 import CAMap from './Map';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
@@ -44,7 +44,7 @@ const HiEntry = ({
           <RadioGroup title="Questionable" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={onInputChange} />
           <ButtonGroup title="Situation" selected={hi.situation} name="situation" options={SITUATION} onClick={onMultiInputChange} />
           <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
-          <TextInput title="Notes" value={hi.notes} name="notes" onChange={onInputChange} />
+          <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
           <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} />
           <h4>References</h4>
