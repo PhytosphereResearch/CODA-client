@@ -146,6 +146,7 @@ export default class EditInteractions extends Component {
         hi: undefined,
         hiSymptoms: undefined,
         loading: false,
+        searchPerformed: false,
       }))
       .catch(() => this.setState({ loading: false }));
   }
