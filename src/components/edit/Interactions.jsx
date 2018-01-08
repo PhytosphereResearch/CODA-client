@@ -20,7 +20,8 @@ export default class EditInteractions extends Component {
       hi: undefined,
       hiSymptoms: undefined,
       loading: false,
-      plantParts: []
+      searchPerformed: false,
+      plantParts: [],
     };
     autobind(this);
   }
@@ -112,11 +113,6 @@ export default class EditInteractions extends Component {
     this.setState({ hiSymptoms });
   }
 
-  onInteractionSubmit(e) {
-    e.preventDefault();
-  }
-
-
   onMapChange(county) {
     const hi = { ...this.state.hi };
     if (hi.countiesByRegions.includes(county)) {
@@ -134,12 +130,12 @@ export default class EditInteractions extends Component {
     const hi = { ...this.state.hi };
     const hiSymptoms = { ...this.state.hiSymptoms };
     hi.bibs = hi.bibs.map(bib => bib.value);
-    for (var key in hiSymptoms) {
+    Object.keys(hiSymptoms).forEach((key) => {
       const symptom = hiSymptoms[key];
       symptom.isPrimary = symptom.isPrimary.join(';');
       symptom.maturity = symptom.maturity.join(';');
       symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';');
-    }
+    });
     hi.hiSymptoms = hiSymptoms;
     addOrUpdateHi(hi)
       .then(() => this.setState({
@@ -183,17 +179,21 @@ export default class EditInteractions extends Component {
         return interaction;
       })
       .then((interaction) => {
-        const symptPlantParts = interaction.hiSymptoms.map(hiSymptom => hiSymptom.plantPart)
-        const plantParts = PLANT_PARTS.filter(plantPart => !symptPlantParts.includes(plantPart))
-        this.setState({ hi: interaction, hiSymptoms: interaction.hiSymptoms, plantParts, loading: false })
+        const symptPlantParts = interaction.hiSymptoms.map(hiSymptom => hiSymptom.plantPart);
+        const plantParts = PLANT_PARTS.filter(plantPart => !symptPlantParts.includes(plantPart));
+        this.setState({
+          hi: interaction, hiSymptoms: interaction.hiSymptoms, plantParts, loading: false, searchPerformed: true,
+        });
       })
-      .catch(() => this.setState({ loading: false }));
+      .catch(() => this.setState({ loading: false, searchPerformed: true, hi: undefined }));
   }
 
   render() {
-    const { agents, oaks, references, symptoms } = this.props;
     const {
-      selectedAgent, selectedOak, hi, hiSymptoms, plantParts, loading,
+      agents, oaks, references, symptoms,
+    } = this.props;
+    const {
+      selectedAgent, selectedOak, hi, hiSymptoms, plantParts, loading, searchPerformed,
     } = this.state;
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
@@ -227,6 +227,7 @@ export default class EditInteractions extends Component {
     return (
       <div>
         { loading ? <FullScreenSpinner /> : <HiEntry {...entryProps} /> }
+        { (searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recored in CODA.</h3></div> }
       </div>
     );
   }
