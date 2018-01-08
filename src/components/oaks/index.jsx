@@ -34,7 +34,7 @@ export default class Oaks extends Component {
           options={options}
           onChange={this.onOakSelected}
           value={selected}
-          placeholder="Search by species or common name"
+          placeholder="Type to search by species or common name"
           style={{ marginBottom: '15px' }}
         />
         <Switch>

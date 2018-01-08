@@ -56,7 +56,7 @@ export default class HiSymptom extends Component {
           options={symptoms}
           onChange={this.onSymptomChange}
           value={symptomList}
-          placeholder="Search by symptom"
+          placeholder="Type to search by symptom"
           style={{ marginBottom: '15px' }}
           multi
         />

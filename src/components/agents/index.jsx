@@ -33,7 +33,7 @@ export default class Agents extends Component {
           options={options}
           onChange={this.onAgentSelected}
           value={selected}
-          placeholder="Search by species or common name"
+          placeholder="Type to search by species or common name"
           style={{ marginBottom: '15px' }}
         />
         <Switch>
