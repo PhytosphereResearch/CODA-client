@@ -109,12 +109,16 @@ export const getInteraction = id => fetch(`${url}/hi/${id}`, { mode: 'cors' })
     return {};
   });
 
-export const getSubSites = () => fetch(`${url}/hi/symptoms`, { mode: 'cors ' })
-  .then(res => res.json())
-  .catch((err) => {
-    console.warn(err);
-    return [];
-  });
+export const getSubSites = () => {
+  const headers = new Headers();
+  return fetch(`${url}/hi/symptoms`, { headers, method: 'GET', mode: 'cors' })
+    .then(res => res.json())
+    .catch((err) => {
+      console.warn(err);
+      return [];
+    });
+};
+
 
 export const getReferences = () => {
   const headers = new Headers();
