@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
 import { TextArea, RadioGroup } from '../shared/FormInputs';
-import CAMap from './Map';
+import CAMap from '../shared/Map';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -46,7 +46,7 @@ const HiEntry = ({
           <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
-          <CAMap countyRange={hi.countiesByRegions} onMapChange={onMapChange} />
+          <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
           {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} />)}

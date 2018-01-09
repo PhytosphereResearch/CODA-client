@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
-import RangeMap from '../shared/RangeMap';
 import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
+import CAMap from '../shared/Map';
 
 export default class Agent extends Component {
   constructor(props) {
@@ -65,7 +65,7 @@ export default class Agent extends Component {
         <div style={{ clear: 'both' }}>
           {/* <div style={{ flex: '1' }}> */}
           <div style={{ float: 'right' }}><b>Reported range</b> <br />
-            <RangeMap range={agent.rangeData} />
+            <CAMap interactionRange={[]} agentRange={agent.rangeData} />
           </div>
           <p />
           { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }

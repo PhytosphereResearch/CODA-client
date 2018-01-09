@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getInteraction } from '../../services/interactions';
-import RangeMap from '../shared/RangeMap';
 import { Spinner } from '../shared/shapes';
 import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from '../shared/partials';
 import Reference from './Reference';
 import Symptom from './Symptom';
+import CAMap from '../shared/Map';
 
 export default class InteractionPage extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ export default class InteractionPage extends Component {
           {/* Range map */}
           <div style={{ float: 'right' }}>
             <h3>Reported agent range</h3>
-            <RangeMap interactionRange={interaction.range} range={interaction.agentRange} />
+            <CAMap interactionRange={interaction.range} agentRange={interaction.agentRange} />
           </div>
           {/* Data on this interaction */}
           <div>

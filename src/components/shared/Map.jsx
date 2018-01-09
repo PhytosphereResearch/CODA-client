@@ -18,13 +18,26 @@ const baseStyle = {
   },
 };
 
-const rangeStyle = {
+const interactionStyle = {
   default: {
     ...baseStyle.default,
     fill: '#9D0D2F',
   },
   hover: {
     fill: '#870826',
+  },
+  pressed: {
+    fill: '#BBB',
+  },
+};
+
+const rangeStyle = {
+  default: {
+    ...baseStyle.default,
+    fill: '#d0113e',
+  },
+  hover: {
+    fill: '#b21339',
   },
   pressed: {
     fill: '#BBB',
@@ -59,13 +72,16 @@ export default class CAMap extends Component {
   }
 
   handleClick(e) {
+    if (!this.props.editable) {
+      return;
+    }
     const county = e.properties.name;
     this.props.onMapChange(county);
   }
 
   render() {
     const { mouseX, mouseY, county } = this.state;
-    const { countyRange } = this.props;
+    const { interactionRange, agentRange } = this.props;
     return (
       <div >
         {county && (
@@ -81,31 +97,57 @@ export default class CAMap extends Component {
               {county}
           </div>
         )}
-        <ComposableMap projectionConfig={{
+        <ComposableMap
+          width={300}
+          height={450}
+          projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={1} disablePanning center={[-110, 37.3]}>
+          <ZoomableGroup zoom={1} disablePanning center={[-119, 37.3]}>
             <Geographies geography={counties} disableOptimization>
-              {(geographies, projection) => geographies.map(geography => (
-                <Geography
-                  key={geography.id}
-                  geography={geography}
-                  projection={projection}
-                  style={countyRange.find(c => c === geography.properties.name) ? rangeStyle : baseStyle}
-                  onMouseMove={this.handleMove}
-                  onMouseLeave={this.handleMove}
-                  onClick={this.handleClick}
-                />
-                  ))}
+              {(geographies, projection) => geographies.map((geography) => {
+                let style = baseStyle;
+                if (interactionRange.find(c => c === geography.properties.name)) {
+                  style = interactionStyle;
+                } else if (agentRange.find(c => c === geography.properties.name)) {
+                  style = rangeStyle;
+                }
+                return (
+                  <Geography
+                    key={geography.id}
+                    geography={geography}
+                    projection={projection}
+                    style={style}
+                    onMouseMove={this.handleMove}
+                    onMouseLeave={this.handleMove}
+                    onClick={this.handleClick}
+                  />
+                );
+              })}
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
+        { interactionRange.length && agentRange.length ?
+          <div>
+            <span>
+              <div className="mapKey" style={{ backgroundColor: interactionStyle.default.fill }} />
+            Interaction Range
+            </span>
+            <span>
+              <div className="mapKey" style={{ backgroundColor: rangeStyle.default.fill }} />
+            Agent Range
+            </span>
+          </div>
+        : null
+      }
       </div>
     );
   }
 }
 
 CAMap.propTypes = {
-  countyRange: PropTypes.array,
+  interactionRange: PropTypes.array,
+  agentRange: PropTypes.array,
   onMapChange: PropTypes.func,
+  editable: PropTypes.bool,
 };

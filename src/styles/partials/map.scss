@@ -28,6 +28,14 @@ range-map svg {
   fill: #9D0D2F;
 }
 
+.mapKey {
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  margin: 0px 5px;
+  display: inline-block;
+}
+
 path:focus {
   outline: none;
 }
