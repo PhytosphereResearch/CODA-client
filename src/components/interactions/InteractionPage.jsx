@@ -14,13 +14,14 @@ export default class InteractionPage extends Component {
     this.state = {
       interaction: {},
       loading: false,
+      mapLoading: false,
     };
   }
 
   componentWillMount() {
     this.setState({ loading: true });
     getInteraction(this.props.match.params.id)
-      .then(interaction => this.setState({ interaction, loading: false }));
+      .then(interaction => this.setState({ interaction, loading: false, mapLoading: true }));
   }
 
   render() {
@@ -54,7 +55,7 @@ export default class InteractionPage extends Component {
           {/* Range map */}
           <div style={{ float: 'right' }}>
             <h3>Reported agent range</h3>
-            <CAMap interactionRange={interaction.range} agentRange={interaction.agentRange} />
+            {this.state.mapLoading ? <Spinner /> : <CAMap interactionRange={interaction.range} agentRange={interaction.agentRange} />}
           </div>
           {/* Data on this interaction */}
           <div>
