@@ -5,6 +5,7 @@ import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy }
 import RangeMap from '../shared/RangeMap';
 import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
+import CAMap from '../edit/Map';
 
 export default class Agent extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export default class Agent extends Component {
         <div style={{ clear: 'both' }}>
           {/* <div style={{ flex: '1' }}> */}
           <div style={{ float: 'right' }}><b>Reported range</b> <br />
-            <RangeMap range={agent.rangeData} />
+            <CAMap interactionRange={[]} agentRange={agent.rangeData} />
           </div>
           <p />
           { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }

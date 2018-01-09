@@ -21,7 +21,7 @@ const HiEntry = ({
         options={agents}
         onChange={onAgentSelected}
         value={selectedAgent}
-        placeholder="Search by synonym"
+        placeholder="Type to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <h4>Find an oak</h4>
@@ -29,7 +29,7 @@ const HiEntry = ({
         options={oaks}
         onChange={onOakSelected}
         value={selectedOak}
-        placeholder="Search by species or common name"
+        placeholder="Type to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <button

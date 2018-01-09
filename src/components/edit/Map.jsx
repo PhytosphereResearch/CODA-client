@@ -127,6 +127,19 @@ export default class CAMap extends Component {
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
+        { interactionRange.length && agentRange.length ?
+          <div>
+            <span>
+              <div className="mapKey" style={{ backgroundColor: interactionStyle.default.fill }} />
+            Interaction Range
+            </span>
+            <span>
+              <div className="mapKey" style={{ backgroundColor: rangeStyle.default.fill }} />
+            Agent Range
+            </span>
+          </div>
+        : null
+      }
       </div>
     );
   }
