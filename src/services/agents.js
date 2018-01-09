@@ -1,4 +1,6 @@
 import arrayBufferToString from 'arraybuffer-to-string';
+import flatMap from 'lodash.flatmap';
+import uniq from 'lodash.uniq';
 import { checkResponse } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App';
@@ -58,13 +60,9 @@ export const getAgent = id => fetch(`${url}/agent/${id}`, { mode: 'cors' })
     agent.primarySynonym = agent.synonyms.find(synonym => synonym.isPrimary);
     agent.otherSynonyms = agent.synonyms.filter(synonym => !synonym.isPrimary);
     agent.notes = agent.notes && arrayBufferToString(agent.notes.data).replace(/ -/g, '\n-');
-    agent.rangeData = [];
+    agent.rangeData = uniq(flatMap(agent.hostInteractions, int => int.countiesByRegions.map(c => c.countyCode)));
     agent.hosts = [];
     agent.hostInteractions.forEach((interaction) => { // iterate over interactions
-      interaction.countiesByRegions.forEach((county) => {
-        // extract all range data into a single array
-        agent.rangeData.push(county.countyCode);
-      });
       interaction.oak.interactionId = interaction.id;
       agent.hosts.push(interaction.oak);
     });
