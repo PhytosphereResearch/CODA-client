@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-virtualized-select';
 import { TextArea, RadioGroup } from '../shared/FormInputs';
-import CAMap from './Map';
+import CAMap from '../shared/Map';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
 import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';

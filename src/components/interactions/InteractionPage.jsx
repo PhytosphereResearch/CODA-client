@@ -6,7 +6,7 @@ import { Spinner } from '../shared/shapes';
 import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from '../shared/partials';
 import Reference from './Reference';
 import Symptom from './Symptom';
-import CAMap from '../edit/Map';
+import CAMap from '../shared/Map';
 
 export default class InteractionPage extends Component {
   constructor(props) {

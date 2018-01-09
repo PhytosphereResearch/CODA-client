@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
-import RangeMap from '../shared/RangeMap';
 import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
-import CAMap from '../edit/Map';
+import CAMap from '../shared/Map';
 
 export default class Agent extends Component {
   constructor(props) {
