@@ -95,8 +95,8 @@ export const getInteraction = id => fetch(`${url}/hi/${id}`, { mode: 'cors' })
     // map interaction range data
     interaction.range = interaction.countiesByRegions.map(county => county.countyCode);
     // sort direct and indirect symptoms
-    interaction.directSymptoms = interaction.hiSymptoms ? interaction.hiSymptoms.filter(s => !s.isIndirect) : [];
-    interaction.indirectSymptoms = interaction.hiSymptoms ? interaction.hiSymptoms.filter(s => s.isIndirect) : [];
+    interaction.directSymptoms = interaction.hiSymptoms.filter(s => !s.isIndirect);
+    interaction.indirectSymptoms = interaction.hiSymptoms.filter(s => s.isIndirect);
     // return updated record
     return interaction;
   })
