@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getInteraction } from '../../services/interactions';
+import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
 import { ScientificName, CommonName, AgentTaxonomy, Synonyms, Notes, CalPhotos } from '../shared/partials';
 import Reference from './Reference';
@@ -14,14 +15,23 @@ export default class InteractionPage extends Component {
     this.state = {
       interaction: {},
       loading: false,
-      mapLoading: false,
+      mapLoading: true,
     };
   }
 
   componentWillMount() {
     this.setState({ loading: true });
     getInteraction(this.props.match.params.id)
-      .then(interaction => this.setState({ interaction, loading: false, mapLoading: true }));
+      .then(interaction => this.setState({ interaction, loading: false }))
+      .then(() => {
+        const id = this.state.interaction.agentId;
+        getAgent(id)
+          .then((agent) => {
+            const interaction = { ...this.state.interaction };
+            interaction.agentRange = agent.rangeData;
+            this.setState({ interaction, mapLoading: false });
+          });
+      });
   }
 
   render() {
