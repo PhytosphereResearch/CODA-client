@@ -22,6 +22,7 @@ export default class EditInteractions extends Component {
       loading: false,
       searchPerformed: false,
       plantParts: [],
+      newHi: false,
     };
     autobind(this);
   }
@@ -56,10 +57,10 @@ export default class EditInteractions extends Component {
     if (inputArray.includes(value)) {
       const index = inputArray.indexOf(value);
       inputArray.splice(index, 1);
-      this.setState({ ...this.state.hi, [e.target.name]: inputArray });
+      this.setState({ hi });
     } else {
       inputArray.push(value);
-      this.setState({ ...this.state.hi, [e.target.name]: inputArray });
+      this.setState({ hi });
     }
   }
 
@@ -132,6 +133,9 @@ export default class EditInteractions extends Component {
     hi.bibs = hi.bibs.map(bib => bib.value);
     Object.keys(hiSymptoms).forEach((key) => {
       const symptom = hiSymptoms[key];
+      if (typeof symptom.id !== 'number') {
+        delete symptom.id;
+      }
       symptom.isPrimary = symptom.isPrimary.join(';');
       symptom.maturity = symptom.maturity.join(';');
       symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';') || '';
@@ -147,6 +151,7 @@ export default class EditInteractions extends Component {
         hiSymptoms: undefined,
         loading: false,
         searchPerformed: false,
+        newHi: false,
       }))
       .catch(() => this.setState({ loading: false }));
   }
@@ -155,18 +160,43 @@ export default class EditInteractions extends Component {
     const plantPartToAdd = e.target.value;
     const hiSymptoms = [...this.state.hiSymptoms];
     const plantParts = [...this.state.plantParts];
+    const existingPlantPart = hiSymptoms.find(hiSymptom => hiSymptom.plantPart === plantPartToAdd);
+    const plantPartExists = existingPlantPart ? true : false;
+    const indirect = existingPlantPart ? !existingPlantPart.isIndirect : false;
     const baseHiSymptom = {
+      id: plantPartToAdd + plantPartExists,
       hostInteractionId: this.state.hi.id,
       plantPart: plantPartToAdd,
-      isIndirect: false,
+      isIndirect: indirect,
       isPrimary: [''],
       maturity: [''],
       subSite: [],
       symptoms: [],
     };
     hiSymptoms.push(baseHiSymptom);
-    remove(plantParts, plantPart => plantPart === plantPartToAdd);
+    if (plantPartExists) {
+      remove(plantParts, plantPart => plantPart === plantPartToAdd);
+    }
     this.setState({ hiSymptoms, plantParts });
+  }
+
+  createHi() {
+    const hi = {
+      agent: this.state.hiAgent,
+      agentId: this.state.hiAgent.id,
+      oak: this.state.hiOak,
+      oakId: this.state.hiOak.id,
+      bibs: [],
+      countiesByRegions: [],
+      hiSymptoms: [],
+      hostLifeStage: [],
+      questionable: false,
+      notes: '',
+      rangeData: [],
+      situation: [],
+    };
+
+    this.setState({ hi, hiSymptoms: [], plantParts: PLANT_PARTS, newHi: true, });
   }
 
   getHi() {
@@ -181,7 +211,15 @@ export default class EditInteractions extends Component {
           hiSymptom.subSite = hiSymptom.subSite.map(s => ({ label: s, value: s }));
         });
         const symptPlantParts = interaction.hiSymptoms.map(hiSymptom => hiSymptom.plantPart);
-        const plantParts = PLANT_PARTS.filter(plantPart => !symptPlantParts.includes(plantPart));
+        const formattedPlantParts = symptPlantParts.reduce((plantParts, plantPart) => {
+          if (!plantParts[plantPart]) {
+            plantParts[plantPart] = 1;
+            return plantParts;
+          }
+          plantParts[plantPart] = 2;
+          return plantParts;
+        }, {});
+        const plantParts = PLANT_PARTS.filter(plantPart => formattedPlantParts[plantPart] !== 2);
         this.setState({
           hi: interaction, hiSymptoms: interaction.hiSymptoms, plantParts, loading: false, searchPerformed: true,
         });
@@ -194,12 +232,12 @@ export default class EditInteractions extends Component {
       agents, oaks, references, symptoms,
     } = this.props;
     const {
-      selectedAgent, selectedOak, hi, hiSymptoms, plantParts, loading, searchPerformed,
+      selectedAgent, selectedOak, hi, hiSymptoms, plantParts, loading, searchPerformed, newHi,
     } = this.state;
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
       onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange, onMapChange, onSymptomChange, onHiSubmit, addHiSymptom,
+      onHisymptomRadioChange, onMapChange, onSymptomChange, onHiSubmit, addHiSymptom, createHi,
     } = this;
     const entryProps = {
       agents,
@@ -224,11 +262,12 @@ export default class EditInteractions extends Component {
       onSymptomChange,
       onHiSubmit,
       addHiSymptom,
+      newHi,
     };
     return (
       <div>
         { loading ? <FullScreenSpinner /> : <HiEntry {...entryProps} /> }
-        { (searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recored in CODA.</h3></div> }
+        { (searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recorded in CODA.</h3><button onClick={createHi}>Create new interaction</button></div> }
       </div>
     );
   }

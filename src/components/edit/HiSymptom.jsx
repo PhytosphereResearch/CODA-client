@@ -5,7 +5,7 @@ import Select from 'react-virtualized-select';
 import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import ButtonGroup from '../shared/ButtonGroup';
 import { PRIMARY, BOOLEANS, MATURITIES } from './constants';
-import { getSubSites, getSymptoms } from '../../services/interactions';
+import { getSubSites } from '../../services/interactions';
 
 export default class HiSymptom extends Component {
   constructor(props) {
@@ -46,9 +46,10 @@ export default class HiSymptom extends Component {
   }
 
   render() {
-    const { symptom, symptoms } = this.props;
+    const { symptom, symptoms, hiSymptoms } = this.props;
     const { subSites } = this.state;
     const symptomList = symptom.symptoms.map(s => s.id);
+    const radioGroupDisabled = hiSymptoms.filter(hiSymptom => hiSymptom.plantPart === symptom.plantPart).length > 1;
     return (
       <div>
         <h3>{`${symptom.plantPart} symptoms`}</h3>
@@ -60,7 +61,15 @@ export default class HiSymptom extends Component {
           style={{ marginBottom: '15px' }}
           multi
         />
-        <RadioGroup key={symptom.id} title="Is Indirect?" selected={symptom.isIndirect} name={`isIndirect&${symptom.id}`} options={BOOLEANS} onChange={this.onRadioChange} />
+        <RadioGroup
+          key={symptom.id}
+          title="Is Indirect?"
+          selected={symptom.isIndirect}
+          name={`isIndirect&${symptom.id}`}
+          options={BOOLEANS}
+          onChange={this.onRadioChange}
+          disabled={radioGroupDisabled}
+        />
         <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={this.onButtonChange} />
         <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={this.onButtonChange} />
         <EnhancedCreatable
@@ -79,6 +88,7 @@ export default class HiSymptom extends Component {
 HiSymptom.propTypes = {
   symptom: PropTypes.object,
   symptoms: PropTypes.array,
+  hiSymptoms: PropTypes.array,
   onSelectChange: PropTypes.func,
   onButtonChange: PropTypes.func,
   onRadioChange: PropTypes.func,
