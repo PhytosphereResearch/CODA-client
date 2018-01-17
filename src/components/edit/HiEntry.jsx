@@ -67,7 +67,7 @@ HiEntry.propTypes = {
   selectedAgent: PropTypes.object,
   selectedOak: PropTypes.object,
   hi: PropTypes.object,
-  newHi: PropTypes.object,
+  newHi: PropTypes.bool,
   hiSymptoms: PropTypes.array,
   references: PropTypes.array,
   onAgentSelected: PropTypes.func,
