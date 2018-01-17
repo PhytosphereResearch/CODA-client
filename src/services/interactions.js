@@ -1,6 +1,4 @@
 import arrayBufferToString from 'arraybuffer-to-string';
-import flatMap from 'lodash.flatmap';
-import uniq from 'lodash.uniq';
 import { remove } from 'lodash';
 import { checkResponse, splitSemicolons } from './utils';
 import { url } from './environments';
@@ -50,6 +48,9 @@ export const getInteractions = (plantPart, symptomId, oakId) => fetch(`${url}/in
 export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi?agentId=${interactionQuery.agentId}&oakId=${interactionQuery.oakId}`, { mode: 'cors' })
   .then(checkResponse)
   .then((interaction) => {
+    if (!interaction) {
+      throw new Error('404: Interaction not found');
+    }
     interaction.notes = interaction.notes && arrayBufferToString(interaction.notes.data);
     interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
     interaction.situation = splitSemicolons(interaction.situation);
