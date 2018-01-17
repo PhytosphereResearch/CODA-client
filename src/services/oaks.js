@@ -29,9 +29,9 @@ export const getPlantCode = (oak) => {
     });
 };
 
-export const getOak = id => fetch(`${url}/oaks/${id}`, { mode: 'cors' })
+export const getOak = (id, includePlantCode = true) => fetch(`${url}/oaks/${id}`, { mode: 'cors' })
   .then(checkResponse)
-  .then(getPlantCode)
+  .then(oak => includePlantCode ? getPlantCode(oak) : oak)
   .then((oak) => {
     oak.notes = oak.notes && arrayBufferToString(oak.notes.data).replace(/ -/g, '\n-');
     return oak;
