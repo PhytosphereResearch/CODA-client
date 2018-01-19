@@ -11,7 +11,7 @@ const HiEntry = ({
   agents, oaks, symptoms, selectedAgent, selectedOak, hi, plantParts, hiSymptoms, references,
   onAgentSelected, onOakSelected, getHi, onInputChange, onMultiInputChange,
   onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
-  onMapChange, onSymptomChange, onHiSubmit, addHiSymptom, newHi,
+  onMapChange, onSymptomChange, onSymptomRemove, onHiSubmit, addHiSymptom, newHi,
 }) =>
   (
     <div>
@@ -49,7 +49,7 @@ const HiEntry = ({
           <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
           <h4>References</h4>
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
-          {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} hiSymptoms={hiSymptoms} />)}
+          {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} onSymptomRemove={onSymptomRemove} hiSymptoms={hiSymptoms} />)}
           <div>
             <b>Add Symptom: </b>
             {plantParts.map(plantPart => <button onClick={addHiSymptom} key={plantPart + hi.id} value={plantPart}>{plantPart}</button>)}
@@ -83,6 +83,7 @@ HiEntry.propTypes = {
   onHiSubmit: PropTypes.func,
   plantParts: PropTypes.array,
   onSymptomChange: PropTypes.func,
+  onSymptomRemove: PropTypes.func,
   addHiSymptom: PropTypes.func,
 };
 

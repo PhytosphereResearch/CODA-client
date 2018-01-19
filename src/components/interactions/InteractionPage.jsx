@@ -41,21 +41,30 @@ export default class InteractionPage extends Component {
       return <Spinner />;
     }
 
-    const directSymptoms = interaction.directSymptoms.length ? (
+    const formattedDirect = interaction.directSymptoms.filter(symptom => symptom.plantPart);
+    const formattedIndirect = interaction.indirectSymptoms.filter(symptom => symptom.plantPart);
+
+    const directSymptoms = formattedDirect.length ? (
       <div>
         <h3>Symptoms at or near the site of attack:</h3>
         <ul>
-          {interaction.directSymptoms.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
+          {formattedDirect.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
         </ul>
       </div>
     ) : null;
 
-    const indirectSymptoms = interaction.indirectSymptoms.length ? (
+    const indirectSymptoms = formattedIndirect.length ? (
       <div>
         <h3>Symptoms found away from site of attack:</h3>
         <ul>
-          {interaction.indirectSymptoms.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
+          {formattedIndirect.map(symptom => <Symptom key={symptom.id} symptom={symptom} />)}
         </ul>
+      </div>
+    ) : null;
+
+    const noSymptoms = !directSymptoms && !indirectSymptoms ? (
+      <div>
+        <h3>No symptom data available.</h3>
       </div>
     ) : null;
 
@@ -100,6 +109,7 @@ export default class InteractionPage extends Component {
           <p />
           {directSymptoms}
           {indirectSymptoms}
+          {noSymptoms}
           {interaction.notes ? <Notes notes={interaction.notes} /> : null }
           <h3>References: <small>(click to expand)</small></h3>
           {interaction.bibs.map(cite => <Reference key={cite.id} cite={cite} />)}

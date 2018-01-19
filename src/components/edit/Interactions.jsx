@@ -117,6 +117,16 @@ export default class EditInteractions extends Component {
     this.setState({ hiSymptoms });
   }
 
+  onSymptomRemove(id, plantPart) {
+    const hiSymptoms = [...this.state.hiSymptoms];
+    const plantParts = this.state.plantParts.slice();
+    remove(hiSymptoms, hiSympt => hiSympt.id === id);
+    if (!plantParts.includes(plantPart)) {
+      plantParts.push(plantPart);
+    }
+    this.setState({ hiSymptoms, plantParts });
+  }
+
   onMapChange(county) {
     const hi = { ...this.state.hi };
     if (hi.countiesByRegions.includes(county)) {
@@ -158,6 +168,7 @@ export default class EditInteractions extends Component {
     getInteractionsByOakAndAgent(hiQuery)
       .then((interaction) => {
         interaction.countiesByRegions = interaction.countiesByRegions.map(c => c.countyCode);
+        interaction.hiSymptoms = interaction.hiSymptoms.filter(hiSymptom => hiSymptom.plantPart);
         interaction.hiSymptoms.forEach((hiSymptom) => {
           hiSymptom.subSite = hiSymptom.subSite.map(s => ({ label: s, value: s }));
         });
@@ -219,7 +230,7 @@ export default class EditInteractions extends Component {
     const {
       onAgentSelected, onOakSelected, getHi, onInputChange,
       onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange, onMapChange, onSymptomChange, onHiSubmit, addHiSymptom, createHi,
+      onHisymptomRadioChange, onMapChange, onSymptomChange, onSymptomRemove, onHiSubmit, addHiSymptom, createHi,
     } = this;
     const entryProps = {
       ...this.props,
@@ -235,6 +246,7 @@ export default class EditInteractions extends Component {
       onHisymptomRadioChange,
       onMapChange,
       onSymptomChange,
+      onSymptomRemove,
       onHiSubmit,
       addHiSymptom,
       newHi,

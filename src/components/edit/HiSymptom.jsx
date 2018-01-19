@@ -13,6 +13,7 @@ export default class HiSymptom extends Component {
     this.state = {
       subSites: [],
       id: undefined,
+      plantPart: undefined,
     };
     autobind(this);
   }
@@ -22,6 +23,7 @@ export default class HiSymptom extends Component {
       .then(subSites => this.setState({
         subSites: subSites.map(s => ({ label: s, value: s })),
         id: this.props.symptom.id,
+        plantPart: this.props.symptom.plantPart,
       }));
   }
 
@@ -45,14 +47,24 @@ export default class HiSymptom extends Component {
     this.props.onSymptomChange(id, e);
   }
 
+  onSymptomRemove() {
+    const { id, plantPart } = this.state;
+    this.props.onSymptomRemove(id, plantPart);
+  }
+
   render() {
     const { symptom, symptoms, hiSymptoms } = this.props;
-    const { subSites } = this.state;
+    const { subSites, id } = this.state;
     const symptomList = symptom.symptoms.map(s => s.id);
     const radioGroupDisabled = hiSymptoms.filter(hiSymptom => hiSymptom.plantPart === symptom.plantPart).length > 1;
     return (
       <div>
-        <h3>{`${symptom.plantPart} symptoms`}</h3>
+        <h3>
+          <span>
+            {typeof id !== 'number' ? <button onClick={this.onSymptomRemove}> X </button> : null}
+            {`${symptom.plantPart} symptoms`}
+          </span>
+        </h3>
         <Select
           options={symptoms}
           onChange={this.onSymptomChange}
@@ -93,4 +105,5 @@ HiSymptom.propTypes = {
   onButtonChange: PropTypes.func,
   onRadioChange: PropTypes.func,
   onSymptomChange: PropTypes.func,
+  onSymptomRemove: PropTypes.func,
 };
