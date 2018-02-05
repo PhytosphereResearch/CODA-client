@@ -52,6 +52,7 @@ export default class CAMap extends Component {
       mouseY: 0,
       county: null,
     };
+    this.clientWidth = 0;
     autobind(this);
   }
 
@@ -86,15 +87,17 @@ export default class CAMap extends Component {
       <div >
         {county && (
           <div
+            className="tooltip"
             style={{
               position: 'absolute',
-              top: `${mouseY - 20}px`,
-              left: `${mouseX}px`,
+              top: `${mouseY - 35}px`,
+              left: `${mouseX - (this.clientWidth / 2)}px`,
               pointerEvents: 'none',
               zIndex: '10',
             }}
+            ref={(el) => { if (el) this.clientWidth = el.clientWidth; }}
           >
-              {county}
+            <span className="tooltiptext">{county}</span>
           </div>
         )}
         <ComposableMap
