@@ -12,6 +12,6 @@ deploy:
   bucket: coda-client
   skip_cleanup: true
   local_dir: dist
-   on:
-    repo: PhytosphereResearch/CODA-client
-    branch: master
+    on:
+      repo: PhytosphereResearch/CODA-client
+      branch: master
