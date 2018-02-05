@@ -5,7 +5,7 @@ import Select from 'react-virtualized-select';
 import { getOak, addOrUpdateOak } from 'coda/services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
-import pickBy from 'lodash.pickBy';
+import pickBy from 'lodash.pickby';
 
 const blankOak = {
   genus: '',
