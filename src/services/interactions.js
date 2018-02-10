@@ -1,6 +1,5 @@
-import arrayBufferToString from 'arraybuffer-to-string';
 import { remove } from 'lodash';
-import { checkResponse, splitSemicolons } from './utils';
+import { checkResponse, splitSemicolons, bufferToString } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App';
 
@@ -11,7 +10,7 @@ export const getAllSymptoms = () => {
     .then(checkResponse)
     .then((symptoms) => {
       symptoms.forEach((symptom) => {
-        symptom.description = symptom.description && arrayBufferToString(symptom.description.data);
+        symptom.description = bufferToString(symptom.description);
       });
       return symptoms;
     })
@@ -51,7 +50,7 @@ export const getInteractionsByOakAndAgent = interactionQuery => fetch(`${url}/hi
     if (!interaction) {
       throw new Error('404: Interaction not found');
     }
-    interaction.notes = interaction.notes && arrayBufferToString(interaction.notes.data);
+    interaction.notes = bufferToString(interaction.notes);
     interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
     interaction.situation = splitSemicolons(interaction.situation);
     interaction.rangeData = interaction.countiesByRegions.map(county => county.countyCode);
@@ -82,16 +81,16 @@ export const getInteraction = id => fetch(`${url}/hi/${id}`, { mode: 'cors' })
     const {
       authority, genus, species, subspecies,
     } = primarySynonym;
-    interaction.agent.notes = interaction.agent.notes && arrayBufferToString(interaction.agent.notes.data).replace(/ -/g, '\n-');
+    interaction.agent.notes = bufferToString(interaction.agent.notes).replace(/ -/g, '\n-');
     interaction.agent = {
       ...interaction.agent, authority, genus, species, subspecies, synonyms,
     };
     // decode notes
-    interaction.notes = interaction.notes && arrayBufferToString(interaction.notes.data).replace(/ -/g, '\n-');
+    interaction.notes = bufferToString(interaction.notes).replace(/ -/g, '\n-');
     // decode citation titles and notes
     interaction.bibs.forEach((bib) => {
-      bib.title = bib.title && arrayBufferToString(bib.title.data);
-      bib.notes = bib.notes && arrayBufferToString(bib.notes.data).replace(/ -/g, '\n-');
+      bib.title = bufferToString(bib.title);
+      bib.notes = bufferToString(bib.notes).replace(/ -/g, '\n-');
     });
     // map interaction range data
     interaction.range = interaction.countiesByRegions.map(county => county.countyCode);
@@ -122,8 +121,8 @@ export const getReferences = () => {
   return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then(references => references.map((reference) => {
-      reference.title = reference.title && arrayBufferToString(reference.title.data);
-      reference.notes = reference.notes && arrayBufferToString(reference.notes.data);
+      reference.title = bufferToString(reference.title);
+      reference.notes = bufferToString(reference.notes);
       return reference;
     }))
     .catch((err) => {

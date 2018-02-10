@@ -21,7 +21,7 @@ export default class Reference extends Component {
             <div>
               {cite.author} {cite.year}. {cite.title} {cite.source}
             </div>
-            <Notes notes={cite.notes} />
+            { cite.notes ? <Notes notes={cite.notes} /> : null }
           </div>
         </Collapse>
       </div>

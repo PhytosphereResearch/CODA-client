@@ -1,5 +1,4 @@
-import arrayBufferToString from 'arraybuffer-to-string';
-import { checkResponse } from './utils';
+import { checkResponse, bufferToString } from './utils';
 import { auth } from '../components/App';
 import { url } from './environments';
 
@@ -33,7 +32,7 @@ export const getOak = (id, includePlantCode = true) => fetch(`${url}/oaks/${id}`
   .then(checkResponse)
   .then(oak => includePlantCode ? getPlantCode(oak) : oak)
   .then((oak) => {
-    oak.notes = oak.notes && arrayBufferToString(oak.notes.data).replace(/ -/g, '\n-');
+    oak.notes = bufferToString(oak.notes).replace(/ -/g, '\n-');
     return oak;
   })
   .catch((err) => {
