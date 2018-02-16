@@ -61,33 +61,54 @@ Checkbox.propTypes = {
   name: PropTypes.string,
 };
 
-export const RadioGroup = ({
-  title, options, name, selected, onChange, disabled,
-}) => (
-  <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
-    <div className="field-label">{title}:</div>
-    <ul>
-      {options.map((option) => {
-        const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
-        return (
-          <li key={uniqueId}>
-            <input
-              type="radio"
-              id={uniqueId}
-              value={option}
-              name={name}
-              checked={selected.toString() === option.toString()}
-              onChange={onChange}
-              required
-              disabled={disabled}
-            />
-            <label htmlFor={uniqueId}>{option.toString()}</label>
-            <div className="check" />
-          </li>);
-      })}
-    </ul>
-  </div>
-);
+export class RadioGroup extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+  onChange(e) {
+    if (this.props.disabled) {
+      return;
+    }
+    const event = {
+      target: {
+        name: e.target.name || e.target.dataset.name,
+        value: e.target.value || e.target.dataset.value,
+      },
+    };
+    this.props.onChange(event);
+  }
+  render() {
+    const {
+      title, options, name, selected, disabled,
+    } = this.props;
+    return (
+      <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
+        <div className="field-label">{title}:</div>
+        <ul>
+          {options.map((option) => {
+            const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
+            return (
+              <li key={uniqueId}>
+                <input
+                  type="radio"
+                  id={uniqueId}
+                  value={option}
+                  name={name}
+                  checked={selected.toString() === option.toString()}
+                  onChange={this.onChange}
+                  required
+                  disabled={disabled}
+                />
+                <label htmlFor={uniqueId}>{option.toString()}</label>
+                <div className={ disabled ? "check disabled" : "check" } data-name={name} data-value={option} onClick={this.onChange} />
+              </li>);
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
