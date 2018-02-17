@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 
@@ -64,7 +65,7 @@ Checkbox.propTypes = {
 export class RadioGroup extends Component {
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
+    autobind(this);
   }
   onChange(e) {
     if (this.props.disabled) {
