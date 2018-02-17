@@ -56,6 +56,7 @@ export default class Agent extends Component {
             {index < agent.hosts.length - 1 ? ', ' : ''}
           </span>
         ))}
+        <div className="text-muted">Click an oak to see interaction details</div>
       </div>
     );
 
