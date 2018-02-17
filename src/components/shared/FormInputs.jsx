@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 
 export const TextInput = ({
-  title, name, limit, value, onChange, placeholder = '',
+  title, name, limit, value, onChange, placeholder, hintText = '',
 }) => (
   <div style={{ padding: '5px 0', width: '100%' }}>
     <div className="field-label">
       {title}:
     </div>
+    {hintText ? <div className="text-muted">{hintText}</div> : null}
     <input
       type="text"
       maxLength={limit || 255}
@@ -29,6 +30,7 @@ TextInput.propTypes = {
   limit: PropTypes.number,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  hintText: PropTypes.string,
 };
 
 export const TextArea = ({
