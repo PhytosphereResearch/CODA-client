@@ -6,7 +6,7 @@ const Symptom = ({ symptom }) => {
   const allMaturities = symptom.maturity.toLowerCase() === 'all';
   let message;
   if (!allMaturities) {
-    message = `Affects ${symptom.maturity.toLowerCase()} ${symptom.subSite.toLowerCase() || 'tissue'}`;
+    message = `Affects ${symptom.maturity.replace(/;/i, '; ').toLowerCase()} ${symptom.subSite.replace(/;/i, '; ').toLowerCase() || 'tissue'}`;
   } else {
     message = 'All tissue maturities affected';
   }
