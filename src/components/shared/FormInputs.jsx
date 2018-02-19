@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 
 export const TextInput = ({
-  title, name, limit, value, onChange, placeholder = '',
+  title, name, limit, value, onChange, placeholder, hintText = '',
 }) => (
   <div style={{ padding: '5px 0', width: '100%' }}>
     <div className="field-label">
       {title}:
     </div>
+    {hintText ? <div className="text-muted">{hintText}</div> : null}
     <input
       type="text"
       maxLength={limit || 255}
@@ -28,6 +30,7 @@ TextInput.propTypes = {
   limit: PropTypes.number,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
+  hintText: PropTypes.string,
 };
 
 export const TextArea = ({
@@ -61,33 +64,54 @@ Checkbox.propTypes = {
   name: PropTypes.string,
 };
 
-export const RadioGroup = ({
-  title, options, name, selected, onChange, disabled,
-}) => (
-  <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
-    <div className="field-label">{title}:</div>
-    <ul>
-      {options.map((option) => {
-        const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
-        return (
-          <li key={uniqueId}>
-            <input
-              type="radio"
-              id={uniqueId}
-              value={option}
-              name={name}
-              checked={selected.toString() === option.toString()}
-              onChange={onChange}
-              required
-              disabled={disabled}
-            />
-            <label htmlFor={uniqueId}>{option.toString()}</label>
-            <div className="check" />
-          </li>);
-      })}
-    </ul>
-  </div>
-);
+export class RadioGroup extends Component {
+  constructor(props) {
+    super(props);
+    autobind(this);
+  }
+  onChange(e) {
+    if (this.props.disabled) {
+      return;
+    }
+    const event = {
+      target: {
+        name: e.target.name || e.target.dataset.name,
+        value: e.target.value || e.target.dataset.value,
+      },
+    };
+    this.props.onChange(event);
+  }
+  render() {
+    const {
+      title, options, name, selected, disabled,
+    } = this.props;
+    return (
+      <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
+        <div className="field-label">{title}:</div>
+        <ul>
+          {options.map((option) => {
+            const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
+            return (
+              <li key={uniqueId}>
+                <input
+                  type="radio"
+                  id={uniqueId}
+                  value={option}
+                  name={name}
+                  checked={selected.toString() === option.toString()}
+                  onChange={this.onChange}
+                  required
+                  disabled={disabled}
+                />
+                <label htmlFor={uniqueId}>{option.toString()}</label>
+                <div className={ disabled ? "check disabled" : "check" } data-name={name} data-value={option} onClick={this.onChange} />
+              </li>);
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
 
 RadioGroup.propTypes = {
   title: PropTypes.string,

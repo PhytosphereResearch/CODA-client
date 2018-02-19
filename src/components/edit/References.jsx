@@ -62,7 +62,7 @@ export default class EditReferences extends Component {
         <h4>{this.state.selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
         <form onSubmit={this.handleSubmit} onChange={this.onInputChange}>
           <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year" />
-          <TextInput title="Description" placeholder="Authors (YYYY): short title" value={reference.description} name="description" />
+          <TextInput title="Description" hintText="Authors (YYYY): Title" value={reference.description} name="description" />
           <TextInput title="Author" value={reference.author} name="author" />
           <TextInput title="Title" value={reference.title} name="title" />
           <TextInput title="Source" value={reference.source} name="source" />

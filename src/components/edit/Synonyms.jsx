@@ -127,7 +127,7 @@ export default class EditSynonyms extends Component {
             <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={this.onSynonymChange} />
             <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={this.onSynonymChange} />
             <RadioGroup
-              title="Primary Synonym?"
+              title="Currently accepted name?"
               selected={selectedSynonym.isPrimary}
               name="isPrimary"
               options={BOOLEANS}

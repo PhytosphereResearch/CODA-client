@@ -16,6 +16,7 @@ const HiEntry = ({
   (
     <div>
       <h3>Host-Agent Interactions</h3>
+      <div className="text-muted">If your interaction requires a reference not currently in CODA, please visit the References tab and add it first.</div>
       <h4>Find an agent</h4>
       <Select
         options={agents}
@@ -48,13 +49,14 @@ const HiEntry = ({
           <h4>Range</h4>
           <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
           <h4>References</h4>
+          {hi.bibs.length ? null : <div className="text-muted">Add at least one reference to continue...</div> }
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
           {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} onSymptomRemove={onSymptomRemove} hiSymptoms={hiSymptoms} />)}
           <div>
             <b>Add Symptom: </b>
             {plantParts.map(plantPart => <button onClick={addHiSymptom} key={plantPart + hi.id} value={plantPart}>{plantPart}</button>)}
           </div>
-          <button onClick={onHiSubmit}>{ newHi ? 'Create' : 'Update'}</button>
+          <button onClick={onHiSubmit} disabled={!hi.bibs.length}>{ newHi ? 'Create' : 'Update'}</button>
         </div>
     ) : null}
 
