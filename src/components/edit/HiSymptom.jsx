@@ -56,7 +56,6 @@ export default class HiSymptom extends Component {
     const { symptom, symptoms, hiSymptoms } = this.props;
     const { subSites, id } = this.state;
     const symptomList = symptom.symptoms.map(s => s.id);
-    const radioGroupDisabled = hiSymptoms.filter(hiSymptom => hiSymptom.plantPart === symptom.plantPart).length > 1;
     return (
       <div>
         <h3>
@@ -80,7 +79,6 @@ export default class HiSymptom extends Component {
           name={`isIndirect&${symptom.id}`}
           options={BOOLEANS}
           onChange={this.onRadioChange}
-          disabled={radioGroupDisabled}
         />
         <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={this.onButtonChange} />
         <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={this.onButtonChange} />
