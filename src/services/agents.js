@@ -36,11 +36,12 @@ export const getAgentFields = () => {
 
 export const formatAgentFields = (fields) => {
   const formattedFields = {};
-  const mapField = field => field.map(entry => ({ value: entry, label: entry, field }));
+  const mapField = (field, fieldName) => field.map(entry => ({ value: entry, label: entry, field: fieldName }));
   for (var field in fields) { // eslint-disable-line
-    const formattedField = mapField(fields[field]);
+    const formattedField = mapField(fields[field], field);
     formattedFields[field] = formattedField;
   }
+
   return formattedFields;
 };
 

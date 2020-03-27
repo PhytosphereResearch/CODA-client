@@ -106,6 +106,7 @@ export default class EditAgents extends Component {
   render() {
     const { options } = this.props;
     const { selected, selectedAgent, selectedSynonym } = this.state;
+
     return (
       <div>
         <h3>Agents</h3>
