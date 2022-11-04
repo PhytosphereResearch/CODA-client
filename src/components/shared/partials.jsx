@@ -31,7 +31,7 @@ CommonName.propTypes = {
 export const CalPhotos = ({ genus, species }) => (
   <div>
     <b>Images:</b>{' '}
-    <a href={`http://calphotos.berkeley.edu/cgi/img_query?where-taxon=${genus}+${species}`} target="_blank">Search CalPhotos</a>
+    <a href={`https://calphotos.berkeley.edu/cgi/img_query?where-taxon=${genus}+${species}`} target="_blank">Search CalPhotos</a>
   </div>
 );
 

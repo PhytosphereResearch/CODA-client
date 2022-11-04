@@ -1,7 +1,7 @@
 import auth0 from 'auth0-js';
 import autobind from 'react-autobind';
 
-const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:8080/callback';
+const redirectUri = process.env.NODE_ENV === 'production' ? 'https://coda.phytosphere.com/callback' : 'https://localhost:8080/callback';
 
 export default class Auth {
   constructor() {
