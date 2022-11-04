@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Logo extends Component {
   render() {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160.12 60.8">
+      <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 160.12 60.8">
         <title>Asset 2</title>
         <g id="Layer_2" data-name="Layer 2">
           <g id="Acorn_vector" data-name="Acorn vector">
