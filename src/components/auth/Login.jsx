@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class Login extends Component {
@@ -11,7 +11,7 @@ export default class Login extends Component {
   }
 
   render() {
-    return this.props.auth.isAuthenticated() ? <Redirect to="/" /> : null;
+    return this.props.auth.isAuthenticated() ? redirect("/") : null;
   }
 }
 

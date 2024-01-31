@@ -56,14 +56,16 @@ export default class CAMap extends Component {
     autobind(this);
   }
 
-  handleMove(geography, evt) {
+  handleMove(evt) {
+    const geography = evt?.target;
     const x = evt.clientX;
-    const y = evt.clientY + window.pageYOffset;
+    const y = evt.clientY + window.scrollY;
+    console.log('geography', geography)
     if (evt.type === 'mousemove') {
       this.setState({
         mouseX: x,
         mouseY: y,
-        county: geography.properties.fullName,
+        county: geography?.properties?.fullName,
       });
     } else {
       this.setState({
@@ -106,9 +108,10 @@ export default class CAMap extends Component {
           projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={1} disablePanning center={[-119, 37.3]}>
-            <Geographies geography={counties} disableOptimization>
-              {(geographies, projection) => geographies.map((geography) => {
+          <ZoomableGroup zoom={1} disablePanning={true} center={[-119, 37.3]}>
+            <Geographies geography={counties} disableOptimization={true}>
+              {(geographies, projection) => {
+                return geographies.geographies.map((geography) => {
                 let style = baseStyle;
                 if (interactionRange.find(c => c === geography.properties.name)) {
                   style = interactionStyle;
@@ -126,7 +129,7 @@ export default class CAMap extends Component {
                     onClick={this.handleClick}
                   />
                 );
-              })}
+              })}}
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>

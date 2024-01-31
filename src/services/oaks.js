@@ -14,7 +14,7 @@ export const getAllOaks = () => {
 
 export const getPlantCode = (oak) => {
   const qstring = `Genus=${oak.genus}&Species=${oak.species}&Variety=${oak.subSpecies}&limit=1`;
-  return fetch(`https://plantsdb.xyz/search?${qstring}`)
+  return fetch(`http://plantsdb.xyz/search?${qstring}`)
     .then(checkResponse)
     .then(res => res.data[0].Accepted_Symbol_x)
     .then((code) => {

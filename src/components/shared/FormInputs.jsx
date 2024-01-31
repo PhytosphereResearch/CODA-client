@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
-import { Creatable } from 'react-select';
+import Creatable from 'react-select/creatable';
 
 export const TextInput = ({
   title, name, limit, value, onChange, placeholder, hintText = '',

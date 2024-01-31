@@ -1,54 +1,44 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
 import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
 import CAMap from '../shared/Map';
 
-export default class Agent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
-    autobind(this);
-  }
+const Agent = () => {
+  const [ loading, setLoading ] = useState(true);
+  const [agent, setAgent] = useState({});
 
-  componentWillMount() {
-    this.setState({ loading: true });
-    getAgent(this.props.match.params.id)
-      .then(agent => this.setState({ agent, loading: false }));
-  }
+const navigate = useNavigate();
+const { id } = useParams();
 
-  componentWillReceiveProps(nextProps) {
-    // don't reload the agent we just loaded
-    if (this.props.match.params.id === nextProps.match.params.id) {
-      return;
-    }
-    getAgent(nextProps.match.params.id)
-      .then(agent => this.setState({ agent }));
-  }
 
-  goToHostInteraction(e) {
+  useEffect(() => {
+    setLoading(true);
+    getAgent(id).then(agent => {
+      console.log('agent', agent)
+      setAgent(agent);
+      setLoading(false);
+    })
+  }, [id])
+
+  const goToHostInteraction = (e) => {
     const interactionId = e.target.getAttribute('data-interaction');
-    this.context.router.history.push(`/hi/interaction/${interactionId}`);
+    navigate(`/hi/interaction/${interactionId}`, {replace: true});
   }
 
-  render() {
-    const { agent, loading } = this.state;
     if (!agent && !loading) {
       return null;
     } else if (loading) {
       return <Spinner />;
     }
 
-    const hosts = (
+    const hosts = agent?.hosts && (
       <div>
         <b>Hosts: </b>
         {agent.hosts.map((h, index) => (
           <span key={h.genus + h.species}>
-            <a style={{ cursor: 'pointer' }} onClick={this.goToHostInteraction}>
+            <a style={{ cursor: 'pointer' }} onClick={goToHostInteraction}>
               <i data-interaction={h.interactionId}>
                 {h.genus} {h.species}{h.subSpecies ? ' ' : ''}{h.subSpecies}
               </i>
@@ -62,7 +52,7 @@ export default class Agent extends Component {
 
     return (
       <div>
-        <ScientificName genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} subSpecies={agent.primarySynonym.subSpecies} authority={agent.primarySynonym.authority} />
+        <ScientificName genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} subSpecies={agent.primarySynonym?.subSpecies} authority={agent.primarySynonym?.authority} />
         <div style={{ clear: 'both' }}>
           {/* <div style={{ flex: '1' }}> */}
           <div style={{ float: 'right' }}><b>Reported range</b> <br />
@@ -70,11 +60,11 @@ export default class Agent extends Component {
           </div>
           <p />
           { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
-          <CalPhotos genus={agent.primarySynonym.genus} species={agent.primarySynonym.species} />
+          <CalPhotos genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} />
           <p />
           <Synonyms synonyms={agent.otherSynonyms} />
           <p />
-          {agent.synonyms.map(synonym => (synonym.notes ? <div key={synonym.notes}>{synonym.notes}</div> : null))}
+          {agent.synonyms?.map(synonym => (synonym.notes ? <div key={synonym.notes}>{synonym.notes}</div> : null))}
           <p />
           <AgentTaxonomy agent={agent} />
           <p />
@@ -85,12 +75,5 @@ export default class Agent extends Component {
       </div>
     );
   }
-}
 
-Agent.propTypes = {
-  match: PropTypes.object,
-};
-
-Agent.contextTypes = {
-  router: PropTypes.object,
-};
+  export default Agent;

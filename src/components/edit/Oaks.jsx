@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import Select from 'react-virtualized-select';
-import { getOak, addOrUpdateOak } from 'coda/services/oaks';
+import { getOak, addOrUpdateOak } from '../../services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
-import pickBy from 'lodash.pickby';
+import pickBy from 'lodash/pickby';
 
 const blankOak = {
   genus: '',

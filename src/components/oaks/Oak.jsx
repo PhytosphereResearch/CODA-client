@@ -1,34 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getOak } from 'coda/services/oaks';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import { getOak } from '../../services/oaks';
 import { ScientificName, CommonName, CalPhotos, Notes } from '../shared/partials';
 import { Spinner } from '../shared/shapes';
 
-export default class Oak extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false
-    };
-  }
+const Oak = () => {
+  const [loading, setLoading] = useState(false);
+  const [oak, setOak] = useState();
 
-  componentWillMount() {
-    this.setState({ loading: true });
-    getOak(this.props.match.params.id)
-      .then(oak => this.setState({ oak, loading: false }));
-  }
+  const { id } = useParams();
 
-  componentWillReceiveProps(nextProps) {
-    // don't reload the oak we just loaded
-    if (this.props.match.params.id === nextProps.match.params.id) {
-      return;
-    }
-    getOak(nextProps.match.params.id)
-      .then(oak => this.setState({ oak }));
-  }
+  useEffect(() => {
+    setLoading(true);
+        getOak(id)
+      .then(oak => {
+        console.log('oak', oak)
+        setOak(oak);
+        setLoading(false);
+      });
+  }, [id])
 
-  render() {
-    let { oak, loading } = this.state;
     if (!oak && !loading) {
       return null;
     } else if (loading) {
@@ -75,8 +66,5 @@ export default class Oak extends Component {
       </div>
     );
   }
-}
 
-Oak.propTypes = {
-  match: PropTypes.object
-};
+export default Oak;

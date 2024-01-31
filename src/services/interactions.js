@@ -1,4 +1,4 @@
-import { remove } from 'lodash';
+import remove from 'lodash/remove';
 import { checkResponse, splitSemicolons, bufferToString } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App';

@@ -1,5 +1,5 @@
-import flatMap from 'lodash.flatmap';
-import uniq from 'lodash.uniq';
+import flatMap from 'lodash/flatmap';
+import uniq from 'lodash/uniq';
 import { checkResponse, bufferToString } from './utils';
 import { url } from './environments';
 import { auth } from '../components/App';
