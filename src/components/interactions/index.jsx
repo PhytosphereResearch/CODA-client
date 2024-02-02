@@ -26,7 +26,7 @@ const Interactions = (props) => {
 
   useEffect(() => {
     onSearch();
-  }, [])
+  }, [location.search]);
 
   const onSearchClick = () => {
     const symptom = selected.symptom ? `${selected.symptom.value}@${selected.symptom.label}` : '';
@@ -35,7 +35,7 @@ const Interactions = (props) => {
     const query = Object.keys(options).map(key => `${key}=${options[key]}`).join('&');
 
     navigate(`/hi?${query}`, {replace: true});
-    onSearch();
+    //onSearch();
   }
 
   const onSelect = (option, key) => {
