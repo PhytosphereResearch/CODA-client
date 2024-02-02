@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simple-maps';
 import counties from '../shared/caCountiesTopo.json';
@@ -48,7 +48,7 @@ const CAMap = (props) => {
   const [mouseY, setMouseY] = useState(0);
   const [county, setCounty] = useState(null);
 
-  let clientWidth = 0;
+  const clientWidth = useRef(null);
 
   const handleMove = (evt, selectedCounty) => {
     const x = evt.clientX;
@@ -80,11 +80,13 @@ const CAMap = (props) => {
             style={{
               position: 'absolute',
               top: `${mouseY - 35}px`,
-              left: `${mouseX - (clientWidth / 2)}px`,
+              left: `${mouseX - (clientWidth.current / 2)}px`,
               pointerEvents: 'none',
               zIndex: '10',
             }}
-            ref={(el) => { if (el) clientWidth = el.clientWidth; }}
+            ref={(el) => { if (el) { 
+              clientWidth.current = el.clientWidth; 
+            }}}
           >
             <span className="tooltiptext">{county}</span>
           </div>
@@ -92,10 +94,11 @@ const CAMap = (props) => {
         <ComposableMap
           width={300}
           height={450}
+          projection="geoMercator"
           projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={1} disablePanning={true} center={[-119, 37.3]}>
+          <ZoomableGroup zoom={0.5} disablePanning={true} center={[-119, 33.3]}>
             <Geographies geography={counties} disableOptimization={true}>
               {(geographies, projection) => {
                 return geographies.geographies.map((geography) => {

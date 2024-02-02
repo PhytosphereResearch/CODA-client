@@ -52,11 +52,9 @@ const { id } = useParams();
     return (
       <div>
         <ScientificName genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} subSpecies={agent.primarySynonym?.subSpecies} authority={agent.primarySynonym?.authority} />
-        <div style={{ clear: 'both' }}>
-          {/* <div style={{ flex: '1' }}> */}
-          <div style={{ float: 'right' }}><b>Reported range</b> <br />
-            <CAMap interactionRange={[]} agentRange={agent.rangeData} />
-          </div>
+        {/* <div style={{ clear: 'both' }}> */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
+            <div>
           <p />
           { agent.commonName ? <CommonName commonName={agent.commonName} /> : null }
           <CalPhotos genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} />
@@ -70,6 +68,10 @@ const { id } = useParams();
           {hosts}
           <p />
           { agent.notes ? <Notes notes={agent.notes} /> : null }
+          </div>          
+          <div><b>Reported range</b> <br />
+            <CAMap interactionRange={[]} agentRange={agent.rangeData} />
+          </div>
         </div>
       </div>
     );

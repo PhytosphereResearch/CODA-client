@@ -14,7 +14,6 @@ const Oak = () => {
     setLoading(true);
         getOak(id)
       .then(oak => {
-        console.log('oak', oak)
         setOak(oak);
         setLoading(false);
       });
