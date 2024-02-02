@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Routes, redirect } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import autobind from 'react-autobind';
 import Shell from './Shell';
 import Landing from './landing';
@@ -93,7 +94,7 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" element={<InteractionPage />} />
               <Route path="/hi" element={<InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
-              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : redirect("/"))} />
+              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Navigate to='/' replace/>)} />
               <Route
                 path="/callback"
                 element={(props) => {
