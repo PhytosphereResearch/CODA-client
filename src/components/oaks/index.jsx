@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { Outlet } from 'react-router';
-import Oak from './Oak';
-
-//import 'react-select/dist/react-select.css';
-import 'react-virtualized/styles.css';
-import 'react-virtualized-select/styles.css';
 
 // type Option = {
 // label: string;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { BOOLEANS, ECOLOGY } from './constants';
 import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';

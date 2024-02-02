@@ -16,7 +16,6 @@ const { id } = useParams();
   useEffect(() => {
     setLoading(true);
     getAgent(id).then(agent => {
-      console.log('agent', agent)
       setAgent(agent);
       setLoading(false);
     })

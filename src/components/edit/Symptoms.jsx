@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs';
 import { addOrUpdateSymptom } from '../../services/interactions';
 import SymptomPreview from '../interactions/SymptomPreview';

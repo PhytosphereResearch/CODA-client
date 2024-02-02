@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import autobind from 'react-autobind';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Creatable from 'react-select/creatable';
 
@@ -64,13 +63,9 @@ Checkbox.propTypes = {
   name: PropTypes.string,
 };
 
-export class RadioGroup extends Component {
-  constructor(props) {
-    super(props);
-    autobind(this);
-  }
-  onChange(e) {
-    if (this.props.disabled) {
+export const RadioGroup = (props) => {
+  const onChange = (e) => {
+    if (props.disabled) {
       return;
     }
     const event = {
@@ -79,12 +74,12 @@ export class RadioGroup extends Component {
         value: e.target.value || e.target.dataset.value,
       },
     };
-    this.props.onChange(event);
+    props.onChange(event);
   }
-  render() {
+
     const {
       title, options, name, selected, disabled,
-    } = this.props;
+    } = props;
     return (
       <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
         <div className="field-label">{title}:</div>
@@ -104,13 +99,12 @@ export class RadioGroup extends Component {
                   disabled={disabled}
                 />
                 <label htmlFor={uniqueId}>{option.toString()}</label>
-                <div className={ disabled ? "check disabled" : "check" } data-name={name} data-value={option} onClick={this.onChange} />
+                <div className={ disabled ? "check disabled" : "check" } data-name={name} data-value={option} onClick={onChange} />
               </li>);
           })}
         </ul>
       </div>
     );
-  }
 }
 
 RadioGroup.propTypes = {
@@ -122,33 +116,28 @@ RadioGroup.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export class EnhancedCreatable extends Component {
-  constructor(props) {
-    super(props);
-    this.createOption = this.createOption.bind(this);
+export const EnhancedCreatable = (props) => {
+   const createOption = (option) => {
+    return { label: option.label, value: option.label, field: props.name };
   }
 
-  createOption(option) {
-    return { label: option.label, value: option.label, field: this.props.name };
-  }
+  const { name, value, onChange, options, multi, title } = props;
 
-  render() {
     return (
       <div className="creatable">
         <div className="field-label">
-          {this.props.title}:
+          {title}:
         </div>
         <Creatable
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          newOptionCreator={this.createOption}
-          options={this.props.options}
-          multi={this.props.multi || false}
+          name={name}
+          value={value}
+          onChange={onChange}
+          newOptionCreator={createOption}
+          options={options}
+          multi={multi || false}
         />
       </div>
     );
-  }
 }
 
 EnhancedCreatable.propTypes = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import ButtonGroup from '../shared/ButtonGroup';
 import { PRIMARY, BOOLEANS, MATURITIES } from './constants';

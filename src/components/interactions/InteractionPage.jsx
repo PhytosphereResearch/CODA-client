@@ -9,10 +9,10 @@ import Reference from './Reference';
 import Symptom from './Symptom';
 import CAMap from '../shared/Map';
 
-const InteractionPage = (props) => {
+const InteractionPage = () => {
 
   const [ interaction, setInteraction ] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [mapLoading, setMapLoading] = useState(true);
 
   const { id } = useParams();

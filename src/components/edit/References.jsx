@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
 import { TextInput, TextArea } from '../shared/FormInputs';

@@ -1,7 +1,4 @@
-import React, { Component } from 'react';
-
-export default class Logo extends Component {
-  render() {
+const Logo = () => {
     return (
       <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 160.12 60.8">
         <title>Asset 2</title>
@@ -20,5 +17,6 @@ export default class Logo extends Component {
         </g>
       </svg>
     );
-  }
 }
+
+export default Logo;

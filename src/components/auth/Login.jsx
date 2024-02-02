@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 import { redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default class Login extends Component {
-  componentWillMount() {
-    if (this.props.auth.isAuthenticated()) {
-      return;
+const Login = (props) => {
+  useEffect(() => {
+    if (!props.auth.isAuthenticated()) {
+      props.auth.login();
     }
-    this.props.auth.login();
-  }
+  }, [])
 
-  render() {
-    return this.props.auth.isAuthenticated() ? redirect("/") : null;
-  }
+    return props.auth.isAuthenticated() ? redirect("/") : null;
 }
 
 Login.propTypes = {
   auth: PropTypes.object,
 };
+
+export default Login;

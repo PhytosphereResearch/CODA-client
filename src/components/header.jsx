@@ -6,8 +6,9 @@ import Logo from './logo';
 
 const Header = (props) => {
 
+  const location = useLocation();
+  
   const computeMatch = (string) => {
-    const location = useLocation();
     return location.pathname.split('/')[1] === string;
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import autobind from 'react-autobind';
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';

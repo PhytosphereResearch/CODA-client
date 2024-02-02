@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { useLocation, useNavigate } from 'react-router';
 import { getInteractions } from '../../services/interactions';
 import SearchResult from './SearchResult';
@@ -73,8 +73,8 @@ const Interactions = (props) => {
 
     getInteractions(search.plantPart[0], search.symptom[0], search.oak[0])
       .then((interactions) => {
-        setSearching(false);
         setInteractions(interactions);
+        setSearching(false);
       });
   }
 

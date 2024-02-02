@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import autobind from 'react-autobind';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
 import Logo from '../logo';
 import SearchingCoda from './SearchingCoda';
 import About from './About';
@@ -7,33 +7,28 @@ import Citing from './Citing';
 import Questions from './Questions';
 import IMAGES from '../../images/Images';
 
-export default class Landing extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: {
-        searchInfo: false,
-        about: false,
-        citing: false,
-        questions: false,
-      },
-    };
-    autobind(this);
+Modal.setAppElement('#root');
+
+const Landing = () => {
+  const [show, setShow] = useState({
+    searchInfo: false,
+    about: false,
+    citing: false,
+    questions: false,
+  })
+
+  const openModal = (name) => {
+    const updatedShow = { ...show };
+    updatedShow[name] = true;
+    setShow(updatedShow);
   }
 
-  openModal(name) {
-    const show = { ...this.state.show };
-    show[name] = true;
-    this.setState({ show });
+  const handleCloseModal = (name) => {
+    const updatedShow = { ...show };
+    updatedShow[name] = false;
+    setShow(updatedShow);
   }
 
-  handleCloseModal(name) {
-    const show = { ...this.state.show };
-    show[name] = false;
-    this.setState({ show });
-  }
-
-  render() {
     return (
       <div>
         <div className="landing-wrapper">
@@ -69,17 +64,18 @@ export default class Landing extends Component {
           </p>
           <br />
           <ul className="home-links">
-            <li><a onClick={() => this.openModal('searchInfo')}>Searching CODA</a></li>
-            <li><a onClick={() => this.openModal('about')}>About CODA</a></li>
-            <li><a onClick={() => this.openModal('citing')}>Citing CODA </a></li>
-            <li><a onClick={() => this.openModal('questions')}>Questions</a></li>
+            <li><a onClick={() => openModal('searchInfo')}>Searching CODA</a></li>
+            <li><a onClick={() => openModal('about')}>About CODA</a></li>
+            <li><a onClick={() => openModal('citing')}>Citing CODA </a></li>
+            <li><a onClick={() => openModal('questions')}>Questions</a></li>
           </ul>
-          <SearchingCoda show={this.state.show.searchInfo} handleCloseModal={() => this.handleCloseModal('searchInfo')} />
-          <About show={this.state.show.about} handleCloseModal={() => this.handleCloseModal('about')} />
-          <Citing show={this.state.show.citing} handleCloseModal={() => this.handleCloseModal('citing')} />
-          <Questions show={this.state.show.questions} handleCloseModal={() => this.handleCloseModal('questions')} />
+          <SearchingCoda show={show.searchInfo} handleCloseModal={() => handleCloseModal('searchInfo')} />
+          <About show={show.about} handleCloseModal={() => handleCloseModal('about')} />
+          <Citing show={show.citing} handleCloseModal={() => handleCloseModal('citing')} />
+          <Questions show={show.questions} handleCloseModal={() => handleCloseModal('questions')} />
         </div>
       </div>
     );
-  }
 }
+
+export default Landing;

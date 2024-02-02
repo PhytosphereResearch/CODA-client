@@ -90,7 +90,7 @@ export default class App extends Component {
               <Route path="/agents" element={<Agents agents={this.state.agents} options={this.state.formattedAgents} />}>
                   <Route path="/agents/:id" element={<Agent/>} />
               </Route>
-              <Route path="/hi/interaction/:id" element={InteractionPage} />
+              <Route path="/hi/interaction/:id" element={<InteractionPage />} />
               <Route path="/hi" element={<InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
               <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : redirect("/"))} />

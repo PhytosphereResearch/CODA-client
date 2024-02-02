@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { Outlet, useNavigate } from 'react-router';
-import {Routes, Route } from 'react-router-dom';
-import autobind from 'react-autobind';
-import Agent from './Agent';
-
-//import 'react-select/dist/react-select.css';
 
 const Agents = (props) => {
   const [ selected, setSelected ] = useState();
