@@ -94,7 +94,7 @@ export const RadioGroup = (props) => {
                   value={option}
                   name={name}
                   checked={selected.toString() === option.toString()}
-                  onChange={this.onChange}
+                  onChange={onChange}
                   required
                   disabled={disabled}
                 />

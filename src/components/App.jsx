@@ -17,6 +17,12 @@ import Login from './auth/Login';
 import Callback from './auth/Callback';
 import Oak from './oaks/Oak';
 import Agent from './agents/Agent';
+import EditOaks from './edit/Oaks';
+import EditAgents from './edit/Agents';
+import EditSynonyms from './edit/Synonyms';
+import EditSymptoms from './edit/Symptoms';
+import EditReferences from './edit/References';
+import EditInteractions from './edit/Interactions';
 
 const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}`, synId: r.id ? r.id : null }));
 
@@ -79,6 +85,7 @@ export default class App extends Component {
   }
 
   render() {
+    const { formattedOaks, formattedAgents, formattedSymptoms, formattedReferences } = this.state;
     return (
       <div>
         <Router>
@@ -94,18 +101,26 @@ export default class App extends Component {
               <Route path="/hi/interaction/:id" element={<InteractionPage />} />
               <Route path="/hi" element={<InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
-              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Navigate to='/' replace/>)} />
+              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Navigate to='/' replace/>)}>
+                  <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} refresh={this.fetchOaks} />} />
+                  <Route path="/edit/agents" element={<EditAgents options={formattedAgents} refresh={this.fetchAgents} />} />
+                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} refresh={this.fetchAgents} />} />
+                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} refresh={this.fetchSymptoms} />} />
+                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} refresh={this.fetchReferences} />} />
+                  <Route path="/edit/interactions" element={<EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
+              </Route>
               <Route
                 path="/callback"
-                element={(props) => {
-                handleAuthentication(props);
-                return <Callback {...props} />;
-              }}
+                element={<Callback />}
               />
             </Routes>
           </Shell>
         </Router>
       </div>
     );
+
+  //   <Routes>
+
+  // </Routes>
   }
 }
