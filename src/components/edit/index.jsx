@@ -1,17 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, Outlet, Routes, Route } from 'react-router-dom';
-import EditOaks from './Oaks';
-import EditAgents from './Agents';
-import EditSynonyms from './Synonyms';
-import EditSymptoms from './Symptoms';
-import EditReferences from './References';
-import EditInteractions from './Interactions';
+import { Link, Outlet } from 'react-router-dom';
 
-const Edit = (props) => {
-  const {
-    formattedOaks, fetchOaks, formattedAgents, fetchAgents, formattedSymptoms, fetchSymptoms, formattedReferences, fetchReferences,
-  } = props;
+const Edit = () => {
   return (
     <div>
       <h2>Edit CODA</h2>
@@ -24,14 +15,6 @@ const Edit = (props) => {
         <li><Link to="/edit/interactions">Interactions</Link></li>
       </ul>
       <Outlet />
-      {/* <Routes>
-        <Route path="/edit/oaks" render={() => <EditOaks options={formattedOaks} refresh={fetchOaks} />} />
-        <Route path="/edit/agents" render={() => <EditAgents options={formattedAgents} refresh={fetchAgents} />} />
-        <Route path="/edit/synonyms" render={() => <EditSynonyms options={formattedAgents} refresh={fetchAgents} />} />
-        <Route path="/edit/symptoms" render={() => <EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms} />} />
-        <Route path="/edit/references" render={() => <EditReferences options={formattedReferences} refresh={fetchReferences} />} />
-        <Route path="/edit/interactions" render={() => <EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
-      </Routes> */}
     </div>
   );
 };

@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import autobind from 'react-autobind';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
@@ -7,66 +6,52 @@ import ButtonGroup from '../shared/ButtonGroup';
 import { PRIMARY, BOOLEANS, MATURITIES } from './constants';
 import { getSubSites } from '../../services/interactions';
 
-export default class HiSymptom extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      subSites: [],
-      id: undefined,
-      plantPart: undefined,
-    };
-    autobind(this);
+const HiSymptom = (props) => {
+
+  const [subSites, setSubsites] = useState([]);
+  const { id, plantPart } = props.symptom;
+
+  useEffect(() => {
+    getSubSites().then(subSites => {
+      const subsiteValues = subSites.map(s => ({ label: s, value: s}));
+      setSubsites(subsiteValues);
+    })
+  }, [])
+
+  const onSelectChange = (options) => {
+    
+    props.onSelectChange(id, options);
   }
 
-  componentWillMount() {
-    getSubSites()
-      .then(subSites => this.setState({
-        subSites: subSites.map(s => ({ label: s, value: s })),
-        id: this.props.symptom.id,
-        plantPart: this.props.symptom.plantPart,
-      }));
+  const onButtonChange = (e) => {
+    props.onButtonChange(e, id);
   }
 
-  onSelectChange(options) {
-    const { id } = this.state;
-    this.props.onSelectChange(id, options);
+  const onRadioChange = (e) => {
+    props.onRadioChange(e, id);
   }
 
-  onButtonChange(e) {
-    const { id } = this.state;
-    this.props.onButtonChange(e, id);
+  const onSymptomChange = (e) => {
+    props.onSymptomChange(id, e);
   }
 
-  onRadioChange(e) {
-    const { id } = this.state;
-    this.props.onRadioChange(e, id);
+  const onSymptomRemove = () => {
+    props.onSymptomRemove(id, plantPart);
   }
 
-  onSymptomChange(e) {
-    const { id } = this.state;
-    this.props.onSymptomChange(id, e);
-  }
-
-  onSymptomRemove() {
-    const { id, plantPart } = this.state;
-    this.props.onSymptomRemove(id, plantPart);
-  }
-
-  render() {
-    const { symptom, symptoms, hiSymptoms } = this.props;
-    const { subSites, id } = this.state;
+    const { symptom, symptoms } = props;
     const symptomList = symptom.symptoms.map(s => s.id);
     return (
       <div>
         <h3>
           <span>
-            {typeof id !== 'number' ? <button onClick={this.onSymptomRemove}> X </button> : null}
+            {typeof id !== 'number' ? <button onClick={onSymptomRemove}> X </button> : null}
             {`${symptom.plantPart} symptoms`}
           </span>
         </h3>
         <Select
           options={symptoms}
-          onChange={this.onSymptomChange}
+          onChange={onSymptomChange}
           value={symptomList}
           placeholder="Type to search by symptom"
           style={{ marginBottom: '15px' }}
@@ -78,30 +63,30 @@ export default class HiSymptom extends Component {
           selected={symptom.isIndirect}
           name={`isIndirect&${symptom.id}`}
           options={BOOLEANS}
-          onChange={this.onRadioChange}
+          onChange={onRadioChange}
         />
-        <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={this.onButtonChange} />
-        <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={this.onButtonChange} />
+        <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={onButtonChange} />
+        <ButtonGroup title="Maturity" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={onButtonChange} />
         <EnhancedCreatable
           title="SubSites"
           name="subSites"
           value={symptom.subSite}
-          onChange={this.onSelectChange}
+          onChange={onSelectChange}
           options={subSites}
           multi
         />
       </div>
     );
-  }
 }
 
 HiSymptom.propTypes = {
   symptom: PropTypes.object,
   symptoms: PropTypes.array,
-  hiSymptoms: PropTypes.array,
   onSelectChange: PropTypes.func,
   onButtonChange: PropTypes.func,
   onRadioChange: PropTypes.func,
   onSymptomChange: PropTypes.func,
   onSymptomRemove: PropTypes.func,
 };
+
+export default HiSymptom;

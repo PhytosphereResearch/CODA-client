@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
@@ -19,48 +19,48 @@ const initialState = {
   reference: { ...blankRef },
 };
 
-export default class EditReferences extends Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-    autobind(this);
-  }
+const EditReferences = (props) => {
+  const [selected, setSelected] = useState();
+  const [reference, setReference] = useState({...blankRef});
 
-  onRefSelected(option) {
+  const onRefSelected = (option) => {
     if (!option) {
-      this.setState(initialState);
+      setSelected(undefined);
+      setReference({...blankRef})
       return;
     }
-    this.setState({ selected: option, reference: { ...option } });
+    setSelected(option);
+    setReference({...option});
   }
 
-  onInputChange(e) {
-    const reference = { ...this.state.reference, [e.target.name]: e.target.value };
-    this.setState({ reference });
+  const onInputChange = (e) => {
+    const updatedReference = { ...reference, [e.target.name]: e.target.value };
+    setReference(updatedReference);
   }
 
-  handleSubmit() {
-    const reference = { ...this.state.reference };
-    addOrUpdateReference(reference)
-      .then(this.props.refresh)
-      .then(() => this.setState(initialState));
+  const handleSubmit = () => {
+    const updatedReference = { ...reference };
+    addOrUpdateReference(updatedReference)
+      .then(props.refresh)
+      .then(() => {
+        setSelected(undefined);
+        setReference({...blankRef});
+      });
   }
 
-  render() {
-    const { options } = this.props;
-    const { selected, reference } = this.state;
+    const { options } = props;
     return (
       <div>
         <h3>References</h3>
         <Select
           options={options}
-          onChange={this.onRefSelected}
+          onChange={onRefSelected}
           value={selected}
           placeholder="Type to search by reference"
           style={{ marginBottom: '15px' }}
         />
-        <h4>{this.state.selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
-        <form onSubmit={this.handleSubmit} onChange={this.onInputChange}>
+        <h4>{selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
+        <form onSubmit={handleSubmit} onChange={onInputChange}>
           <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year" />
           <TextInput title="Description" hintText="Authors (YYYY): Title" value={reference.description} name="description" />
           <TextInput title="Author" value={reference.author} name="author" />
@@ -68,13 +68,14 @@ export default class EditReferences extends Component {
           <TextInput title="Source" value={reference.source} name="source" />
           <TextArea title="Notes" value={reference.notes} name="notes" />
         </form>
-        <button onClick={this.handleSubmit}>{reference.id ? 'UPDATE' : 'SUBMIT'}</button>
+        <button onClick={handleSubmit}>{reference.id ? 'UPDATE' : 'SUBMIT'}</button>
       </div>
     );
-  }
 }
 
 EditReferences.propTypes = {
   refresh: PropTypes.func,
   options: PropTypes.array,
 };
+
+export default EditReferences;

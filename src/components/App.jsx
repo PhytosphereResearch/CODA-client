@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, redirect } from 'react-router-dom';
 import { Navigate } from 'react-router';
 import autobind from 'react-autobind';
@@ -28,85 +28,74 @@ const format = (records, idField = 'id') => records.map(r => ({ value: r[idField
 
 export const auth = new Auth();
 
-const handleAuthentication = (nextState) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
+const App = () => {
+  const [oaks, setOaks] = useState([]);
+  const [formattedOaks, setFormattedOaks] = useState([]);
+  const [agents, setAgents] = useState([]);
+  const [formattedAgents, setFormattedAgents] = useState([]);
+  const [symptoms, setSymptoms] = useState([]);
+  const [formattedSymptoms, setFormattedSymptoms] = useState([]);
+  const [formattedReferences, setFormattedReferences] = useState([]);
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      oaks: [],
-      formattedOaks: [],
-      agents: [],
-      formattedAgents: [],
-      symptoms: [],
-      formattedSymptoms: [],
-      formattedReferences: [],
-    };
-    autobind(this);
-  }
+  useEffect(() => {
+    fetchOaks();
+    fetchAgents();
+    fetchSymptoms();
+    fetchReferences();
+  }, [])
 
-  componentWillMount() {
-    this.fetchOaks();
-    this.fetchAgents();
-    this.fetchSymptoms();
-    this.fetchReferences();
-  }
-
-  fetchSymptoms() {
+  const fetchSymptoms = () => {
     getAllSymptoms().then((symptoms) => {
       const formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
-      this.setState({ symptoms, formattedSymptoms });
+      setSymptoms(symptoms);
+      setFormattedSymptoms(formattedSymptoms);
     });
   }
 
-  fetchOaks() {
+  const fetchOaks = () => {
     return getAllOaks().then((oaks) => {
       const formattedOaks = format(oaks);
-      this.setState({ oaks, formattedOaks });
+      setOaks(oaks);
+      setFormattedOaks(formattedOaks);
     });
   }
 
-  fetchAgents() {
+  const fetchAgents = () => {
     return getAllAgentSynonyms().then((agents) => {
       const formattedAgents = format(agents, 'agentId');
-      this.setState({ agents, formattedAgents });
+      setAgents(agents);
+      setFormattedAgents(formattedAgents);
     });
   }
 
-  fetchReferences() {
+  const fetchReferences = () => {
     return getReferences().then((references) => {
       const formatted = references.map(r => ({ ...r, value: r.id, label: r.description }));
-      this.setState({ formattedReferences: formatted });
+      setFormattedReferences(formatted);
     });
   }
 
-  render() {
-    const { formattedOaks, formattedAgents, formattedSymptoms, formattedReferences } = this.state;
     return (
       <div>
         <Router>
           <Shell auth={auth}>
             <Routes>
               <Route exact path="/" Component={Landing} />
-              <Route path="/oaks" element={<Oaks oaks={this.state.oaks} options={this.state.formattedOaks} />}>
+              <Route path="/oaks" element={<Oaks oaks={oaks} options={formattedOaks} />}>
                   <Route path="/oaks/:id" element={<Oak />} />
               </Route>
-              <Route path="/agents" element={<Agents agents={this.state.agents} options={this.state.formattedAgents} />}>
+              <Route path="/agents" element={<Agents agents={agents} options={formattedAgents} />}>
                   <Route path="/agents/:id" element={<Agent/>} />
               </Route>
               <Route path="/hi/interaction/:id" element={<InteractionPage />} />
-              <Route path="/hi" element={<InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
+              <Route path="/hi" element={<InteractionSearch oaks={formattedOaks} symptoms={formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
-              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Navigate to='/' replace/>)}>
-                  <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} refresh={this.fetchOaks} />} />
-                  <Route path="/edit/agents" element={<EditAgents options={formattedAgents} refresh={this.fetchAgents} />} />
-                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} refresh={this.fetchAgents} />} />
-                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} refresh={this.fetchSymptoms} />} />
-                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} refresh={this.fetchReferences} />} />
+              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit oaks={oaks} formattedOaks={formattedOaks} agents={agents} formattedAgents={formattedAgents} symptoms={symptoms} formattedSymptoms={formattedSymptoms} formattedReferences={formattedReferences} fetchAgents={fetchAgents} fetchOaks={fetchOaks} fetchSymptoms={fetchSymptoms} fetchReferences={fetchReferences} /> : <Navigate to='/' replace/>)}>
+                  <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} refresh={fetchOaks} />} />
+                  <Route path="/edit/agents" element={<EditAgents options={formattedAgents} refresh={fetchAgents} />} />
+                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} refresh={fetchAgents} />} />
+                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms} />} />
+                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} refresh={fetchReferences} />} />
                   <Route path="/edit/interactions" element={<EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
               </Route>
               <Route
@@ -118,9 +107,6 @@ export default class App extends Component {
         </Router>
       </div>
     );
-
-  //   <Routes>
-
-  // </Routes>
-  }
 }
+
+export default App;

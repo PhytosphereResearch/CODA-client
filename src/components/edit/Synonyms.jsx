@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import autobind from 'react-autobind';
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
@@ -16,85 +15,80 @@ const blankSynonym = {
   notes: '',
 };
 
-const initialState = {
-  selected: undefined,
-  selectedAgent: undefined,
-  formattedSynonyms: [],
-  selectedSynonym: undefined,
-  newSynonym: false,
-  prevSynonym: undefined,
-};
+const EditSynonyms = (props) => {
+  const [selected, setSelected] = useState();
+  const [selectedAgent, setSelectedAgent] = useState();
+  const [selectedSynonym, setSelectedSynonym] = useState();
+  const [newSynonym, setNewSynonym] = useState(false);
+  const [prevSynonym, setPrevSynonym] = useState();
 
-export default class EditSynonyms extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { ...initialState };
-    autobind(this);
+  const resetState = () => {
+    setSelected(undefined);
+    setSelectedAgent(undefined);
+    setFormattedSynonyms([]);
+    setSelectedSynonym(undefined);
+    setNewSynonym(false);
+    setPrevSynonym(undefined);
   }
 
-  onAgentSelected(option) {
+  const onAgentSelected = (option) => {
     if (!option || !option.value) {
-      this.setState({ ...initialState });
+      resetState();
       return;
     }
     getAgent(option.value)
       .then((agent) => {
         let selectedSynonym = agent.synonyms.find(synonym => synonym.id === option.synId);
         selectedSynonym = { ...selectedSynonym };
-        this.setState({
-          selectedAgent: agent, selectedSynonym, selected: option, newSynonym: false,
-        });
+        setSelectedAgent(agent);
+        setSelectedSynonym(selectedSynonym);
+        setSelected(option);
+        setNewSynonym(false);
       });
   }
 
-  onSynonymSelected(option) {
+  const onSynonymSelected = (option) => {
     if (!option || !option.value) {
-      this.setState({ selectedSynonym: null });
+      setSelectedSynonym(null);
       return;
     }
-    this.setState({ selectedSynonym: option.value });
+    setSelectedSynonym(option.value);
   }
 
-  onSynonymChange(e) {
-    const updatedSynonym = { ...this.state.selectedSynonym, [e.target.name]: e.target.value };
-    this.setState({ selectedSynonym: updatedSynonym });
+  const onSynonymChange = (e) => {
+    const updatedSynonym = { ...selectedSynonym, [e.target.name]: e.target.value };
+    setSelectedSynonym(updatedSynonym);
   }
 
-  onAgentChange(e) {
-    const updatedAgent = { ...this.state.selectedAgent, [e.target.name]: e.target.value };
-    this.setState({
-      selectedAgent: updatedAgent,
-    });
-  }
-
-  createSynonym() {
-    if (this.state.newSynonym) {
-      this.setState({ newSynonym: !this.state.newSynonym, selectedSynonym: { ...this.state.prevSynonym } });
+  const createSynonym = () => {
+    if (newSynonym) {
+      setNewSynonym(false);
+      setSelectedSynonym(prevSynonym);
     } else {
-      const prevSynonym = { ...this.state.selectedSynonym };
-      this.setState({ newSynonym: !this.state.newSynonym, selectedSynonym: { ...blankSynonym }, prevSynonym });
+      const newPrevSynonym = { ...selectedSynonym };
+      setNewSynonym(true);
+      setSelectedSynonym({ ...blankSynonym });
+      setPrevSynonym(newPrevSynonym);
     }
   }
 
-  submitSynonym() {
-    const submittedSynonym = { ...this.state.selectedSynonym };
+  const submitSynonym = () => {
+    const submittedSynonym = { ...selectedSynonym };
     if (submittedSynonym.isPrimary === 'true' || submittedSynonym.isPrimary === true) {
       submittedSynonym.isPrimary = 1;
     } else {
       submittedSynonym.isPrimary = 0;
     }
-    if (this.state.newSynonym) {
-      submittedSynonym.agentId = this.state.selectedAgent.id;
+    if (newSynonym) {
+      submittedSynonym.agentId = selectedAgent.id;
     }
 
     addOrUpdateSynonym(submittedSynonym)
-      .then(this.props.refresh)
-      .then(this.setState({ ...initialState }));
+      .then(props.refresh)
+      .then(resetState());
   }
 
-  render() {
-    const options = this.props.options;
-    const { selected, selectedAgent, selectedSynonym } = this.state;
+    const options = props.options;
     const primary = selectedAgent ? selectedAgent.primarySynonym : null;
 
     const otherSynonyms = selectedAgent && selectedAgent.otherSynonyms.length ? (
@@ -107,7 +101,7 @@ export default class EditSynonyms extends Component {
         <h3>Agent Synonyms</h3>
         <Select
           options={options}
-          onChange={this.onAgentSelected}
+          onChange={onAgentSelected}
           value={selected}
           placeholder="Type to search by species or common name"
           style={{ marginBottom: '15px' }}
@@ -121,29 +115,30 @@ export default class EditSynonyms extends Component {
               authority={primary.authority}
             />
             {otherSynonyms}
-            <button onClick={this.createSynonym}>{this.state.newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
-            <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={this.onSynonymChange} />
-            <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={this.onSynonymChange} />
-            <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={this.onSynonymChange} />
-            <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={this.onSynonymChange} />
+            <button onClick={createSynonym}>{newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
+            <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
+            <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
+            <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
+            <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
             <RadioGroup
               title="Currently accepted name?"
               selected={selectedSynonym.isPrimary}
               name="isPrimary"
               options={BOOLEANS}
-              disabled={this.state.selectedAgent.primarySynonym.id === this.state.selectedSynonym.id}
-              onChange={this.onSynonymChange}
+              disabled={selectedAgent.primarySynonym.id === selectedSynonym.id}
+              onChange={onSynonymChange}
             />
-            <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={this.onSynonymChange} />
+            <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={onSynonymChange} />
           </div>
         ) : null }
-        <button onClick={this.submitSynonym}>SUBMIT</button>
+        <button onClick={submitSynonym}>SUBMIT</button>
       </div>
     );
-  }
 }
 
 EditSynonyms.propTypes = {
   refresh: PropTypes.func,
   options: PropTypes.array,
 };
+
+export default EditSynonyms;
