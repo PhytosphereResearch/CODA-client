@@ -1,15 +1,18 @@
 import { useEffect } from 'react';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Login = (props) => {
+  const navigate = useNavigate();
   useEffect(() => {
     if (!props.auth.isAuthenticated()) {
       props.auth.login();
+    } else {
+      navigate('/');
     }
   }, [])
 
-    return props.auth.isAuthenticated() ? redirect("/") : null;
+      return null;
 }
 
 Login.propTypes = {
