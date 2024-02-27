@@ -13,6 +13,7 @@ import { getAllAgentSynonyms } from '../services/agents';
 import { getAllSymptoms, getReferences } from '../services/interactions';
 import Auth from './auth/Auth';
 import Login from './auth/Login';
+import Logout from './auth/Logout';
 import Callback from './auth/Callback';
 import Oak from './oaks/Oak';
 import Agent from './agents/Agent';
@@ -89,6 +90,7 @@ const App = () => {
               <Route path="/hi/interaction/:id" element={<InteractionPage />} />
               <Route path="/hi" element={<InteractionSearch oaks={formattedOaks} symptoms={formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
+              <Route path="/logout" element={<Logout auth={auth} />} />
               <Route path="/edit" element={(auth.isAuthenticated() ? <Edit oaks={oaks} formattedOaks={formattedOaks} agents={agents} formattedAgents={formattedAgents} symptoms={symptoms} formattedSymptoms={formattedSymptoms} formattedReferences={formattedReferences} fetchAgents={fetchAgents} fetchOaks={fetchOaks} fetchSymptoms={fetchSymptoms} fetchReferences={fetchReferences} /> : <Navigate to='/' replace/>)}>
                   <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} refresh={fetchOaks} />} />
                   <Route path="/edit/agents" element={<EditAgents options={formattedAgents} refresh={fetchAgents} />} />

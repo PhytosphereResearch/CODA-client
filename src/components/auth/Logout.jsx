@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Spinner } from '../shared/shapes';
 
-const Login = (props) => {
+const Logout = (props) => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!props.auth.isAuthenticated()) {
-      props.auth.login();
+    if (props.auth.isAuthenticated()) {
+      props.auth.logout();
     } else {
       navigate('/');
     }
@@ -20,8 +20,8 @@ const Login = (props) => {
   )
 }
 
-Login.propTypes = {
+Logout.propTypes = {
   auth: PropTypes.object,
 };
 
-export default Login;
+export default Logout;
