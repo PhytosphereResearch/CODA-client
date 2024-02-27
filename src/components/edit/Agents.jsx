@@ -94,7 +94,7 @@ const EditAgents = (props) => {
       .catch(() => setLoading(false));
   }
 
-  updateFields(fields) {
+  const updateFields = (fields) => {
     setFields(fields);
   }
 

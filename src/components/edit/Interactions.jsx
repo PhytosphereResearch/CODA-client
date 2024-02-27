@@ -87,7 +87,7 @@ const EditInteractions = (props) => {
   }
 
   const onHisymptomRadioChange = (e, id) => {
-    const hiSymptoms = [...this.state.hiSymptoms];
+    const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     hiSymptToUpdate[e.target.name.split('&')[0]] = e.target.value;
     setData({ ...data, hiSymptoms });
@@ -229,7 +229,7 @@ const EditInteractions = (props) => {
 
     const entryProps = {
       ...props,
-      ...this.state,
+      ...data,
       onOakSelected,
       onAgentSelected,
       getHi,

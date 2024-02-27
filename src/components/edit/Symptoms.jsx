@@ -108,3 +108,5 @@ EditSymptoms.propTypes = {
   refresh: PropTypes.func,
   options: PropTypes.array,
 };
+
+export default EditSymptoms;

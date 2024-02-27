@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Navigate } from 'react-router';
-import autobind from 'react-autobind';
 import Shell from './Shell';
 import Landing from './landing';
 import Agents from './agents';

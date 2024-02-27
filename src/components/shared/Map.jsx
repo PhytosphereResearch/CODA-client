@@ -63,11 +63,10 @@ const CAMap = (props) => {
     }
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e, selectedCounty) => {
     if (!props.editable) {
       return;
     }
-    const selectedCounty = e.properties.name;
     props.onMapChange(selectedCounty);
   }
 
@@ -116,7 +115,7 @@ const CAMap = (props) => {
                     style={style}
                     onMouseMove={(e) => handleMove(e, geography?.properties?.fullName)}
                     onMouseLeave={e => handleMove(e, geography?.properties?.fullName)}
-                    onClick={handleClick}
+                    onClick={(e)=>handleClick(e, geography?.properties?.name)}
                   />
                 );
               })}}
