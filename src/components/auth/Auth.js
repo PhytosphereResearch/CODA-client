@@ -1,5 +1,4 @@
 import auth0 from 'auth0-js';
-import { redirect } from 'react-router-dom';
 
 const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:5173/callback';
 
