@@ -1,14 +1,9 @@
 import auth0 from 'auth0-js';
-import autobind from 'react-autobind';
 import { redirect } from 'react-router-dom';
 
 const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:5173/callback';
 
 export default class Auth {
-  constructor() {
-    autobind(this);
-  }
-
   userProfile;
 
   auth0 = new auth0.WebAuth({
@@ -42,7 +37,7 @@ export default class Auth {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     // navigate to the home route
-    window.location.replace('/');
+    redirect('/');
   }
 
   isAuthenticated() {
