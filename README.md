@@ -31,7 +31,7 @@ export default {
 
 # CODA for local development
 
-- Start a local copy of the MySQL database (TODO: instructions for creating from backup)
+- Start a local copy of the CODA MySQL database
 
 - Navigate to the root of CODA-client
 - Run `npm install`
