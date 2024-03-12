@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router';
-import autobind from 'react-autobind';
+import { useLocation } from 'react-router-dom';
 import Logo from './logo';
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    autobind(this);
+const Header = (props) => {
+
+  const location = useLocation();
+  
+  const computeMatch = (string) => {
+    return location.pathname.split('/')[1] === string;
   }
 
-  computeMatch(string) {
-    return this.props.location.pathname.split('/')[1] === string;
-  }
-
-  render() {
     return (
       <div className="group">
         <div className="header group">
@@ -25,17 +21,16 @@ class Header extends Component {
           </div>
           <nav className="navigation">
             <ul>
-              {this.props.loggedIn && <li className={this.computeMatch('edit') ? 'active' : ''}><Link to="/edit">Edit</Link></li> }
-              <li className={this.computeMatch('') ? 'active' : ''}><Link to="/">Home</Link></li>
-              <li className={this.computeMatch('oaks') ? 'active' : ''}><Link to="/oaks">Oaks</Link></li>
-              <li className={this.computeMatch('agents') ? 'active' : ''}><Link to="/agents">Agents</Link></li>
-              <li className={this.computeMatch('hi') ? 'active' : ''}><Link to="/hi">Interactions</Link></li>
+              {props.loggedIn && <li className={computeMatch('edit') ? 'active' : ''}><Link to="/edit">Edit</Link></li> }
+              <li className={computeMatch('') ? 'active' : ''}><Link to="/">Home</Link></li>
+              <li className={computeMatch('oaks') ? 'active' : ''}><Link to="/oaks">Oaks</Link></li>
+              <li className={computeMatch('agents') ? 'active' : ''}><Link to="/agents">Agents</Link></li>
+              <li className={computeMatch('hi') ? 'active' : ''}><Link to="/hi">Interactions</Link></li>
             </ul>
           </nav>
         </div>
       </div>
     );
-  }
 }
 
 Header.propTypes = {
@@ -45,5 +40,4 @@ Header.propTypes = {
   loggedIn: PropTypes.bool,
 };
 
-const WrappedHeader = withRouter(Header);
-export default WrappedHeader;
+export default Header;

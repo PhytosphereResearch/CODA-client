@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
 
 const defaultStyle = {
   height: '300px',
@@ -14,27 +13,20 @@ const defaultStyle = {
   flexShrink: 0,
 };
 
-export default class SymptomPreview extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasError: false,
-    };
-    autobind(this);
-  }
+const SymptomPreview = (props) => {
+  const [hasError, setHasError] = useState(false);
 
-  componentWillReceiveProps() {
-    this.setState({ hasError: false });
-  }
+  const {
+    plantPart, symptom, description, style,
+  } = props;
 
-  handleError() {
-    this.setState({ hasError: true });
-  }
+  useEffect(() => {
+    setHasError(false);
+  }, [plantPart, symptom])
 
-  render() {
-    const {
-      plantPart, symptom, description, style,
-    } = this.props;
+  const handleError = () => {
+    setHasError(true);
+  }
 
     if (!plantPart || !symptom) {
       return (
@@ -44,7 +36,7 @@ export default class SymptomPreview extends Component {
       );
     }
 
-    const image = this.state.hasError ? (
+    const image = hasError ? (
       <div
         style={defaultStyle}
       >
@@ -57,7 +49,7 @@ export default class SymptomPreview extends Component {
         style={{ maxWidth: '100%' }}
         src={`/images/symptoms/${plantPart}/${symptom.label.replace(/ /g, '_')}.jpg`}
         alt={`${symptom.label} on ${plantPart}`}
-        onError={() => this.handleError()}
+        onError={() => handleError()}
       />
     );
 
@@ -67,7 +59,6 @@ export default class SymptomPreview extends Component {
         <p style={{ maxWidth: '300px' }}>{description || symptom.description}</p>
       </div>
     );
-  }
 }
 
 SymptomPreview.propTypes = {
@@ -76,3 +67,5 @@ SymptomPreview.propTypes = {
   description: PropTypes.string,
   style: PropTypes.object,
 };
+
+export default SymptomPreview;

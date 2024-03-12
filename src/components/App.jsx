@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import autobind from 'react-autobind';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import Shell from './Shell';
 import Landing from './landing';
 import Agents from './agents';
@@ -13,92 +13,101 @@ import { getAllAgentSynonyms } from '../services/agents';
 import { getAllSymptoms, getReferences } from '../services/interactions';
 import Auth from './auth/Auth';
 import Login from './auth/Login';
+import Logout from './auth/Logout';
 import Callback from './auth/Callback';
+import Oak from './oaks/Oak';
+import Agent from './agents/Agent';
+import EditOaks from './edit/Oaks';
+import EditAgents from './edit/Agents';
+import EditSynonyms from './edit/Synonyms';
+import EditSymptoms from './edit/Symptoms';
+import EditReferences from './edit/References';
+import EditInteractions from './edit/Interactions';
 
 const format = (records, idField = 'id') => records.map(r => ({ value: r[idField], label: `${r.genus} ${r.species} ${r.subSpecies} ${r.commonName ? `(${r.commonName})` : ''}`, synId: r.id ? r.id : null }));
 
 export const auth = new Auth();
 
-const handleAuthentication = (nextState) => {
-  if (/access_token|id_token|error/.test(nextState.location.hash)) {
-    auth.handleAuthentication();
-  }
-};
+const App = () => {
+  const [oaks, setOaks] = useState([]);
+  const [formattedOaks, setFormattedOaks] = useState([]);
+  const [agents, setAgents] = useState([]);
+  const [formattedAgents, setFormattedAgents] = useState([]);
+  const [symptoms, setSymptoms] = useState([]);
+  const [formattedSymptoms, setFormattedSymptoms] = useState([]);
+  const [formattedReferences, setFormattedReferences] = useState([]);
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      oaks: [],
-      formattedOaks: [],
-      agents: [],
-      formattedAgents: [],
-      symptoms: [],
-      formattedSymptoms: [],
-      formattedReferences: [],
-    };
-    autobind(this);
-  }
+  useEffect(() => {
+    fetchOaks();
+    fetchAgents();
+    fetchSymptoms();
+    fetchReferences();
+  }, [])
 
-  componentWillMount() {
-    this.fetchOaks();
-    this.fetchAgents();
-    this.fetchSymptoms();
-    this.fetchReferences();
-  }
-
-  fetchSymptoms() {
+  const fetchSymptoms = () => {
     getAllSymptoms().then((symptoms) => {
       const formattedSymptoms = symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
-      this.setState({ symptoms, formattedSymptoms });
+      setSymptoms(symptoms);
+      setFormattedSymptoms(formattedSymptoms);
     });
   }
 
-  fetchOaks() {
+  const fetchOaks = () => {
     return getAllOaks().then((oaks) => {
       const formattedOaks = format(oaks);
-      this.setState({ oaks, formattedOaks });
+      setOaks(oaks);
+      setFormattedOaks(formattedOaks);
     });
   }
 
-  fetchAgents() {
+  const fetchAgents = () => {
     return getAllAgentSynonyms().then((agents) => {
       const formattedAgents = format(agents, 'agentId');
-      this.setState({ agents, formattedAgents });
+      setAgents(agents);
+      setFormattedAgents(formattedAgents);
     });
   }
 
-  fetchReferences() {
+  const fetchReferences = () => {
     return getReferences().then((references) => {
       const formatted = references.map(r => ({ ...r, value: r.id, label: r.description }));
-      this.setState({ formattedReferences: formatted });
+      setFormattedReferences(formatted);
     });
   }
 
-  render() {
     return (
       <div>
         <Router>
           <Shell auth={auth}>
-            <Switch>
-              <Route exact path="/" component={Landing} />
-              <Route path="/oaks" render={() => <Oaks oaks={this.state.oaks} options={this.state.formattedOaks} />} />
-              <Route path="/agents" render={() => <Agents agents={this.state.agents} options={this.state.formattedAgents} />} />
-              <Route path="/hi/interaction/:id" component={InteractionPage} />
-              <Route path="/hi" render={() => <InteractionSearch oaks={this.state.formattedOaks} symptoms={this.state.formattedSymptoms} />} />
-              <Route path="/login" render={() => <Login auth={auth} />} />
-              <Route path="/edit" render={() => (auth.isAuthenticated() ? <Edit {...this.state} fetchAgents={this.fetchAgents} fetchOaks={this.fetchOaks} fetchSymptoms={this.fetchSymptoms} fetchReferences={this.fetchReferences} /> : <Redirect to="/" />)} />
+            <Routes>
+              <Route exact path="/" Component={Landing} />
+              <Route path="/oaks" element={<Oaks oaks={oaks} options={formattedOaks} />}>
+                  <Route path="/oaks/:id" element={<Oak />} />
+              </Route>
+              <Route path="/agents" element={<Agents agents={agents} options={formattedAgents} />}>
+                  <Route path="/agents/:id" element={<Agent/>} />
+              </Route>
+              <Route path="/hi/interaction/:id" element={<InteractionPage />} />
+              <Route path="/hi" element={<InteractionSearch oaks={formattedOaks} symptoms={formattedSymptoms} />} />
+              <Route path="/login" element={<Login auth={auth} />} />
+              <Route path="/logout" element={<Logout auth={auth} />} />
+              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit oaks={oaks} formattedOaks={formattedOaks} agents={agents} formattedAgents={formattedAgents} symptoms={symptoms} formattedSymptoms={formattedSymptoms} formattedReferences={formattedReferences} fetchAgents={fetchAgents} fetchOaks={fetchOaks} fetchSymptoms={fetchSymptoms} fetchReferences={fetchReferences} /> : <Navigate to='/' replace/>)}>
+                  <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} refresh={fetchOaks} />} />
+                  <Route path="/edit/agents" element={<EditAgents options={formattedAgents} refresh={fetchAgents} />} />
+                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} refresh={fetchAgents} />} />
+                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} refresh={fetchSymptoms} />} />
+                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} refresh={fetchReferences} />} />
+                  <Route path="/edit/interactions" element={<EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
+              </Route>
               <Route
                 path="/callback"
-                render={(props) => {
-                handleAuthentication(props);
-                return <Callback {...props} />;
-              }}
+                element={<Callback />}
               />
-            </Switch>
+            </Routes>
           </Shell>
         </Router>
       </div>
     );
-  }
 }
+
+export default App;

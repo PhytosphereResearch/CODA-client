@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
 import remove from 'lodash/remove';
 import countBy from 'lodash/countBy';
 import { getAgent } from '../../services/agents';
@@ -17,64 +16,60 @@ const initialState = {
   hiOak: undefined,
   hi: undefined,
   hiSymptoms: undefined,
-  loading: false,
   searchPerformed: false,
   plantParts: [],
   newHi: false,
 };
 
-export default class EditInteractions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-    autobind(this);
-  }
+const EditInteractions = (props) => {
+  const [data, setData] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
-  onAgentSelected(option) {
+  const onAgentSelected = (option) => {
     if (!option || !option.value) {
-      this.setState({ selectedAgent: undefined, hiAgent: undefined });
+        setData({ ...data, selectedAgent: undefined, hiAgent: undefined });
       return;
     }
     getAgent(option.value)
-      .then(agent => this.setState({ selectedAgent: option, hiAgent: agent }));
+      .then(agent => setData({ ...data, selectedAgent: option, hiAgent: agent }));
   }
 
-  onOakSelected(option) {
+  const onOakSelected = (option) => {
     if (!option || !option.value) {
-      this.setState({ selectedOak: undefined, hiOak: undefined });
+      setData({ ...data, selectedOak: undefined, hiOak: undefined });
       return;
     }
     getOak(option.value, false)
-      .then(oak => this.setState({ selectedOak: option, hiOak: oak }));
+      .then(oak => setData({ ...data, selectedOak: option, hiOak: oak }));
   }
 
-  onInputChange(e) {
-    const hi = { ...this.state.hi, [e.target.name]: e.target.value };
-    this.setState({ hi });
+  const onInputChange = (e) => {
+    const hi = { ...data.hi, [e.target.name]: e.target.value };
+    setData({ ...data, hi });
   }
 
-  onMultiInputChange(e) {
-    const hi = { ...this.state.hi };
+  const onMultiInputChange = (e) => {
+    const hi = { ...data.hi };
     const inputArray = hi[e.target.name];
     const { value } = e.target;
     if (inputArray.includes(value)) {
       const index = inputArray.indexOf(value);
       inputArray.splice(index, 1);
-      this.setState({ hi });
+      setData({ ...data, hi });
     } else {
       inputArray.push(value);
-      this.setState({ hi });
+      setData({ ...data, hi });
     }
   }
 
-  onHisymptomMultiInputChange(e, id) {
-    const hiSymptoms = [...this.state.hiSymptoms];
+  const onHisymptomMultiInputChange = (e, id) => {
+    const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     const inputArray = hiSymptToUpdate[e.target.name];
     const { value } = e.target;
     if (inputArray.includes(value)) {
       remove(inputArray, element => element === value);
-      this.setState({ hiSymptoms });
+      setData({ ...data, hiSymptoms });
       return;
     }
 
@@ -82,67 +77,67 @@ export default class EditInteractions extends Component {
       const symptArr = [];
       symptArr.push(value);
       hiSymptToUpdate[e.target.name] = symptArr;
-      this.setState({ hiSymptoms });
+      setData({ ...data, hiSymptoms });
       return;
     }
 
     remove(inputArray, element => element === 'All' || element === 'Unknown' || element === '');
     inputArray.push(value);
-    this.setState({ hiSymptoms });
+    setData({ ...data, hiSymptoms });
   }
 
-  onHisymptomRadioChange(e, id) {
-    const hiSymptoms = [...this.state.hiSymptoms];
+  const onHisymptomRadioChange = (e, id) => {
+    const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     hiSymptToUpdate[e.target.name.split('&')[0]] = e.target.value;
-    this.setState({ hiSymptoms });
+    setData({ ...data, hiSymptoms });
   }
 
-  onBibSelectChange(options) {
-    const hi = { ...this.state.hi, bibs: options };
-    this.setState({ hi });
+  const onBibSelectChange = (options) => {
+    const hi = { ...data.hi, bibs: options };
+    setData({ ...data, hi });
   }
 
-  onSubsiteSelectChange(id, options) {
-    const hiSymptoms = [...this.state.hiSymptoms];
+  const onSubsiteSelectChange = (id, options) => {
+    const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     hiSymptToUpdate.subSite = options;
-    this.setState({ hiSymptoms });
+    setData({ ...data, hiSymptoms });
   }
 
-  onSymptomChange(id, options) {
-    const hiSymptoms = [...this.state.hiSymptoms];
+  const onSymptomChange = (id, options) => {
+    const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find(hiSymptom => hiSymptom.id === id);
     hiSymptToUpdate.symptoms = options;
-    this.setState({ hiSymptoms });
+    setData({ ...data, hiSymptoms });
   }
 
-  onSymptomRemove(id, plantPart) {
-    const hiSymptoms = [...this.state.hiSymptoms];
-    const plantParts = this.state.plantParts.slice();
+  const onSymptomRemove = (id, plantPart) => {
+    const hiSymptoms = [...data.hiSymptoms];
+    const plantParts = data.plantParts.slice();
     remove(hiSymptoms, hiSympt => hiSympt.id === id);
     if (!plantParts.includes(plantPart)) {
       plantParts.push(plantPart);
     }
-    this.setState({ hiSymptoms, plantParts });
+    setData({ ...data, hiSymptoms, plantParts });
   }
 
-  onMapChange(county) {
-    const hi = { ...this.state.hi };
+  const onMapChange = (county) => {
+    const hi = { ...data.hi };
     if (hi.countiesByRegions.includes(county)) {
       remove(hi.countiesByRegions, element => element === county);
-      this.setState({ hi });
+      setData({ ...data, hi });
       return;
     }
     hi.countiesByRegions.push(county);
-    this.setState({ hi });
+    setData({ ...data, hi });
   }
 
 
-  onHiSubmit() {
-    this.setState({ loading: true });
-    const hi = { ...this.state.hi };
-    const hiSymptoms = { ...this.state.hiSymptoms };
+  const onHiSubmit = () => {
+    setLoading(true);
+    const hi = { ...data.hi };
+    const hiSymptoms = { ...data.hiSymptoms };
     hi.bibs = hi.bibs.map(bib => bib.value);
     Object.keys(hiSymptoms).forEach((key) => {
       const symptom = hiSymptoms[key];
@@ -156,15 +151,15 @@ export default class EditInteractions extends Component {
     });
     hi.hiSymptoms = hiSymptoms;
     addOrUpdateHi(hi)
-      .then(() => this.setState({ ...initialState }))
-      .catch(() => this.setState({ loading: false }));
+      .then(() => setData({ ...initialState }))
+      .catch(() => setLoading(false));
   }
 
-  getHi() {
-    this.setState({ loading: true });
+  const getHi = () => {
+    setLoading(true);
     const hiQuery = {};
-    hiQuery.agentId = this.state.hiAgent.id;
-    hiQuery.oakId = this.state.hiOak.id;
+    hiQuery.agentId = data.hiAgent.id;
+    hiQuery.oakId = data.hiOak.id;
     getInteractionsByOakAndAgent(hiQuery)
       .then((interaction) => {
         interaction.countiesByRegions = interaction.countiesByRegions.map(c => c.countyCode);
@@ -174,22 +169,27 @@ export default class EditInteractions extends Component {
         });
         const formattedPlantParts = countBy(interaction.hiSymptoms.map(hiSymptom => hiSymptom.plantPart));
         const plantParts = PLANT_PARTS.filter(plantPart => formattedPlantParts[plantPart] !== 2);
-        this.setState({
-          hi: interaction, hiSymptoms: interaction.hiSymptoms, plantParts, loading: false, searchPerformed: true,
+        setData({
+          ...data,
+          hi: interaction, hiSymptoms: interaction.hiSymptoms, plantParts, searchPerformed: true,
         });
+        setLoading(false);
       })
-      .catch(() => this.setState({ loading: false, searchPerformed: true, hi: undefined }));
+      .catch(() => {
+        setData({ ...data, searchPerformed: true, hi: undefined })
+        setLoading(false);
+      });
   }
 
 
-  addHiSymptom(e) {
+  const addHiSymptom = (e) => {
     const plantPartToAdd = e.target.value;
-    const hiSymptoms = [...this.state.hiSymptoms];
-    const plantParts = [...this.state.plantParts];
+    const hiSymptoms = [...data.hiSymptoms];
+    const plantParts = [...data.plantParts];
     const existingPlantPart = hiSymptoms.find(hiSymptom => hiSymptom.plantPart === plantPartToAdd);
     const baseHiSymptom = {
       id: `${plantPartToAdd}-${existingPlantPart ? '1' : '2'}`,
-      hostInteractionId: this.state.hi.id,
+      hostInteractionId: data.hi.id,
       plantPart: plantPartToAdd,
       isIndirect: existingPlantPart ? !existingPlantPart.isIndirect : false,
       isPrimary: [''],
@@ -201,13 +201,13 @@ export default class EditInteractions extends Component {
     if (existingPlantPart) {
       remove(plantParts, plantPart => plantPart === plantPartToAdd);
     }
-    this.setState({ hiSymptoms, plantParts });
+    setData({ ...data, hiSymptoms, plantParts });
   }
 
-  createHi() {
+  const createHi = () => {
     const hi = {
-      agentId: this.state.hiAgent.id,
-      oakId: this.state.hiOak.id,
+      agentId: data.hiAgent.id,
+      oakId: data.hiOak.id,
       bibs: [],
       countiesByRegions: [],
       hiSymptoms: [],
@@ -218,23 +218,18 @@ export default class EditInteractions extends Component {
       situation: [],
     };
 
-    this.setState({
+    setData({...data,
       hi, hiSymptoms: [], plantParts: PLANT_PARTS, newHi: true,
     });
   }
 
-  render() {
     const {
-      hi, loading, searchPerformed, newHi,
-    } = this.state;
-    const {
-      onAgentSelected, onOakSelected, getHi, onInputChange,
-      onMultiInputChange, onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange,
-      onHisymptomRadioChange, onMapChange, onSymptomChange, onSymptomRemove, onHiSubmit, addHiSymptom, createHi,
-    } = this;
+      hi, searchPerformed, newHi,
+    } = data;
+
     const entryProps = {
-      ...this.props,
-      ...this.state,
+      ...props,
+      ...data,
       onOakSelected,
       onAgentSelected,
       getHi,
@@ -257,7 +252,6 @@ export default class EditInteractions extends Component {
         { (searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recorded in CODA.</h3><button onClick={createHi}>Create new interaction</button></div> }
       </div>
     );
-  }
 }
 
 EditInteractions.propTypes = {
@@ -266,3 +260,5 @@ EditInteractions.propTypes = {
   symptoms: PropTypes.array,
   references: PropTypes.array,
 };
+
+export default EditInteractions;

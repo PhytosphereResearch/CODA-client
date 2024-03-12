@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import autobind from 'react-autobind';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simple-maps';
 import counties from '../shared/caCountiesTopo.json';
 
 const baseStyle = {
   default: {
-    fill: '#DDD',
+    fill: '#DDDDDD',
     stroke: 'white',
     strokeWidth: '.7px',
   },
@@ -14,75 +13,64 @@ const baseStyle = {
     fill: '#CFCFCF',
   },
   pressed: {
-    fill: '#BBB',
+    fill: '#BBBBBB',
   },
 };
 
 const interactionStyle = {
   default: {
     ...baseStyle.default,
-    fill: '#9D0D2F',
+    fill: '#850B28',
   },
   hover: {
-    fill: '#870826',
+    fill: '#5C0519',
   },
   pressed: {
-    fill: '#BBB',
+    fill: '#BBBBBB',
   },
 };
 
 const rangeStyle = {
   default: {
     ...baseStyle.default,
-    fill: '#d0113e',
+    fill: '#FF5555',
   },
   hover: {
     fill: '#b21339',
   },
   pressed: {
-    fill: '#BBB',
+    fill: '#BBBBBB',
   },
 };
 
-export default class CAMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mouseX: 0,
-      mouseY: 0,
-      county: null,
-    };
-    this.clientWidth = 0;
-    autobind(this);
-  }
+const CAMap = (props) => {
+  const [mouseX, setMouseX] = useState(0);
+  const [mouseY, setMouseY] = useState(0);
+  const [county, setCounty] = useState(null);
 
-  handleMove(geography, evt) {
+  const clientWidth = useRef(null);
+
+  const handleMove = (evt, selectedCounty) => {
     const x = evt.clientX;
-    const y = evt.clientY + window.pageYOffset;
+    const y = evt.clientY + window.scrollY;
+
     if (evt.type === 'mousemove') {
-      this.setState({
-        mouseX: x,
-        mouseY: y,
-        county: geography.properties.fullName,
-      });
+      setMouseX(x);
+      setMouseY(y);
+      setCounty(selectedCounty);
     } else {
-      this.setState({
-        county: null,
-      });
+      setCounty(null);
     }
   }
 
-  handleClick(e) {
-    if (!this.props.editable) {
+  const handleClick = (e, selectedCounty) => {
+    if (!props.editable) {
       return;
     }
-    const county = e.properties.name;
-    this.props.onMapChange(county);
+    props.onMapChange(selectedCounty);
   }
 
-  render() {
-    const { mouseX, mouseY, county } = this.state;
-    const { interactionRange, agentRange } = this.props;
+    const { interactionRange, agentRange } = props;
     return (
       <div >
         {county && (
@@ -91,11 +79,13 @@ export default class CAMap extends Component {
             style={{
               position: 'absolute',
               top: `${mouseY - 35}px`,
-              left: `${mouseX - (this.clientWidth / 2)}px`,
+              left: `${mouseX - (clientWidth.current / 2)}px`,
               pointerEvents: 'none',
               zIndex: '10',
             }}
-            ref={(el) => { if (el) this.clientWidth = el.clientWidth; }}
+            ref={(el) => { if (el) { 
+              clientWidth.current = el.clientWidth; 
+            }}}
           >
             <span className="tooltiptext">{county}</span>
           </div>
@@ -103,12 +93,14 @@ export default class CAMap extends Component {
         <ComposableMap
           width={300}
           height={450}
+          projection="geoMercator"
           projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={1} disablePanning center={[-119, 37.3]}>
-            <Geographies geography={counties} disableOptimization>
-              {(geographies, projection) => geographies.map((geography) => {
+          <ZoomableGroup zoom={0.5} disablePanning={true} center={[-119, 33.3]}>
+            <Geographies geography={counties} disableOptimization={true}>
+              {(geographies, projection) => {
+                return geographies.geographies.map((geography) => {
                 let style = baseStyle;
                 if (interactionRange.find(c => c === geography.properties.name)) {
                   style = interactionStyle;
@@ -121,12 +113,12 @@ export default class CAMap extends Component {
                     geography={geography}
                     projection={projection}
                     style={style}
-                    onMouseMove={this.handleMove}
-                    onMouseLeave={this.handleMove}
-                    onClick={this.handleClick}
+                    onMouseMove={(e) => handleMove(e, geography?.properties?.fullName)}
+                    onMouseLeave={e => handleMove(e, geography?.properties?.fullName)}
+                    onClick={(e)=>handleClick(e, geography?.properties?.name)}
                   />
                 );
-              })}
+              })}}
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
@@ -145,7 +137,6 @@ export default class CAMap extends Component {
       }
       </div>
     );
-  }
 }
 
 CAMap.propTypes = {
@@ -154,3 +145,5 @@ CAMap.propTypes = {
   onMapChange: PropTypes.func,
   editable: PropTypes.bool,
 };
+
+export default CAMap;

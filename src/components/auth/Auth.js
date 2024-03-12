@@ -1,13 +1,8 @@
 import auth0 from 'auth0-js';
-import autobind from 'react-autobind';
 
-const redirectUri = process.env.NODE_ENV === 'production' ? 'https://coda.phytosphere.com/callback' : 'https://localhost:8080/callback';
+const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:5173/callback';
 
 export default class Auth {
-  constructor() {
-    autobind(this);
-  }
-
   userProfile;
 
   auth0 = new auth0.WebAuth({
@@ -20,10 +15,9 @@ export default class Auth {
   });
 
   handleAuthentication() {
-    this.auth0.parseHash(window.location.hash, (err, authResult) => {
+    this.auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        window.location.replace('/');
       } else if (err) {
         window.location.replace('/');
         console.warn(`Error: ${err.error}. Check the console for further details.`);

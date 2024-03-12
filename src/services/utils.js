@@ -1,5 +1,3 @@
-import arrayBufferToString from 'arraybuffer-to-string';
-
 export const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
@@ -13,5 +11,5 @@ export const bufferToString = (buffer) => {
   if (!buffer || !buffer.data) {
     return '';
   }
-  return arrayBufferToString(buffer.data);
+  return String.fromCharCode.apply(null, new Uint16Array(buffer.data));
 };

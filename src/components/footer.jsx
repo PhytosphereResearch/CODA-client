@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
-import autobind from 'react-autobind';
+import { useState } from 'react';
 import Legal from './landing/Legal';
 
-export default class Footer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: false,
-    };
-    autobind(this);
+const Footer = () => {
+  const [show, setShow] = useState(false);
+
+  const displayStatement = () => {
+    setShow(true);
   }
 
-  displayStatement() {
-    this.setState({ show: true });
+  const handleCloseModal = () => {
+    setShow(false);
   }
 
-  handleCloseModal() {
-    this.setState({ show: false });
-  }
-
-  render() {
     return (
       <div className="copyright">
-        <Legal show={this.state.show} handleCloseModal={this.handleCloseModal} />
-        <a onClick={this.displayStatement}>
+        <Legal show={show} handleCloseModal={handleCloseModal} />
+        <a onClick={displayStatement}>
           © 2016 Phytosphere Research | Version 2.0 | Disclaimer | Nondiscrimination statement
         </a>
       </div>
     );
-  }
 }
+
+export default Footer;

@@ -1,20 +1,27 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Spinner } from '../shared/shapes';
 
-export default class Login extends Component {
-  componentWillMount() {
-    if (this.props.auth.isAuthenticated()) {
-      return;
+const Login = (props) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!props.auth.isAuthenticated()) {
+      props.auth.login();
+    } else {
+      navigate('/');
     }
-    this.props.auth.login();
-  }
+  }, [])
 
-  render() {
-    return this.props.auth.isAuthenticated() ? <Redirect to="/" /> : null;
-  }
+  return (
+    <div>
+      <Spinner />
+    </div>
+  )
 }
 
 Login.propTypes = {
   auth: PropTypes.object,
 };
+
+export default Login;
