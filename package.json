@@ -1,7 +1,9 @@
 {
-  "name": "coda-client-v2-temp",
+  "name": "coda",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "California Oak Disease and Arthropod Database",
+  "main": "/src/main.jsx",
   "type": "module",
   "scripts": {
     "dev": "vite",
