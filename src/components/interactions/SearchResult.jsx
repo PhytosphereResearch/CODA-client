@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
+import { useNavigate } from 'react-router';
 import { ScientificName } from '../shared/partials';
 
-export default class SearchResult extends Component {
-  constructor(props) {
-    super(props);
-    autobind(this);
+const SearchResult = (props) => {
+  const navigate = useNavigate();
+  const onRecordClick = () => {
+    navigate(`/hi/interaction/${props.interaction.hostInteractionId}`);
   }
 
-  onRecordClick() {
-    this.context.router.history.push(`/hi/interaction/${this.props.interaction.hostInteractionId}`);
-  }
-
-  render() {
-    const { interaction } = this.props;
+    const { interaction } = props;
     const { agent, oak } = interaction.hostInteraction;
     let description;
     if (interaction.maturity !== 'all') {
@@ -32,17 +27,14 @@ export default class SearchResult extends Component {
             <ScientificName style={{ fontSize: '11pt' }} genus={oak.genus} species={oak.species} subSpecies={oak.subSpecies} authority={oak.authority} inline /> &mdash;{' '}
             {interaction.plantPart}{description}
           </div>
-          <button onClick={this.onRecordClick}>Read more</button>
+          <button onClick={onRecordClick}>Read more</button>
         </div>
       </li>
     );
-  }
 }
 
 SearchResult.propTypes = {
   interaction: PropTypes.object,
 };
 
-SearchResult.contextTypes = {
-  router: PropTypes.object,
-};
+export default SearchResult;

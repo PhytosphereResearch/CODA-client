@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
-import Select from 'react-virtualized-select';
-import { withRouter } from 'react-router';
+import Select from 'react-select';
+import { useLocation, useNavigate } from 'react-router';
 import { getInteractions } from '../../services/interactions';
 import SearchResult from './SearchResult';
 import SymptomPreview from './SymptomPreview';
@@ -10,53 +9,51 @@ import { Spinner } from '../shared/shapes';
 
 const plantParts = ['flower', 'acorn', 'leaf', 'branch', 'trunk', 'root'];
 
-class Interactions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: {},
-      interactions: [],
-    };
-    autobind(this);
-  }
+const Interactions = (props) => {
 
-  componentWillMount() {
-    if (this.props.location.search) {
-      this.goSearch(this.props.location.search);
+  const [ selected, setSelected ] = useState({});
+  const [ interactions, setInteractions ] = useState([]);
+  const [ searching, setSearching ] = useState(false);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const onSearch = () => {
+    if (location.search) {
+      goSearch(location.search);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.location.search !== nextProps.location.search) {
-      this.goSearch(nextProps.location.search);
-    }
-  }
+  useEffect(() => {
+    onSearch();
+  }, [location.search]);
 
-  onSearchClick() {
-    const { selected } = this.state;
+  const onSearchClick = () => {
     const symptom = selected.symptom ? `${selected.symptom.value}@${selected.symptom.label}` : '';
     const oak = selected.oak ? `${selected.oak.value}@${selected.oak.label}` : '';
     const options = { symptom, oak, plantPart: selected.plantPart };
     const query = Object.keys(options).map(key => `${key}=${options[key]}`).join('&');
-    this.context.router.history.push(`/hi?${query}`);
+
+    navigate(`/hi?${query}`, {replace: true});
+    //onSearch();
   }
 
-  onSelect(option, key) {
-    const { selected } = this.state;
+  const onSelect = (option, key) => {
+    const updatedSelected = {...selected};
     if (key === 'plantPart' && selected.symptom && !selected.symptom[option]) {
-      selected.symptom = undefined;
+      updatedSelected.symptom = undefined;
     }
-    selected[key] = option;
-    this.setState({ selected });
+    updatedSelected[key] = option;
+    setSelected(updatedSelected);
   }
 
-  canSearch() {
-    const { symptom, oak } = this.state.selected;
+  const canSearch = () => {
+    const { symptom, oak } = selected;
     return (symptom && symptom.value) || (oak && oak.value);
   }
 
 
-  goSearch(query) {
+  const goSearch = (query) => {
     if (!query) {
       return;
     }
@@ -67,22 +64,21 @@ class Interactions extends Component {
       .forEach((pair) => { search[pair[0]] = pair[1].split('@'); });
     const oak = search.oak[0] ? { value: search.oak[0], label: decodeURI(search.oak[1]) } : undefined;
     const symptom = search.symptom[0] ? { value: search.symptom[0], label: decodeURI(search.symptom[1]) } : undefined;
-    const selected = {
-      ...this.state.selected, plantPart: search.plantPart[0], oak, symptom,
+    const updatedSelected = {
+      ...selected, plantPart: search.plantPart[0], oak, symptom,
     };
-    this.setState({ searching: true, selected, interactions: [] });
+    setSearching(true);
+    setSelected(updatedSelected);
+    setInteractions([]);
+
     getInteractions(search.plantPart[0], search.symptom[0], search.oak[0])
       .then((interactions) => {
-        this.setState({
-          searching: false,
-          interactions,
-        });
+        setInteractions(interactions);
+        setSearching(false);
       });
   }
 
-  render() {
-    const { oaks, symptoms } = this.props;
-    const { selected, searching, interactions } = this.state;
+    const { oaks, symptoms } = props;
     return (
       <div>
         <h2>Find an agent by symptoms</h2>
@@ -94,7 +90,7 @@ class Interactions extends Component {
             </div>
             <Select
               options={oaks}
-              onChange={option => this.onSelect(option, 'oak')}
+              onChange={option => onSelect(option, 'oak')}
               value={selected.oak}
               placeholder="Search oaks by species or common name"
               style={{ marginBottom: '15px' }}
@@ -105,7 +101,7 @@ class Interactions extends Component {
                 <button
                   style={{ flexGrow: '1' }}
                   className={selected.plantPart === part ? 'inSearch' : ''}
-                  onClick={() => this.onSelect(part, 'plantPart')}
+                  onClick={() => onSelect(part, 'plantPart')}
                   key={part}
                 >
                   {part}
@@ -115,7 +111,7 @@ class Interactions extends Component {
             <Select
               disabled={!selected.plantPart}
               options={symptoms.filter(symptom => symptom[selected.plantPart])}
-              onChange={option => this.onSelect(option, 'symptom')}
+              onChange={option => onSelect(option, 'symptom')}
               value={selected.symptom}
               placeholder="Select a symptom"
               style={{ marginBottom: '15px' }}
@@ -133,16 +129,16 @@ class Interactions extends Component {
         </div>
         <div className="go-search">
           <button
-            disabled={!this.canSearch()}
+            disabled={!canSearch()}
             className="search-button"
-            onClick={this.onSearchClick}
+            onClick={onSearchClick}
           >
             Search this combination
           </button>
         </div>
         <div className="interactionsList">
           { searching ? <Spinner /> : null }
-          { !searching && !interactions.length && this.props.location.search ? (
+          { !searching && !interactions.length && location.search ? (
             <div style={{ textAlign: 'center' }}><h3>No Results Found</h3><h4>Try modifying your search</h4></div>
           ) : null }
           <ul>
@@ -151,7 +147,6 @@ class Interactions extends Component {
         </div>
       </div>
     );
-  }
 }
 
 Interactions.propTypes = {
@@ -160,8 +155,4 @@ Interactions.propTypes = {
   location: PropTypes.object,
 };
 
-Interactions.contextTypes = {
-  router: PropTypes.object,
-};
-
-export default withRouter(Interactions);
+export default Interactions;

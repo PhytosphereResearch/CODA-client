@@ -1,22 +1,20 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Collapse from 'react-smooth-collapse';
 import { Notes } from '../shared/partials';
 
-export default class Reference extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      show: false,
-    };
+const Reference = (props) => {
+  const [show, setShow] = useState(false);
+  const onClick = () => {
+    const updatedShow = !show;
+    setShow(updatedShow);
   }
 
-  render() {
-    const { cite } = this.props;
+    const { cite } = props;
     return (
       <div>
-        <span className="cite" onClick={() => this.setState({ show: !this.state.show })}> • {cite.description}</span>
-        <Collapse expanded={this.state.show}>
+        <span className="cite" onClick={onClick}> • {cite.description}</span>
+        <Collapse expanded={show}>
           <div style={{ paddingLeft: '20px' }}>
             <div>
               {cite.author} {cite.year}. {cite.title} {cite.source}
@@ -26,9 +24,10 @@ export default class Reference extends Component {
         </Collapse>
       </div>
     );
-  }
 }
 
 Reference.propTypes = {
   cite: PropTypes.object,
 };
+
+export default Reference;

@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import autobind from 'react-autobind';
-import Select from 'react-virtualized-select';
-import { getOak, addOrUpdateOak } from 'coda/services/oaks';
+import Select from 'react-select';
+import { getOak, addOrUpdateOak } from '../../services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
-import pickBy from 'lodash.pickby';
+import pickBy from 'lodash/pickby';
 
 const blankOak = {
   genus: '',
@@ -26,84 +25,87 @@ const blankOak = {
   notes: '',
 };
 
-export default class EditOaks extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: undefined,
-      selectedOak: { ...blankOak },
-    };
-    autobind(this);
-  }
+const EditOaks = (props) => {
+  const [selected, setSelected] = useState();
+  const [selectedOak, setSelectedOak] = useState({...blankOak});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  onOakSelected(option) {
+  const onOakSelected = (option) => {
     if (!option.value) {
-      this.setState({ selected: null, selectedOak: { ...blankOak } });
+      setSelected(null);
+      setSelectedOak({...blankOak});
       return;
     }
-    this.setState({ selected: option });
+    setSelected(option);
     getOak(option.value)
-      .then(oak => this.setState({ selectedOak: oak }));
+      .then(oak => setSelectedOak(oak));
   }
 
-  onInputChange(e) {
-    const oak = { ...this.state.selectedOak, [e.target.name]: e.target.value };
-    this.setState({ selectedOak: oak });
+  const onInputChange = (e) => {
+    const oak = { ...selectedOak, [e.target.name]: e.target.value };
+    setSelectedOak(oak);
   }
 
-  onSubmit() {
-    this.setState({ loading: true });
-    const updateOak = pickBy(this.state.selectedOak, value => Boolean(value));
+  const onSubmit = () => {
+    setLoading(true);
+    const updateOak = pickBy(selectedOak, value => Boolean(value));
     addOrUpdateOak(updateOak)
-      .then(this.props.refresh)
-      .then(() => this.setState({ loading: false, selectedOak: { ...blankOak }, selected: undefined }))
-      .catch(() => this.setState({ loading: false, error: true }));
+      .then(props.refresh)
+      .then(() => {
+        setSelectedOak({ ...blankOak });
+        setSelected(undefined);
+        setLoading(false);
+      })
+      .catch(() => { 
+        setError(true);
+        setLoading(false);
+      });
   }
 
-  render() {
-    const { options } = this.props;
-    const { selected, selectedOak } = this.state;
+    const { options } = props;
 
     return (
       <div>
         <h3>Oaks</h3>
         <Select
           options={options}
-          onChange={this.onOakSelected}
+          onChange={onOakSelected}
           value={selected}
           placeholder="Type to search by species or common name"
           style={{ marginBottom: '15px' }}
         />
         <div>
-          {this.state.loading ? <FullScreenSpinner /> : null}
+          {loading ? <FullScreenSpinner /> : null}
           <div style={{ display: 'flex' }}>
-            <TextInput title="Genus" value={selectedOak.genus} name="genus" onChange={this.onInputChange} />
-            <TextInput title="Species" value={selectedOak.species} name="species" onChange={this.onInputChange} />
-            <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={this.onInputChange} />
-            <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={this.onInputChange} />
+            <TextInput title="Genus" value={selectedOak.genus} name="genus" onChange={onInputChange} />
+            <TextInput title="Species" value={selectedOak.species} name="species" onChange={onInputChange} />
+            <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={onInputChange} />
+            <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={onInputChange} />
           </div>
-          <TextInput title="Sub-genus" value={selectedOak.subGenus} name="subGenus" onChange={this.onInputChange} />
-          <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={this.onInputChange} />
-          <TextInput title="Evergreen?" value={selectedOak.evergreen} name="evergreen" onChange={this.onInputChange} />
+          <TextInput title="Sub-genus" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
+          <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={onInputChange} />
+          <TextInput title="Evergreen?" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
           <div style={{ display: 'flex' }}>
-            <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={this.onInputChange} />
-            <TextInput title="Height" value={selectedOak.height} name="height" onChange={this.onInputChange} />
+            <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
+            <TextInput title="Height" value={selectedOak.height} name="height" onChange={onInputChange} />
           </div>
-          <TextArea title="Leaves" limit={500} value={selectedOak.leaves} name="leaves" onChange={this.onInputChange} />
-          <TextArea title="Stems" value={selectedOak.stems} name="stems" onChange={this.onInputChange} />
-          <TextInput title="Acorns" value={selectedOak.acorns} name="acorns" onChange={this.onInputChange} />
-          <TextInput title="Hybrids" value={selectedOak.hybrids} name="hybrids" onChange={this.onInputChange} />
-          <TextInput title="Varieties" value={selectedOak.varieties} name="varieties" onChange={this.onInputChange} />
-          <TextInput title="Distribution (deprecated)" limit={500} value={selectedOak.distribution} name="distribution" onChange={this.onInputChange} />
-          <TextArea title="Notes" value={selectedOak.notes} limit={65535} name="notes" onChange={this.onInputChange} />
-          <button onClick={this.onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
+          <TextArea title="Leaves" limit={500} value={selectedOak.leaves} name="leaves" onChange={onInputChange} />
+          <TextArea title="Stems" value={selectedOak.stems} name="stems" onChange={onInputChange} />
+          <TextInput title="Acorns" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
+          <TextInput title="Hybrids" value={selectedOak.hybrids} name="hybrids" onChange={onInputChange} />
+          <TextInput title="Varieties" value={selectedOak.varieties} name="varieties" onChange={onInputChange} />
+          <TextInput title="Distribution (deprecated)" limit={500} value={selectedOak.distribution} name="distribution" onChange={onInputChange} />
+          <TextArea title="Notes" value={selectedOak.notes} limit={65535} name="notes" onChange={onInputChange} />
+          <button onClick={onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
         </div>
       </div>
     );
-  }
 }
 
 EditOaks.propTypes = {
   refresh: PropTypes.func,
   options: PropTypes.array,
 };
+
+export default EditOaks;

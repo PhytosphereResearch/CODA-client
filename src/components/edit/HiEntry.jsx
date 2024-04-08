@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
+import Select from 'react-select';
 import { TextArea, RadioGroup } from '../shared/FormInputs';
 import CAMap from '../shared/Map';
 import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';

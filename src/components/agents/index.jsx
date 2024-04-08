@@ -1,47 +1,32 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-virtualized-select';
-import { Switch, Route } from 'react-router-dom';
-import autobind from 'react-autobind';
-import Agent from './Agent';
+import Select from 'react-select';
+import { Outlet, useNavigate } from 'react-router';
 
-import 'react-select/dist/react-select.css';
+const Agents = (props) => {
+  const [ selected, setSelected ] = useState();
+  const navigate = useNavigate();
 
-export default class Agents extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: undefined,
-      selectedAgent: undefined
-    };
-    autobind(this);
+  const onAgentSelected = (option) => {
+    setSelected(option);
+    option.value ? navigate(`/agents/${option.value}`) : navigate('/agents');
   }
 
-  onAgentSelected(option) {
-    this.setState({ selected: option });
-    option.value ? this.context.router.history.push(`/agents/${option.value}`) : this.context.router.history.push('/agents');
-  }
-
-  render() {
-    let { selected } = this.state;
-    let { options } = this.props;
+    const { options } = props;
 
     return (
       <div>
         <h2>Find an Agent</h2>
         <Select
           options={options}
-          onChange={this.onAgentSelected}
+          onChange={onAgentSelected}
           value={selected}
           placeholder="Type to search by species or common name"
           style={{ marginBottom: '15px' }}
         />
-        <Switch>
-          <Route path="/agents/:id" component={Agent} />
-        </Switch>
+        <Outlet />
       </div>
     );
-  }
 }
 
 Agents.propTypes = {
@@ -52,6 +37,4 @@ Agents.propTypes = {
   agents: PropTypes.arrayOf(PropTypes.object)
 };
 
-Agents.contextTypes = {
-  router: PropTypes.object
-};
+export default Agents;

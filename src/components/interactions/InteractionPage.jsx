@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getInteraction } from '../../services/interactions';
 import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
@@ -9,35 +9,34 @@ import Reference from './Reference';
 import Symptom from './Symptom';
 import CAMap from '../shared/Map';
 
-export default class InteractionPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      interaction: {},
-      loading: false,
-      mapLoading: true,
-    };
-  }
+const InteractionPage = () => {
 
-  componentWillMount() {
-    this.setState({ loading: true });
-    getInteraction(this.props.match.params.id)
-      .then(interaction => this.setState({ interaction, loading: false }))
-      .then(() => {
-        const id = this.state.interaction.agentId;
-        getAgent(id)
-          .then((agent) => {
-            const interaction = { ...this.state.interaction };
-            interaction.agentRange = agent.rangeData;
-            this.setState({ interaction, mapLoading: false });
-          });
-      });
-  }
+  const [ interaction, setInteraction ] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [mapLoading, setMapLoading] = useState(true);
 
-  render() {
-    const { interaction } = this.state;
+  const { id } = useParams();
+
+  useEffect(() => {
+    setLoading(true);
+    getInteraction(id)
+    .then(interaction => {
+      setInteraction(interaction);
+      setLoading(false);
+
+      const id = interaction.agentId;
+      getAgent(id)
+        .then((agent) => {
+          const updatedInteraction = { ...interaction };
+          updatedInteraction.agentRange = agent.rangeData;
+          setInteraction(updatedInteraction);
+          setMapLoading(false);
+        });
+    });
+  }, [id])
+
     const { oak, agent } = interaction;
-    if (this.state.loading) {
+    if (loading) {
       return <Spinner />;
     }
 
@@ -74,7 +73,7 @@ export default class InteractionPage extends Component {
           {/* Range map */}
           <div style={{ float: 'right' }}>
             <h3>Reported agent range</h3>
-            {this.state.mapLoading ? <Spinner /> : <CAMap interactionRange={interaction.range} agentRange={interaction.agentRange} />}
+            {mapLoading ? <Spinner /> : <CAMap interactionRange={interaction.range} agentRange={interaction.agentRange} />}
           </div>
           {/* Data on this interaction */}
           <div>
@@ -116,9 +115,10 @@ export default class InteractionPage extends Component {
         </div>
       </div>
     );
-  }
 }
 
 InteractionPage.propTypes = {
   match: PropTypes.object,
 };
+
+export default InteractionPage;
