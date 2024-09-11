@@ -60,7 +60,7 @@ const Landing = () => {
           </ul>
 
           <p>
-            <b><a href="../publications/Fieldguide.htm">A field guide to insects and diseases of California oaks</a></b> has descriptions and photos of some of the most common and conspicuous diseases and arthropods, based on information in CODA and other sources.
+            <b><a href="http://phytosphere.com/publications/Fieldguide.htm">A field guide to insects and diseases of California oaks</a></b> has descriptions and photos of some of the most common and conspicuous diseases and arthropods, based on information in CODA and other sources.
           </p>
           <br />
           <ul className="home-links">
