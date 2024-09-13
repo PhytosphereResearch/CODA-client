@@ -39,7 +39,7 @@ const EditInteractions = (props) => {
       setData({ ...data, selectedOak: undefined, hiOak: undefined });
       return;
     }
-    getOak(option.value, false)
+    getOak(option.value)
       .then(oak => setData({ ...data, selectedOak: option, hiOak: oak }));
   }
 
