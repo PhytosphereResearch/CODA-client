@@ -59,7 +59,7 @@ const Oak = () => {
         <CalPhotos genus={oak.genus} species={oak.species} />
         <p>{' '}</p>
         <p>
-          <b>Range map:</b> <a href={`https://plants.usda.gov/home/plantProfile?symbol=${oak.code}`} target="_blank">Search USDA Plants Database</a>
+          <b>Range map:</b> <a href={`https://plants.usda.gov/home/plantProfile?symbol=${oak.usdaCode}`} target="_blank">Search USDA Plants Database</a>
         </p>
         { oak.notes ? <Notes notes={oak.notes} /> : null }
       </div>
