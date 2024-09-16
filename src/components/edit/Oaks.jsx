@@ -70,7 +70,7 @@ const EditOaks = (props) => {
         />
         <div>
           {loading ? <FullScreenSpinner /> : null}
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', gap: '8px'}}>
             <TextInput title="Genus" value={selectedOak.genus} name="genus" onChange={onInputChange} />
             <TextInput title="Species" value={selectedOak.species} name="species" onChange={onInputChange} />
             <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={onInputChange} />
@@ -79,7 +79,7 @@ const EditOaks = (props) => {
           <TextInput title="Sub-genus" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
           <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={onInputChange} />
           <TextInput title="Evergreen?" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', gap: '8px' }}>
             <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
             <TextInput title="Height" value={selectedOak.height} name="height" onChange={onInputChange} />
           </div>

@@ -110,7 +110,7 @@ const EditAgents = (props) => {
         {loading ? <FullScreenSpinner /> : null}
         {
           newAgent ? (
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
               <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
               <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
               <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
