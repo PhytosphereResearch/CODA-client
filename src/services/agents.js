@@ -20,10 +20,6 @@ export const getAllAgentSynonyms = () => {
       });
       return agents;
     })
-    .catch((err) => {
-      console.warn(err);
-      return [];
-    });
 };
 
 export const getAgentFields = () => {

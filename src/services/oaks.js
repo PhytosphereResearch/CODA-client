@@ -6,10 +6,6 @@ export const getAllOaks = () => {
   const headers = new Headers();
   return fetch(`${url}/oaks`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
-    .catch((err) => {
-      console.warn(err);
-      return [];
-    });
 };
 
 export const getOak = (id) => fetch(`${url}/oaks/${id}`, { mode: 'cors' })

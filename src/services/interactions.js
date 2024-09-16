@@ -14,10 +14,6 @@ export const getAllSymptoms = () => {
       });
       return symptoms;
     })
-    .catch((err) => {
-      console.warn(err);
-      return [];
-    });
 };
 
 export const addOrUpdateSymptom = (symptom) => {
@@ -125,10 +121,6 @@ export const getReferences = () => {
       reference.notes = bufferToString(reference.notes);
       return reference;
     }))
-    .catch((err) => {
-      console.warn(err);
-      return [];
-    });
 };
 
 export const addOrUpdateReference = (reference) => {

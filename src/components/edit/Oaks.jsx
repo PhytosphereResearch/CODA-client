@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
 import { getOak, addOrUpdateOak } from '../../services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
@@ -28,8 +29,7 @@ const blankOak = {
 const EditOaks = (props) => {
   const [selected, setSelected] = useState();
   const [selectedOak, setSelectedOak] = useState({...blankOak});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
 
   const onOakSelected = (option) => {
     if (!option.value) {
@@ -48,19 +48,11 @@ const EditOaks = (props) => {
   }
 
   const onSubmit = () => {
-    setLoading(true);
     const updateOak = pickBy(selectedOak, value => Boolean(value));
-    addOrUpdateOak(updateOak)
-      .then(props.refresh)
-      .then(() => {
+    update(updateOak).then(() => {
         setSelectedOak({ ...blankOak });
         setSelected(undefined);
-        setLoading(false);
       })
-      .catch(() => { 
-        setError(true);
-        setLoading(false);
-      });
   }
 
     const { options } = props;
@@ -104,7 +96,6 @@ const EditOaks = (props) => {
 }
 
 EditOaks.propTypes = {
-  refresh: PropTypes.func,
   options: PropTypes.array,
 };
 

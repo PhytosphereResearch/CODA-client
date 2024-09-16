@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
 import { BOOLEANS, ECOLOGY } from './constants';
 import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
@@ -33,7 +34,7 @@ const EditAgents = (props) => {
   const [selectedAgent, setSelectedAgent] = useState({...blankAgent});
   const [newAgent, setNewAgent] = useState(true);
   const [fields, setFields] = useState({});
-  const [loading, setLoading] = useState(false);
+  const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/agents', addOrUpdateAgent)
 
   useEffect(() => {
     getAgentFields()
@@ -48,7 +49,6 @@ const EditAgents = (props) => {
     setSelectedAgent({...blankAgent});
     setSelectedSynonym({...blankSynonym});
     setNewAgent(true);
-    setLoading(false);
   }
 
   const onAgentSelected = (option) => {
@@ -79,7 +79,6 @@ const EditAgents = (props) => {
   }
 
   const onSubmit = () => {
-    setLoading(true);
     let agent;
     if (newAgent) {
       agent = {};
@@ -88,10 +87,8 @@ const EditAgents = (props) => {
     } else {
       agent = selectedAgent;
     }
-    addOrUpdateAgent(agent)
-      .then(props.refresh)
-      .then(() => resetState())
-      .catch(() => setLoading(false));
+    update(agent)
+      .then(() => resetState());
   }
 
   const updateFields = (fields) => {
@@ -136,7 +133,6 @@ const EditAgents = (props) => {
 }
 
 EditAgents.propTypes = {
-  refresh: PropTypes.func,
   options: PropTypes.array,
 };
 
