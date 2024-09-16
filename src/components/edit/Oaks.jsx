@@ -24,6 +24,7 @@ const blankOak = {
   hybrids: '',
   varieties: '',
   notes: '',
+  usdaCode: '',
 };
 
 const EditOaks = (props) => {
@@ -87,6 +88,7 @@ const EditOaks = (props) => {
           <TextInput title="Acorns" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
           <TextInput title="Hybrids" value={selectedOak.hybrids} name="hybrids" onChange={onInputChange} />
           <TextInput title="Varieties" value={selectedOak.varieties} name="varieties" onChange={onInputChange} />
+          <TextInput title="USDA Symbol (from plants.usda.gov)" limit={10} value={selectedOak.usdaCode} name="usdaCode" onChange={onInputChange} />
           <TextInput title="Distribution (deprecated)" limit={500} value={selectedOak.distribution} name="distribution" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedOak.notes} limit={65535} name="notes" onChange={onInputChange} />
           <button onClick={onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
