@@ -61,7 +61,7 @@ const EditReferences = (props) => {
         <h4>{selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
         <form onSubmit={handleSubmit} onChange={onInputChange}>
           <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year" />
-          <TextInput title="Description" hintText="Authors (YYYY): Title" value={reference.description} name="description" />
+          <TextInput title="Description" hintText="Authors (YYYY) for journal short citation otherwise short title" value={reference.description} name="description" />
           <TextInput title="Author" value={reference.author} name="author" />
           <TextInput title="Title" value={reference.title} name="title" />
           <TextInput title="Source" value={reference.source} name="source" />
