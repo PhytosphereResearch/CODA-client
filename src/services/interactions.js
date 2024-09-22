@@ -75,11 +75,11 @@ export const getInteraction = id => fetch(`${url}/hi/${id}`, { mode: 'cors' })
     const primarySynonym = interaction.agent.synonyms.find(synonym => synonym.isPrimary);
     const synonyms = interaction.agent.synonyms.filter(synonym => !synonym.isPrimary);
     const {
-      authority, genus, species, subspecies,
+      authority, genus, species, subSpecies,
     } = primarySynonym;
     interaction.agent.notes = bufferToString(interaction.agent.notes).replace(/ -/g, '\n-');
     interaction.agent = {
-      ...interaction.agent, authority, genus, species, subspecies, synonyms,
+      ...interaction.agent, authority, genus, species, subSpecies, synonyms,
     };
     // decode notes
     interaction.notes = bufferToString(interaction.notes).replace(/ -/g, '\n-');

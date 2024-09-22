@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
+import useSWRMutation from 'swr/mutation';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { addOrUpdateReference } from '../../services/interactions';
 
@@ -13,14 +14,10 @@ const blankRef = {
   notes: '',
 };
 
-const initialState = {
-  selected: undefined,
-  reference: { ...blankRef },
-};
-
 const EditReferences = (props) => {
   const [selected, setSelected] = useState();
   const [reference, setReference] = useState({...blankRef});
+  const { trigger: update } = useSWRMutation('/api/references', addOrUpdateReference)
 
   const onRefSelected = (option) => {
     if (!option) {
@@ -39,8 +36,7 @@ const EditReferences = (props) => {
 
   const handleSubmit = () => {
     const updatedReference = { ...reference };
-    addOrUpdateReference(updatedReference)
-      .then(props.refresh)
+    update(updatedReference)
       .then(() => {
         setSelected(undefined);
         setReference({...blankRef});

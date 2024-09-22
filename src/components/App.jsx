@@ -51,12 +51,12 @@ const App = () => {
               <Route path="/hi" element={<InteractionSearch oaks={formattedOaks} symptoms={formattedSymptoms} />} />
               <Route path="/login" element={<Login auth={auth} />} />
               <Route path="/logout" element={<Logout auth={auth} />} />
-              <Route path="/edit" element={(true ? <Edit /> : <Navigate to='/' replace/>)}>
+              <Route path="/edit" element={(auth.isAuthenticated() ? <Edit /> : <Navigate to='/' replace/>)}>
                   <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} />} />
                   <Route path="/edit/agents" element={<EditAgents options={formattedAgents} />} />
-                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} refresh={() => {}} />} />
-                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} refresh={() => {}}/>} />
-                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} refresh={() => {}} />} />
+                  <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} />} />
+                  <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms}/>} />
+                  <Route path="/edit/references" element={<EditReferences options={formattedReferences} />} />
                   <Route path="/edit/interactions" element={<EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
               </Route>
               <Route
