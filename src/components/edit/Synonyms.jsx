@@ -47,14 +47,6 @@ const EditSynonyms = (props) => {
       });
   }
 
-  const onSynonymSelected = (option) => {
-    if (!option || !option.value) {
-      setSelectedSynonym(null);
-      return;
-    }
-    setSelectedSynonym(option.value);
-  }
-
   const onSynonymChange = (e) => {
     const updatedSynonym = { ...selectedSynonym, [e.target.name]: e.target.value };
     setSelectedSynonym(updatedSynonym);

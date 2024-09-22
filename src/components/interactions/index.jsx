@@ -35,7 +35,6 @@ const Interactions = (props) => {
     const query = Object.keys(options).map(key => `${key}=${options[key]}`).join('&');
 
     navigate(`/hi?${query}`, {replace: true});
-    //onSearch();
   }
 
   const onSelect = (option, key) => {

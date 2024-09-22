@@ -6,6 +6,7 @@ import { BOOLEANS, ECOLOGY } from './constants';
 import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
+import useAgents from '../../hooks/useAgents';
 
 const blankAgent = {
   torder: '',
@@ -33,16 +34,9 @@ const EditAgents = (props) => {
   const [selectedSynonym, setSelectedSynonym] = useState({...blankSynonym});
   const [selectedAgent, setSelectedAgent] = useState({...blankAgent});
   const [newAgent, setNewAgent] = useState(true);
-  const [fields, setFields] = useState({});
-  const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/agents', addOrUpdateAgent)
+  const { agentFields: fields } = useAgents()
+  const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
 
-  useEffect(() => {
-    getAgentFields()
-    .then((fields) => {
-      const formatted = formatAgentFields(fields);
-      updateFields(formatted);
-    });
-  }, []);
 
   const resetState = () => {
     setSelected(null);
@@ -89,10 +83,6 @@ const EditAgents = (props) => {
     }
     update(agent)
       .then(() => resetState());
-  }
-
-  const updateFields = (fields) => {
-    setFields(fields);
   }
 
     const { options } = props;

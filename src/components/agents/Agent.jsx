@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy } from '../shared/partials';
-import { getAgent } from '../../services/agents';
 import { Spinner } from '../shared/shapes';
 import CAMap from '../shared/Map';
+import useAgent from '../../hooks/useAgent';
 
 const Agent = () => {
-  const [ loading, setLoading ] = useState(true);
-  const [agent, setAgent] = useState({});
-
 const navigate = useNavigate();
 const { id } = useParams();
 
-
-  useEffect(() => {
-    setLoading(true);
-    getAgent(id).then(agent => {
-      setAgent(agent);
-      setLoading(false);
-    })
-  }, [id])
+const { isLoading: loading, agent } = useAgent(id);
 
   const goToHostInteraction = (e) => {
     const interactionId = e.target.getAttribute('data-interaction');
@@ -52,7 +42,6 @@ const { id } = useParams();
     return (
       <div>
         <ScientificName genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} subSpecies={agent.primarySynonym?.subSpecies} authority={agent.primarySynonym?.authority} />
-        {/* <div style={{ clear: 'both' }}> */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
             <div>
           <p />
