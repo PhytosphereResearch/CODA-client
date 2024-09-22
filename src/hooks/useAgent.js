@@ -6,7 +6,7 @@ export default function useAgent(id) {
     data: agent,
     error,
     isLoading,
-  } = useSWR(`/api/agent/${id}`, () => getAgent(id), {
+  } = useSWR(id ? `/api/agent/${id}` : null, () => getAgent(id), {
     revalidateOnFocus: false,
   });
 

@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { getInteraction } from "../services/interactions";
 
-export default function useInteraction({ interactionId }) {
+export default function useInteraction(interactionId) {
   const {
     data: interaction,
     error,
