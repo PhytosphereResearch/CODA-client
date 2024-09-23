@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import { getOak } from '../../services/oaks';
 import { ScientificName, CommonName, CalPhotos, Notes } from '../shared/partials';
 import { Spinner } from '../shared/shapes';
+import useOak from '../../hooks/useOak';
 
 const Oak = () => {
-  const [loading, setLoading] = useState(false);
-  const [oak, setOak] = useState();
-
   const { id } = useParams();
-
-  useEffect(() => {
-    setLoading(true);
-        getOak(id)
-      .then(oak => {
-        setOak(oak);
-        setLoading(false);
-      });
-  }, [id])
+  const { isLoading: loading, oak } = useOak(id)
 
     if (!oak && !loading) {
       return null;

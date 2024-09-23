@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
@@ -21,6 +22,8 @@ const EditSynonyms = (props) => {
   const [selectedSynonym, setSelectedSynonym] = useState();
   const [newSynonym, setNewSynonym] = useState(false);
   const [prevSynonym, setPrevSynonym] = useState();
+
+  const { trigger: update } = useSWRMutation('/api/agents', addOrUpdateSynonym)
 
   const resetState = () => {
     setSelected(undefined);
@@ -45,14 +48,6 @@ const EditSynonyms = (props) => {
         setSelected(option);
         setNewSynonym(false);
       });
-  }
-
-  const onSynonymSelected = (option) => {
-    if (!option || !option.value) {
-      setSelectedSynonym(null);
-      return;
-    }
-    setSelectedSynonym(option.value);
   }
 
   const onSynonymChange = (e) => {
@@ -83,8 +78,7 @@ const EditSynonyms = (props) => {
       submittedSynonym.agentId = selectedAgent.id;
     }
 
-    addOrUpdateSynonym(submittedSynonym)
-      .then(props.refresh)
+    update(submittedSynonym)
       .then(resetState());
   }
 
@@ -137,7 +131,6 @@ const EditSynonyms = (props) => {
 }
 
 EditSynonyms.propTypes = {
-  refresh: PropTypes.func,
   options: PropTypes.array,
 };
 

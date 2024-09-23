@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
 import { BOOLEANS, ECOLOGY } from './constants';
 import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
+import useAgents from '../../hooks/useAgents';
 
 const blankAgent = {
   torder: '',
@@ -32,23 +34,15 @@ const EditAgents = (props) => {
   const [selectedSynonym, setSelectedSynonym] = useState({...blankSynonym});
   const [selectedAgent, setSelectedAgent] = useState({...blankAgent});
   const [newAgent, setNewAgent] = useState(true);
-  const [fields, setFields] = useState({});
-  const [loading, setLoading] = useState(false);
+  const { agentFields: fields } = useAgents()
+  const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
 
-  useEffect(() => {
-    getAgentFields()
-    .then((fields) => {
-      const formatted = formatAgentFields(fields);
-      updateFields(formatted);
-    });
-  }, []);
 
   const resetState = () => {
     setSelected(null);
     setSelectedAgent({...blankAgent});
     setSelectedSynonym({...blankSynonym});
     setNewAgent(true);
-    setLoading(false);
   }
 
   const onAgentSelected = (option) => {
@@ -79,7 +73,6 @@ const EditAgents = (props) => {
   }
 
   const onSubmit = () => {
-    setLoading(true);
     let agent;
     if (newAgent) {
       agent = {};
@@ -88,14 +81,8 @@ const EditAgents = (props) => {
     } else {
       agent = selectedAgent;
     }
-    addOrUpdateAgent(agent)
-      .then(props.refresh)
-      .then(() => resetState())
-      .catch(() => setLoading(false));
-  }
-
-  const updateFields = (fields) => {
-    setFields(fields);
+    update(agent)
+      .then(() => resetState());
   }
 
     const { options } = props;
@@ -113,7 +100,7 @@ const EditAgents = (props) => {
         {loading ? <FullScreenSpinner /> : null}
         {
           newAgent ? (
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', gap: '8px' }}>
               <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
               <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
               <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
@@ -136,7 +123,6 @@ const EditAgents = (props) => {
 }
 
 EditAgents.propTypes = {
-  refresh: PropTypes.func,
   options: PropTypes.array,
 };
 

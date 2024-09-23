@@ -4,19 +4,13 @@ import Select from 'react-select';
 import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import ButtonGroup from '../shared/ButtonGroup';
 import { PRIMARY, BOOLEANS, MATURITIES } from './constants';
-import { getSubSites } from '../../services/interactions';
+import useSubSites from '../../hooks/useSubSites';
 
 const HiSymptom = (props) => {
+  const { subSites } = useSubSites()
+  const subsiteValues = subSites?.map(s => ({ label: s, value: s}));
 
-  const [subSites, setSubsites] = useState([]);
   const { id, plantPart } = props.symptom;
-
-  useEffect(() => {
-    getSubSites().then(subSites => {
-      const subsiteValues = subSites.map(s => ({ label: s, value: s}));
-      setSubsites(subsiteValues);
-    })
-  }, [])
 
   const onSelectChange = (options) => {
     
@@ -72,7 +66,7 @@ const HiSymptom = (props) => {
           name="subSites"
           value={symptom.subSite}
           onChange={onSelectChange}
-          options={subSites}
+          options={subsiteValues}
           multi
         />
       </div>

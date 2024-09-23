@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs';
 import { addOrUpdateSymptom } from '../../services/interactions';
 import SymptomPreview from '../interactions/SymptomPreview';
@@ -21,12 +22,12 @@ const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 const EditSymptoms = (props) => {
   const [selected, setSelected] = useState();
   const [symptom, setSymptom] = useState({...blankSymptom});
+  const { trigger: update } = useSWRMutation('/api/symptoms', addOrUpdateSymptom)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedSymptom = { ...symptom };
-    addOrUpdateSymptom(updatedSymptom)
-      .then(props.refresh)
+    update(updatedSymptom)
       .then(() => {
         setSymptom({ ...blankSymptom });
         setSelected(undefined);
@@ -105,7 +106,6 @@ const EditSymptoms = (props) => {
 }
 
 EditSymptoms.propTypes = {
-  refresh: PropTypes.func,
   options: PropTypes.array,
 };
 

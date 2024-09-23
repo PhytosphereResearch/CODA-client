@@ -123,6 +123,12 @@ export const EnhancedCreatable = (props) => {
 
   const { name, value, onChange, options, multi, title } = props;
 
+  let selectedValue = value;
+
+  if (typeof value === 'string') {
+    selectedValue = { label: value, value }
+  }
+
     return (
       <div className="creatable">
         <div className="field-label">
@@ -130,7 +136,7 @@ export const EnhancedCreatable = (props) => {
         </div>
         <Creatable
           name={name}
-          value={value}
+          value={selectedValue}
           onChange={onChange}
           newOptionCreator={createOption}
           options={options}

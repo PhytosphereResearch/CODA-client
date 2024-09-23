@@ -97,14 +97,14 @@ const CAMap = (props) => {
           projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={0.5} disablePanning={true} center={[-119, 33.3]}>
-            <Geographies geography={counties} disableOptimization={true}>
+          <ZoomableGroup zoom={0.5} center={[-119, 33.3]}>
+            <Geographies geography={counties} >
               {(geographies, projection) => {
                 return geographies.geographies.map((geography) => {
                 let style = baseStyle;
-                if (interactionRange.find(c => c === geography.properties.name)) {
+                if (interactionRange?.find(c => c === geography.properties.name)) {
                   style = interactionStyle;
-                } else if (agentRange.find(c => c === geography.properties.name)) {
+                } else if (agentRange?.find(c => c === geography.properties.name)) {
                   style = rangeStyle;
                 }
                 return (
@@ -122,7 +122,7 @@ const CAMap = (props) => {
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
-        { interactionRange.length && agentRange.length ?
+        { interactionRange?.length && agentRange?.length ?
           <div>
             <span>
               <div className="mapKey" style={{ backgroundColor: interactionStyle.default.fill }} />
