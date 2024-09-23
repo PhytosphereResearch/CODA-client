@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
 import { BOOLEANS, ECOLOGY } from './constants';
-import { getAgent, getAgentFields, formatAgentFields, addOrUpdateAgent } from '../../services/agents';
+import { getAgent, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
@@ -107,16 +107,20 @@ const EditAgents = (props) => {
               <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
             </div>
         ) : null}
-        <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={onSelectChange} options={fields.torder} />
-        <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={onSelectChange} options={fields.family} />
-        <RadioGroup title="Most Common" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={onInputChange} />
-        <RadioGroup title="Biotic" selected={selectedAgent.biotic} name="biotic" options={BOOLEANS} onChange={onInputChange} />
-        <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={onSelectChange} options={fields.type} />
-        <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={onSelectChange} options={fields.subType} />
-        <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={onSelectChange} options={fields.subSubType} />
-        <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
-        <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
-        <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
+        {fields ? (
+          <>
+            <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={onSelectChange} options={fields.torder} />
+            <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={onSelectChange} options={fields.family} />
+            <RadioGroup title="Most Common" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={onInputChange} />
+            <RadioGroup title="Biotic" selected={selectedAgent.biotic} name="biotic" options={BOOLEANS} onChange={onInputChange} />
+            <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={onSelectChange} options={fields.type} />
+            <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={onSelectChange} options={fields.subType} />
+            <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={onSelectChange} options={fields.subSubType} />
+            <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
+            <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
+            <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
+          </>
+        ): null}
         <button onClick={onSubmit}>SUBMIT</button>
       </div>
     );
