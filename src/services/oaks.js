@@ -1,5 +1,4 @@
 import { checkResponse, bufferToString } from "./utils";
-import { auth } from "../components/App";
 import { url } from "./environments";
 
 export const getAllOaks = () => {
@@ -17,9 +16,10 @@ export const getOak = (id) =>
       return oak;
     });
 
-export const addOrUpdateOak = (oak) => {
+export const addOrUpdateOak = (oak, accessToken) => {
+  console.log('oak token', accessToken, typeof accessToken)
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });

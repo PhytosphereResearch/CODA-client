@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from "@auth0/auth0-react";
 import { getOak, addOrUpdateOak } from '../../services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
@@ -30,6 +31,7 @@ const blankOak = {
 const EditOaks = (props) => {
   const [selected, setSelected] = useState();
   const [selectedOak, setSelectedOak] = useState({...blankOak});
+  const { getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
 
   const onOakSelected = (option) => {
@@ -48,9 +50,11 @@ const EditOaks = (props) => {
     setSelectedOak(oak);
   }
 
-  const onSubmit = () => {
+  const onSubmit = async() => {
     const updateOak = pickBy(selectedOak, value => Boolean(value));
-    update(updateOak).then(() => {
+    const accessToken = await getAccessTokenSilently();
+    console.log('access token?', accessToken)
+    update(updateOak, accessToken).then(() => {
         setSelectedOak({ ...blankOak });
         setSelected(undefined);
       })

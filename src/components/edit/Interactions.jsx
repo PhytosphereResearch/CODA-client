@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import remove from 'lodash/remove';
 import countBy from 'lodash/countBy';
+import { useAuth0 } from '@auth0/auth0-react';
 import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent, addOrUpdateHi } from '../../services/interactions';
@@ -24,6 +25,7 @@ const initialState = {
 const EditInteractions = (props) => {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
 
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
@@ -134,7 +136,7 @@ const EditInteractions = (props) => {
   }
 
 
-  const onHiSubmit = () => {
+  const onHiSubmit = async () => {
     setLoading(true);
     const hi = { ...data.hi };
     const hiSymptoms = { ...data.hiSymptoms };
@@ -150,7 +152,8 @@ const EditInteractions = (props) => {
       symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';') || '';
     });
     hi.hiSymptoms = hiSymptoms;
-    addOrUpdateHi(hi)
+    const accessToken = await getAccessTokenSilently();
+    addOrUpdateHi(hi, accessToken)
       .then(() => setData({ ...initialState }))
       .catch(() => setLoading(false));
   }

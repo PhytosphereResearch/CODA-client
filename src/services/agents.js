@@ -2,7 +2,6 @@ import flatMap from "lodash/flatmap";
 import uniq from "lodash/uniq";
 import { checkResponse, bufferToString } from "./utils";
 import { url } from "./environments";
-import { auth } from "../components/App";
 
 export const getAllAgentSynonyms = () => {
   const headers = new Headers();
@@ -76,9 +75,9 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = (agent) => {
+export const addOrUpdateAgent = (agent, accessToken) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
@@ -90,9 +89,9 @@ export const addOrUpdateAgent = (agent) => {
   }).then(checkResponse);
 };
 
-export const addOrUpdateSynonym = (synonym) => {
+export const addOrUpdateSynonym = (synonym, accessToken) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });

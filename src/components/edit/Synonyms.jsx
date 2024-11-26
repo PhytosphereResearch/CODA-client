@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from "@auth0/auth0-react";
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
@@ -22,6 +23,7 @@ const EditSynonyms = (props) => {
   const [selectedSynonym, setSelectedSynonym] = useState();
   const [newSynonym, setNewSynonym] = useState(false);
   const [prevSynonym, setPrevSynonym] = useState();
+  const { getAccessTokenSilently } = useAuth0();
 
   const { trigger: update } = useSWRMutation('/api/agents', addOrUpdateSynonym)
 
@@ -67,7 +69,7 @@ const EditSynonyms = (props) => {
     }
   }
 
-  const submitSynonym = () => {
+  const submitSynonym = async () => {
     const submittedSynonym = { ...selectedSynonym };
     if (submittedSynonym.isPrimary === 'true' || submittedSynonym.isPrimary === true) {
       submittedSynonym.isPrimary = 1;
@@ -78,7 +80,8 @@ const EditSynonyms = (props) => {
       submittedSynonym.agentId = selectedAgent.id;
     }
 
-    update(submittedSynonym)
+    const accessToken = await getAccessTokenSilently();
+    update(submittedSynonym, accessToken)
       .then(resetState());
   }
 

@@ -1,7 +1,6 @@
 import remove from "lodash/remove";
 import { checkResponse, splitSemicolons, bufferToString } from "./utils";
 import { url } from "./environments";
-import { auth } from "../components/App";
 
 export const getAllSymptoms = () => {
   const headers = new Headers();
@@ -15,9 +14,9 @@ export const getAllSymptoms = () => {
     });
 };
 
-export const addOrUpdateSymptom = (symptom) => {
+export const addOrUpdateSymptom = (symptom, accessToken) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
@@ -177,9 +176,9 @@ export const getReferences = () => {
     );
 };
 
-export const addOrUpdateReference = (reference) => {
+export const addOrUpdateReference = (reference, accessToken) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
@@ -191,9 +190,9 @@ export const addOrUpdateReference = (reference) => {
   }).then(checkResponse);
 };
 
-export const addOrUpdateHi = (hi) => {
+export const addOrUpdateHi = (hi, accessToken) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });

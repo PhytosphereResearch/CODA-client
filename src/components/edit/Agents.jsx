@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from "@auth0/auth0-react";
 import { BOOLEANS, ECOLOGY } from './constants';
 import { getAgent, addOrUpdateAgent } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
@@ -35,6 +36,7 @@ const EditAgents = (props) => {
   const [selectedAgent, setSelectedAgent] = useState({...blankAgent});
   const [newAgent, setNewAgent] = useState(true);
   const { agentFields: fields } = useAgents()
+  const { getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
 
 
@@ -72,7 +74,7 @@ const EditAgents = (props) => {
     setSelectedSynonym(synonym);
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     let agent;
     if (newAgent) {
       agent = {};
@@ -81,7 +83,8 @@ const EditAgents = (props) => {
     } else {
       agent = selectedAgent;
     }
-    update(agent)
+    const accessToken = await getAccessTokenSilently();
+    update(agent, accessToken)
       .then(() => resetState());
   }
 

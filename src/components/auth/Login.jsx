@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Spinner } from '../shared/shapes';
 
-const Login = (props) => {
-  const navigate = useNavigate();
+const Login = () => {
+  const { loginWithRedirect } = useAuth0();
   useEffect(() => {
-    if (!props.auth.isAuthenticated()) {
-      props.auth.login();
-    } else {
-      navigate('/');
-    }
+    loginWithRedirect({
+      appState: {
+        returnTo: "/",
+      },
+    });
   }, [])
 
   return (
@@ -19,9 +19,5 @@ const Login = (props) => {
     </div>
   )
 }
-
-Login.propTypes = {
-  auth: PropTypes.object,
-};
 
 export default Login;

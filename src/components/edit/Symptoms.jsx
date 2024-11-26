@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { useAuth0 } from "@auth0/auth0-react";
 import useSWRMutation from 'swr/mutation';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs';
 import { addOrUpdateSymptom } from '../../services/interactions';
@@ -22,12 +23,14 @@ const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 const EditSymptoms = (props) => {
   const [selected, setSelected] = useState();
   const [symptom, setSymptom] = useState({...blankSymptom});
+  const { getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation('/api/symptoms', addOrUpdateSymptom)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedSymptom = { ...symptom };
-    update(updatedSymptom)
+    const accessToken = await getAccessTokenSilently();
+    update(updatedSymptom, accessToken)
       .then(() => {
         setSymptom({ ...blankSymptom });
         setSelected(undefined);

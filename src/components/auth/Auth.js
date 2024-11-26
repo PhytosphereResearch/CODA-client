@@ -1,15 +1,22 @@
 import auth0 from 'auth0-js';
 
-const redirectUri = process.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:5173/callback';
+const redirectUri = import.meta.env.NODE_ENV === 'production' ? 'http://coda.phytosphere.com/callback' : 'http://localhost:5173/callback';
 
 export default class Auth {
   userProfile;
 
   auth0 = new auth0.WebAuth({
-    domain: 'phytosphere.auth0.com',
-    clientID: 'R22kc94DJVwNp2HF3u5vfqkPLvelcEoy',
+    // domain: 'phytosphere.auth0.com',
+    // clientID: 'R22kc94DJVwNp2HF3u5vfqkPLvelcEoy',
+    domain: 'dev-m2q7eyhlvz7yq8a0.us.auth0.com', 
+    clientID: 'KW24hJJJ8ER8AoI9HgTHG4mjghcsx0HG',
+
+    
+    AUTH0_CALLBACK_URL: 'http://localhost:5173/callback',
     redirectUri,
-    audience: 'https://auth.coda.phytosphere.com',
+    audience: 'CODA_local_endpoint',
+    // audience: 'https://auth.coda.phytosphere.com',
+    // https://dev-m2q7eyhlvz7yq8a0.us.auth0.com/api/v2/
     responseType: 'token id_token',
     scope: 'openid',
   });
