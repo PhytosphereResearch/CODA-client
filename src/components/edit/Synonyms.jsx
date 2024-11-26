@@ -81,56 +81,56 @@ const EditSynonyms = (props) => {
     }
 
     const accessToken = await getAccessTokenSilently();
-    update(submittedSynonym, accessToken)
+    update({ synonym: submittedSynonym, accessToken })
       .then(resetState());
   }
 
-    const options = props.options;
-    const primary = selectedAgent ? selectedAgent.primarySynonym : null;
+  const options = props.options;
+  const primary = selectedAgent ? selectedAgent.primarySynonym : null;
 
-    const otherSynonyms = selectedAgent && selectedAgent.otherSynonyms.length ? (
-      <div>
-        <Synonyms synonyms={selectedAgent.otherSynonyms} />
-      </div>
-    ) : null;
-    return (
-      <div>
-        <h3>Agent Synonyms</h3>
-        <Select
-          options={options}
-          onChange={onAgentSelected}
-          value={selected}
-          placeholder="Type to search by species or common name"
-          style={{ marginBottom: '15px' }}
-        />
-        {selectedAgent ? (
-          <div>
-            <ScientificName
-              genus={primary.genus}
-              species={primary.species}
-              subSpecies={primary.subSpecies}
-              authority={primary.authority}
-            />
-            {otherSynonyms}
-            <button onClick={createSynonym}>{newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
-            <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
-            <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
-            <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
-            <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
-            <RadioGroup
-              title="Currently accepted name?"
-              selected={selectedSynonym.isPrimary}
-              name="isPrimary"
-              options={BOOLEANS}
-              disabled={selectedAgent.primarySynonym.id === selectedSynonym.id}
-              onChange={onSynonymChange}
-            />
-            <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={onSynonymChange} />
-          </div>
-        ) : null }
-        <button onClick={submitSynonym}>SUBMIT</button>
-      </div>
-    );
+  const otherSynonyms = selectedAgent && selectedAgent.otherSynonyms.length ? (
+    <div>
+      <Synonyms synonyms={selectedAgent.otherSynonyms} />
+    </div>
+  ) : null;
+  return (
+    <div>
+      <h3>Agent Synonyms</h3>
+      <Select
+        options={options}
+        onChange={onAgentSelected}
+        value={selected}
+        placeholder="Type to search by species or common name"
+        style={{ marginBottom: '15px' }}
+      />
+      {selectedAgent ? (
+        <div>
+          <ScientificName
+            genus={primary.genus}
+            species={primary.species}
+            subSpecies={primary.subSpecies}
+            authority={primary.authority}
+          />
+          {otherSynonyms}
+          <button onClick={createSynonym}>{newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
+          <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
+          <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
+          <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
+          <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
+          <RadioGroup
+            title="Currently accepted name?"
+            selected={selectedSynonym.isPrimary}
+            name="isPrimary"
+            options={BOOLEANS}
+            disabled={selectedAgent.primarySynonym.id === selectedSynonym.id}
+            onChange={onSynonymChange}
+          />
+          <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={onSynonymChange} />
+        </div>
+      ) : null}
+      <button onClick={submitSynonym}>SUBMIT</button>
+    </div>
+  );
 }
 
 EditSynonyms.propTypes = {

@@ -84,7 +84,7 @@ const EditAgents = (props) => {
       agent = selectedAgent;
     }
     const accessToken = await getAccessTokenSilently();
-    update(agent, accessToken)
+    update({ agent:updateAgent, accessToken })
       .then(() => resetState());
   }
 

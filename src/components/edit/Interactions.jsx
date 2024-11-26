@@ -153,7 +153,7 @@ const EditInteractions = (props) => {
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
-    addOrUpdateHi(hi, accessToken)
+    addOrUpdateHi({ hi, accessToken })
       .then(() => setData({ ...initialState }))
       .catch(() => setLoading(false));
   }

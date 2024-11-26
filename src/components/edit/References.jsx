@@ -39,7 +39,7 @@ const EditReferences = (props) => {
   const handleSubmit = async () => {
     const updatedReference = { ...reference };
     const accessToken = await getAccessTokenSilently();
-    update(updatedReference, accessToken)
+    update({ reference: updatedReference, accessToken })
       .then(() => {
         setSelected(undefined);
         setReference({...blankRef});

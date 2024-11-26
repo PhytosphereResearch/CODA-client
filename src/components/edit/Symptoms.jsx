@@ -30,7 +30,7 @@ const EditSymptoms = (props) => {
     e.preventDefault();
     const updatedSymptom = { ...symptom };
     const accessToken = await getAccessTokenSilently();
-    update(updatedSymptom, accessToken)
+    update({ symptom:updatedSymptom, accessToken })
       .then(() => {
         setSymptom({ ...blankSymptom });
         setSelected(undefined);
