@@ -16,7 +16,6 @@ export const getOak = (id) =>
     });
 
 export const addOrUpdateOak = async (key, { arg: { oak, accessToken } }) => {
-  console.log('oak token', oak, accessToken)
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
