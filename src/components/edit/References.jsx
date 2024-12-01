@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
+import { useAuth0 } from '@auth0/auth0-react';
 import useSWRMutation from 'swr/mutation';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { addOrUpdateReference } from '../../services/interactions';
@@ -17,6 +18,7 @@ const blankRef = {
 const EditReferences = (props) => {
   const [selected, setSelected] = useState();
   const [reference, setReference] = useState({...blankRef});
+  const { getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation('/api/references', addOrUpdateReference)
 
   const onRefSelected = (option) => {
@@ -34,9 +36,10 @@ const EditReferences = (props) => {
     setReference(updatedReference);
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const updatedReference = { ...reference };
-    update(updatedReference)
+    const accessToken = await getAccessTokenSilently();
+    update({ reference: updatedReference, accessToken })
       .then(() => {
         setSelected(undefined);
         setReference({...blankRef});

@@ -1,7 +1,6 @@
 import remove from "lodash/remove";
 import { checkResponse, splitSemicolons, bufferToString } from "./utils";
 import { url } from "./environments";
-import { auth } from "../components/App";
 
 export const getAllSymptoms = () => {
   const headers = new Headers();
@@ -15,9 +14,9 @@ export const getAllSymptoms = () => {
     });
 };
 
-export const addOrUpdateSymptom = (symptom) => {
+export const addOrUpdateSymptom = (key, { arg: { symptom, accessToken } }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
@@ -31,8 +30,7 @@ export const addOrUpdateSymptom = (symptom) => {
 
 export const getInteractions = (plantPart, symptomId, oakId) =>
   fetch(
-    `${url}/interactionQuery?plantPart=${plantPart || ""}&symptomId=${
-      symptomId || ""
+    `${url}/interactionQuery?plantPart=${plantPart || ""}&symptomId=${symptomId || ""
     }&oakId=${oakId || ""}`,
     { mode: "cors" }
   )
@@ -177,23 +175,24 @@ export const getReferences = () => {
     );
 };
 
-export const addOrUpdateReference = (reference) => {
+export const addOrUpdateReference = async (key, { arg: { reference, accessToken } }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
-  return fetch(`${url}/bib`, {
+  const res = await fetch(`${url}/bib`, {
     headers,
     method: "POST",
     body: JSON.stringify(reference),
     mode: "cors",
-  }).then(checkResponse);
+  });
+  return checkResponse(res);
 };
 
-export const addOrUpdateHi = (hi) => {
+export const addOrUpdateHi = (key, { are: { hi, accessToken } }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });

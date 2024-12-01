@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Spinner } from '../shared/shapes';
 
-const Logout = (props) => {
-  const navigate = useNavigate();
+const Logout = () => {
+  const { logout } = useAuth0()
   useEffect(() => {
-    if (props.auth.isAuthenticated()) {
-      props.auth.logout();
-    } else {
-      navigate('/');
-    }
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    });
   }, [])
 
   return (
@@ -19,9 +18,5 @@ const Logout = (props) => {
     </div>
   )
 }
-
-Logout.propTypes = {
-  auth: PropTypes.object,
-};
 
 export default Logout;

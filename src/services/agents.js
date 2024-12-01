@@ -2,9 +2,8 @@ import flatMap from "lodash/flatmap";
 import uniq from "lodash/uniq";
 import { checkResponse, bufferToString } from "./utils";
 import { url } from "./environments";
-import { auth } from "../components/App";
 
-export const getAllAgentSynonyms = () => {
+export const getAllAgentSynonyms = async () => {
   const headers = new Headers();
   return fetch(`${url}/syn`, { headers, method: "GET", mode: "cors" })
     .then((res) => {
@@ -22,7 +21,7 @@ export const getAllAgentSynonyms = () => {
     });
 };
 
-export const getAgentFields = () => {
+export const getAgentFields = async () => {
   const headers = new Headers();
   return fetch(`${url}/agent/fields`, { headers, method: "GET", mode: "cors" })
     .then(checkResponse)
@@ -76,23 +75,24 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = (agent) => {
+export const addOrUpdateAgent = async (key, { arg: {agent, accessToken} }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
-  return fetch(`${url}/agent`, {
+  const res = await fetch(`${url}/agent`, {
     headers,
     method: "POST",
     body: JSON.stringify(agent),
     mode: "cors",
-  }).then(checkResponse);
+  });
+  return checkResponse(res);
 };
 
-export const addOrUpdateSynonym = (synonym) => {
+export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken } }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });

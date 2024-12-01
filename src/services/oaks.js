@@ -1,12 +1,10 @@
 import { checkResponse, bufferToString } from "./utils";
-import { auth } from "../components/App";
 import { url } from "./environments";
 
-export const getAllOaks = () => {
+export const getAllOaks = async () => {
   const headers = new Headers();
-  return fetch(`${url}/oaks`, { headers, method: "GET", mode: "cors" }).then(
-    checkResponse
-  );
+  const res = await fetch(`${url}/oaks`, { headers, method: "GET", mode: "cors" });
+  return checkResponse(res);
 };
 
 export const getOak = (id) =>
@@ -17,16 +15,17 @@ export const getOak = (id) =>
       return oak;
     });
 
-export const addOrUpdateOak = (oak) => {
+export const addOrUpdateOak = async (key, { arg: { oak, accessToken } }) => {
   const headers = new Headers({
-    Authorization: `Bearer ${auth.getAccessToken()}`,
+    Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
-  return fetch(`${url}/oaks`, {
+  const res = await fetch(`${url}/oaks`, {
     headers,
     method: "POST",
     body: JSON.stringify(oak),
     mode: "cors",
-  }).then(checkResponse);
+  });
+  return checkResponse(res);
 };
