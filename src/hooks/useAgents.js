@@ -7,7 +7,7 @@ import {
 } from "../services/agents";
 
 export default function useAgents() {
-  const { agentFields } = useSWR(
+  const agentFields = useSWR(
     "/api/agent/fields",
     async () => {
       const fields = await getAgentFields();
