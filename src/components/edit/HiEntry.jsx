@@ -47,7 +47,9 @@ const HiEntry = ({
           <ButtonGroup title="Host Life Stage" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
+          <div style={{width: '400px'}}>
           <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
+          </div>
           <h4>References</h4>
           {hi.bibs.length ? null : <div className="text-muted">Add at least one reference to continue...</div> }
           <Select options={references} value={hi.bibs} onChange={onBibSelectChange} multi />
