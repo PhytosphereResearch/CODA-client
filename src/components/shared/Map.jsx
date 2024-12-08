@@ -97,7 +97,7 @@ const CAMap = (props) => {
           projectionConfig={{
         scale: 2200,
       }}>
-          <ZoomableGroup zoom={0.5} center={[-119, 33.3]}>
+          <ZoomableGroup zoom={0.5} minZoom={0.5} center={[-119, 33.3]}>
             <Geographies geography={counties} >
               {(geographies, projection) => {
                 return geographies.geographies.map((geography) => {
