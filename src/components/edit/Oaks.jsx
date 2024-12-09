@@ -81,21 +81,22 @@ const EditOaks = (props) => {
           <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={onInputChange} />
           <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={onInputChange} />
         </div>
-        <TextInput title="Sub-genus" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
+        <TextInput title="Subgenus-Section-Subsection. Taxonomy from  Forests 2021, 12(6), 786; https://doi.org/10.3390/f12060786" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
         <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={onInputChange} />
-        <TextInput title="Evergreen?" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
+        <TextInput title="Leaf retention:
+         Evergreen, Semi-evergreen, Deciduous, Semi-deciduous, or a combination of these" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
         <div style={{ display: 'flex', gap: '8px' }}>
-          <TextInput title="Form" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
-          <TextInput title="Height" value={selectedOak.height} name="height" onChange={onInputChange} />
+          <TextInput title="Form (tree or shrub and shape)" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
+          <TextInput title="Height range, meters (m)" value={selectedOak.height} name="height" onChange={onInputChange} />
         </div>
-        <TextArea title="Leaves" limit={500} value={selectedOak.leaves} name="leaves" onChange={onInputChange} />
-        <TextArea title="Stems" value={selectedOak.stems} name="stems" onChange={onInputChange} />
-        <TextInput title="Acorns" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
-        <TextInput title="Hybrids" value={selectedOak.hybrids} name="hybrids" onChange={onInputChange} />
-        <TextInput title="Varieties" value={selectedOak.varieties} name="varieties" onChange={onInputChange} />
+        <TextArea title="Leaves (description)" limit={500} value={selectedOak.leaves} name="leaves" onChange={onInputChange} />
+        <TextArea title="Stems (description)" value={selectedOak.stems} name="stems" onChange={onInputChange} />
+        <TextInput title="Acorns (description)" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
+        <TextInput title="Hybrids (list of known hybrids)" value={selectedOak.hybrids} name="hybrids" onChange={onInputChange} />
+        <TextInput title="Varieties (list of described varieties)" value={selectedOak.varieties} name="varieties" onChange={onInputChange} />
         <TextInput title="USDA Symbol (from plants.usda.gov)" limit={10} value={selectedOak.usdaCode} name="usdaCode" onChange={onInputChange} />
-        <TextInput title="Distribution (deprecated)" limit={500} value={selectedOak.distribution} name="distribution" onChange={onInputChange} />
-        <TextArea title="Notes" value={selectedOak.notes} limit={65535} name="notes" onChange={onInputChange} />
+        <TextArea title="Distribution (geographic and elevation range, habitat or soil notes)" limit={500} value={selectedOak.distribution} name="distribution" onChange={onInputChange} />
+        <TextArea title="Notes (other characters or information of interest)" value={selectedOak.notes} limit={65535} name="notes" onChange={onInputChange} />
         <button onClick={onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
       </div>
     </div>
