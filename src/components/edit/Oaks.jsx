@@ -91,13 +91,14 @@ const EditOaks = (props) => {
         </div>
         <TextArea title="Leaves (description)" limit={500} value={selectedOak.leaves} name="leaves" onChange={onInputChange} />
         <TextArea title="Stems (description)" value={selectedOak.stems} name="stems" onChange={onInputChange} />
-        <TextInput title="Acorns (description)" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
+        <TextArea title="Acorns (description)" value={selectedOak.acorns} name="acorns" onChange={onInputChange} />
         <TextInput title="Hybrids (list of known hybrids)" value={selectedOak.hybrids} name="hybrids" onChange={onInputChange} />
         <TextInput title="Varieties (list of described varieties)" value={selectedOak.varieties} name="varieties" onChange={onInputChange} />
-        <TextInput title="USDA Symbol (from plants.usda.gov)" limit={10} value={selectedOak.usdaCode} name="usdaCode" onChange={onInputChange} />
+        <TextInput title="USDA species code (from plants.usda.gov)" limit={10} value={selectedOak.usdaCode} name="usdaCode" onChange={onInputChange} />
         <TextArea title="Distribution (geographic and elevation range, habitat or soil notes)" limit={500} value={selectedOak.distribution} name="distribution" onChange={onInputChange} />
         <TextArea title="Notes (other characters or information of interest)" value={selectedOak.notes} limit={65535} name="notes" onChange={onInputChange} />
         <button onClick={onSubmit}>{selectedOak.id ? 'UPDATE' : 'SUBMIT'}</button>
+
       </div>
     </div>
   );
