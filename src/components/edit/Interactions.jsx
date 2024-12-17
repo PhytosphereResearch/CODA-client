@@ -29,7 +29,7 @@ const EditInteractions = (props) => {
 
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
-        setData({ ...data, selectedAgent: undefined, hiAgent: undefined });
+      setData({ ...data, selectedAgent: undefined, hiAgent: undefined });
       return;
     }
     getAgent(option.value)
@@ -98,6 +98,7 @@ const EditInteractions = (props) => {
   const onBibSelectChange = (options) => {
     const hi = { ...data.hi, bibs: options };
     setData({ ...data, hi });
+    console.log("Interactions.jsx onBibSelectChange.jsx hi.bibs=", hi.bibs, "Hi=", hi, "hi.bibs.length=", hi.bibs.length);
   }
 
   const onSubsiteSelectChange = (id, options) => {
@@ -147,12 +148,13 @@ const EditInteractions = (props) => {
       if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
-      symptom.isPrimary = symptom.isPrimary.join(';');
+      // symptom.isPrimary = symptom.isPrimary.join(';');
       symptom.maturity = symptom.maturity.join(';');
       symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';') || '';
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
+    console.log("Hi from Interactions.jsx line 157=", hi, "hiSymptoms from Interactions.jsx line 155=", hiSymptoms);
     addOrUpdateHi({ hi, accessToken })
       .then(() => setData({ ...initialState }))
       .catch(() => setLoading(false));
@@ -195,7 +197,7 @@ const EditInteractions = (props) => {
       hostInteractionId: data.hi.id,
       plantPart: plantPartToAdd,
       isIndirect: existingPlantPart ? !existingPlantPart.isIndirect : false,
-      isPrimary: [''],
+      // isPrimary: [''],
       maturity: [''],
       subSite: [],
       symptoms: [],
@@ -221,40 +223,41 @@ const EditInteractions = (props) => {
       situation: [],
     };
 
-    setData({...data,
+    setData({
+      ...data,
       hi, hiSymptoms: [], plantParts: PLANT_PARTS, newHi: true,
     });
   }
 
-    const {
-      hi, searchPerformed, newHi,
-    } = data;
+  const {
+    hi, searchPerformed, newHi,
+  } = data;
 
-    const entryProps = {
-      ...props,
-      ...data,
-      onOakSelected,
-      onAgentSelected,
-      getHi,
-      onInputChange,
-      onMultiInputChange,
-      onBibSelectChange,
-      onSubsiteSelectChange,
-      onHisymptomMultiInputChange,
-      onHisymptomRadioChange,
-      onMapChange,
-      onSymptomChange,
-      onSymptomRemove,
-      onHiSubmit,
-      addHiSymptom,
-      newHi,
-    };
-    return (
-      <div>
-        { loading ? <FullScreenSpinner /> : <HiEntry {...entryProps} /> }
-        { (searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recorded in CODA.</h3><button onClick={createHi}>Create new interaction</button></div> }
-      </div>
-    );
+  const entryProps = {
+    ...props,
+    ...data,
+    onOakSelected,
+    onAgentSelected,
+    getHi,
+    onInputChange,
+    onMultiInputChange,
+    onBibSelectChange,
+    onSubsiteSelectChange,
+    onHisymptomMultiInputChange,
+    onHisymptomRadioChange,
+    onMapChange,
+    onSymptomChange,
+    onSymptomRemove,
+    onHiSubmit,
+    addHiSymptom,
+    newHi,
+  };
+  return (
+    <div>
+      {loading ? <FullScreenSpinner /> : <HiEntry {...entryProps} />}
+      {(searchPerformed && !hi) && <div><h3>No interaction between this host and this agent has been recorded in CODA.</h3><button onClick={createHi}>Create new interaction</button></div>}
+    </div>
+  );
 }
 
 EditInteractions.propTypes = {

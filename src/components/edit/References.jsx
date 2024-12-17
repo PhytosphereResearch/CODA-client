@@ -62,8 +62,8 @@ const EditReferences = (props) => {
           <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year" />
           <TextInput title="Description" hintText="Authors (YYYY) for journal short citation otherwise short title, e.g. Bregant et al. (2021) Forests 12:682. " value={reference.description} name="description" />
           <TextInput title="Author" value={reference.author} name="author" />
-          <TextInput title="Title" value={reference.title} name="title" />
-          <TextInput title="Source" value={reference.source} name="source" />
+          <TextArea title="Title" value={reference.title} name="title" />
+          <TextArea title="Source" value={reference.source} name="source" />
           <TextArea title="Notes" value={reference.notes} name="notes" />
         </form>
         <button onClick={handleSubmit}>{reference.id ? 'UPDATE' : 'SUBMIT'}</button>

@@ -14,7 +14,7 @@ export const getAllSymptoms = () => {
     });
 };
 
-export const addOrUpdateSymptom = (key, { arg: { symptom, accessToken } }) => {
+export const addOrUpdateSymptom = async (key, { arg: { symptom, accessToken } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -79,23 +79,23 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
         hiSymptom.subSite = hiSymptom.subSite
           ? splitSemicolons(hiSymptom.subSite)
           : [];
-        hiSymptom.isPrimary = hiSymptom.isPrimary
-          ? splitSemicolons(hiSymptom.isPrimary)
-          : [];
-        if (
-          hiSymptom.isPrimary.includes(
-            "Secondary (attacks stressed, injured or compromise"
-          )
-        ) {
-          remove(
-            hiSymptom.isPrimary,
-            (element) =>
-              element === "Secondary (attacks stressed, injured or compromise"
-          );
-          hiSymptom.isPrimary.push(
-            "Secondary (attacks stressed, injured, or compromised tissue)"
-          );
-        }
+        // hiSymptom.isPrimary = hiSymptom.isPrimary
+        //   ? splitSemicolons(hiSymptom.isPrimary)
+        //   : [];
+        // if (
+        //   hiSymptom.isPrimary.includes(
+        //     "Secondary (attacks stressed, injured or compromise"
+        //   )
+        // ) {
+        //   remove(
+        //     hiSymptom.isPrimary,
+        //     (element) =>
+        //       element === "Secondary (attacks stressed, injured or compromise"
+        //   );
+        //   hiSymptom.isPrimary.push(
+        //     "Secondary (attacks stressed, injured, or compromised tissue)"
+        //   );
+        // }
       });
       return interaction;
     })
@@ -190,8 +190,8 @@ export const addOrUpdateReference = async (key, { arg: { reference, accessToken 
   return checkResponse(res);
 };
 
-export const addOrUpdateHi = (key, { are: { hi, accessToken } }) => {
-  const headers = new Headers({
+export const addOrUpdateHi = async (key, { arg: { hi, accessToken } }) => {
+    const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
