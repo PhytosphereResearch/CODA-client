@@ -40,8 +40,8 @@ const HiSymptom = (props) => {
   const { symptom, symptoms } = props;
 
   const symptomList = symptom.symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
-  // console.log(symptomList, symptom.symptoms);
-  console.log(symptom.maturity);    
+  console.log("Symptoms, symptomplantpart from HiSymptoms.jsx line 43", symptoms, symptom.plantPart);
+  // console.log(symptom.maturity);    
   return (
     <div>
       <h3>
@@ -51,7 +51,7 @@ const HiSymptom = (props) => {
         </span>
       </h3>
       <Select
-        options={symptoms}
+        options={symptoms.filter(s=>s[symptom.plantPart])}
         onChange={onSymptomChange}
         value={symptomList}
         placeholder="Type to search by symptom"
