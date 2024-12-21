@@ -196,6 +196,7 @@ export const addOrUpdateHi = async (key, { arg: { hi, accessToken } }) => {
     Accept: "application/json",
     "Content-Type": "application/json",
   });
+  console.log('posting HI', hi)
   return fetch(`${url}/hi`, {
     headers,
     method: "POST",

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import remove from 'lodash/remove';
 import countBy from 'lodash/countBy';
 import { useAuth0 } from '@auth0/auth0-react';
+import useSWRMutation from 'swr/mutation';
 import { getAgent } from '../../services/agents';
 import { getOak } from '../../services/oaks';
 import { getInteractionsByOakAndAgent, addOrUpdateHi } from '../../services/interactions';
@@ -26,6 +27,7 @@ const EditInteractions = (props) => {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const { getAccessTokenSilently } = useAuth0();
+  const { trigger: update } = useSWRMutation('/api/hi', addOrUpdateHi);
 
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
@@ -148,16 +150,22 @@ const EditInteractions = (props) => {
       if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
+      console.log('symptom?', symptom)
       // symptom.isPrimary = symptom.isPrimary.join(';');
-      symptom.maturity = symptom.maturity.join(';');
-      symptom.subSite = symptom.subSite.map(subSite => subSite.label).join(';') || '';
+      symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join(';') : symptom.maturity;
+      symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join(';') : symptom.subSite;
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
     console.log("Hi from Interactions.jsx line 157=", hi, "hiSymptoms from Interactions.jsx line 155=", hiSymptoms);
-    addOrUpdateHi({ hi, accessToken })
-      .then(() => setData({ ...initialState }))
-      .catch(() => setLoading(false));
+    update({ hi, accessToken })
+      .then(() => {
+        setData({ ...initialState });
+      setLoading(false)}
+    )
+      .catch(() => {
+        setLoading(false)
+      });
   }
 
   const getHi = () => {
