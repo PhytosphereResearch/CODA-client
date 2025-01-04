@@ -9,7 +9,6 @@ import useSubSites from '../../hooks/useSubSites';
 const HiSymptom = (props) => {
   const { subSites } = useSubSites()
   const subsiteValues = subSites?.map(s => ({ label: s, value: s }));
-  console.log("subsites from HiSymptom.jsx line 10=", subSites);
 
   const { id, plantPart } = props.symptom;
 
@@ -20,7 +19,6 @@ const HiSymptom = (props) => {
 
   const onButtonChange = (e) => {
     props.onButtonChange(e, id);
-    console.log("line 21 HiSymptom.jsx onButtonChange id=", id, "e=", e);
   }
 
 
@@ -30,8 +28,7 @@ const HiSymptom = (props) => {
 
   const onSymptomChange = (e) => {
     props.onSymptomChange(id, e);
-    console.log("line 30 HiSymptom.jsx onSymptomChange id=", id, "e=", e);
-  }
+   }
 
   const onSymptomRemove = () => {
     props.onSymptomRemove(id, plantPart);
@@ -40,8 +37,6 @@ const HiSymptom = (props) => {
   const { symptom, symptoms } = props;
 
   const symptomList = symptom.symptoms.map(s => ({ ...s, value: s.id, label: s.symptom }));
-  console.log("Symptoms, symptomplantpart from HiSymptoms.jsx line 43", symptoms, symptom.plantPart);
-  // console.log(symptom.maturity);    
   return (
     <div>
       <h3>

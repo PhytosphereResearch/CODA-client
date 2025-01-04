@@ -5,6 +5,6 @@ const format = (records, idField = "id") =>
       r.commonName ? `(${r.commonName})` : ""
     }`,
     synId: r.id ? r.id : null,
-  }));
+  })).sort((recordA, recordB) => recordA.label.localeCompare(recordB.label));
 
 export default format;

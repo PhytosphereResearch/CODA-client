@@ -13,7 +13,6 @@ const HiEntry = ({
   onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
   onMapChange, onSymptomChange, onSymptomRemove, onHiSubmit, addHiSymptom, newHi,
 }) => {
-  hi && console.log("Hi from function HiEntry in HiEntry.jsx line 16=", hi);
   return (
     <div>
       <h3>Host-Agent Interactions</h3>

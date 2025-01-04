@@ -100,8 +100,7 @@ const EditInteractions = (props) => {
   const onBibSelectChange = (options) => {
     const hi = { ...data.hi, bibs: options };
     setData({ ...data, hi });
-    console.log("Interactions.jsx onBibSelectChange.jsx hi.bibs=", hi.bibs, "Hi=", hi, "hi.bibs.length=", hi.bibs.length);
-  }
+    }
 
   const onSubsiteSelectChange = (id, options) => {
     const hiSymptoms = [...data.hiSymptoms];
@@ -150,14 +149,11 @@ const EditInteractions = (props) => {
       if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
-      console.log('symptom?', symptom)
-      // symptom.isPrimary = symptom.isPrimary.join(';');
-      symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join(';') : symptom.maturity;
+       symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join(';') : symptom.maturity;
       symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join(';') : symptom.subSite;
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
-    console.log("Hi from Interactions.jsx line 157=", hi, "hiSymptoms from Interactions.jsx line 155=", hiSymptoms);
     update({ hi, accessToken })
       .then(() => {
         setData({ ...initialState });
