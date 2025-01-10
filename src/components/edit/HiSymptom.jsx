@@ -61,7 +61,7 @@ const HiSymptom = (props) => {
         options={BOOLEANS}
         onChange={onRadioChange}
       />
-      {/* <ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={onButtonChange} /> */}
+ 
       <ButtonGroup title="Maturity / condition of affected plant part" name="maturity" selected={symptom.maturity} options={MATURITIES} onClick={onButtonChange} />
      
 

@@ -79,23 +79,7 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
         hiSymptom.subSite = hiSymptom.subSite
           ? splitSemicolons(hiSymptom.subSite)
           : [];
-        // hiSymptom.isPrimary = hiSymptom.isPrimary
-        //   ? splitSemicolons(hiSymptom.isPrimary)
-        //   : [];
-        // if (
-        //   hiSymptom.isPrimary.includes(
-        //     "Secondary (attacks stressed, injured or compromise"
-        //   )
-        // ) {
-        //   remove(
-        //     hiSymptom.isPrimary,
-        //     (element) =>
-        //       element === "Secondary (attacks stressed, injured or compromise"
-        //   );
-        //   hiSymptom.isPrimary.push(
-        //     "Secondary (attacks stressed, injured, or compromised tissue)"
-        //   );
-        // }
+
       });
       return interaction;
     })
@@ -191,12 +175,12 @@ export const addOrUpdateReference = async (key, { arg: { reference, accessToken 
 };
 
 export const addOrUpdateHi = async (key, { arg: { hi, accessToken } }) => {
-    const headers = new Headers({
+  const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
     "Content-Type": "application/json",
   });
- 
+
   return fetch(`${url}/hi`, {
     headers,
     method: "POST",

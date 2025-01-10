@@ -201,7 +201,6 @@ const EditInteractions = (props) => {
       hostInteractionId: data.hi.id,
       plantPart: plantPartToAdd,
       isIndirect: existingPlantPart ? !existingPlantPart.isIndirect : false,
-      // isPrimary: [''],
       maturity: [''],
       subSite: [],
       symptoms: [],

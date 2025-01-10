@@ -43,9 +43,6 @@ const HiEntry = ({
       {hi ? (
         <div>
           <RadioGroup title="Questionable record" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={onInputChange} />
-          {/* we need to move the isPrimary field from hiSymptoms to hostInteractions it is for the record as a whole, 
-          not for individual plant part symptoms below is the button that used to live in hiSymptoms */}
-           {/* {<ButtonGroup title="Primary?" selected={symptom.isPrimary} name="isPrimary" options={PRIMARY} onClick={onButtonChange} /> */}
           <ButtonGroup title="Situation -choose one or more" selected={hi.situation} name="situation" options={SITUATION} onClick={onMultiInputChange} />
           <ButtonGroup title="Host life stages affected -choose one or more" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
