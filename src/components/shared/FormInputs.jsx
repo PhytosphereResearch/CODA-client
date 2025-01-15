@@ -118,6 +118,7 @@ RadioGroup.propTypes = {
 
 export const EnhancedCreatable = (props) => {
    const createOption = (option) => {
+   
     return { label: option.label, value: option.label, field: props.name };
   }
 
@@ -140,7 +141,7 @@ export const EnhancedCreatable = (props) => {
           onChange={onChange}
           newOptionCreator={createOption}
           options={options}
-          multi={multi || false}
+          isMulti={multi || false}
         />
       </div>
     );
