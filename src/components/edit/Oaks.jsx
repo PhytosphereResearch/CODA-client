@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getOak, addOrUpdateOak } from '../../services/oaks';
 import { TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
-import pickBy from 'lodash/pickby';
+import { pickBy } from 'lodash';
 
 const blankOak = {
   genus: '',
