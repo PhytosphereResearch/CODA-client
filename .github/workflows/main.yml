@@ -23,11 +23,12 @@ jobs:
 
       - name: Build app
         env:
+          NODE_ENV: production
           VITE_AUTH0_DOMAIN: ${{ vars.VITE_AUTH0_DOMAIN }}
           VITE_AUTH0_CLIENT_ID: ${{ vars.VITE_AUTH0_CLIENT_ID }}
           VITE_AUTH0_CALLBACK_URL: ${{ vars.VITE_AUTH0_CALLBACK_URL }}
           VITE_AUTH0_AUDIENCE: ${{ vars.VITE_AUTH0_AUDIENCE }}
-        run: export NODE_ENV=production && npm run build
+        run: echo NODE_ENV && npm run build
 
       - name: Upload to S3
         uses: jakejarvis/s3-sync-action@master
