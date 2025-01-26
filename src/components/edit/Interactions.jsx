@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import remove from 'lodash/remove';
-import countBy from 'lodash/countBy';
+import { remove, countBy } from 'lodash';
 import { useAuth0 } from '@auth0/auth0-react';
 import useSWRMutation from 'swr/mutation';
 import { getAgent } from '../../services/agents';
