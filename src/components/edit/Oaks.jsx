@@ -52,10 +52,8 @@ const EditOaks = (props) => {
   }
 
   const onSubmit = async () => {
-    const updateOak = pickBy(selectedOak, value => Boolean(value));
     const accessToken = await getAccessTokenSilently()
-
-    update({ oak: updateOak, accessToken }).then(() => {
+    update({ oak: selectedOak, accessToken }).then(() => {
       setSelectedOak({ ...blankOak });
       setSelected(undefined);
     })

@@ -42,10 +42,10 @@ CalPhotos.propTypes = {
 
 export const AgentTaxonomy = ({ agent }) => (
   <div className="taxonomy">
-    <div><b>Taxonomy: {agent.type} &mdash; {agent.subType} {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}</b></div>
+    <div><b>Taxonomy: {agent.type} &mdash; {agent.subType ? <span> {agent.subType} </span> : ''} {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}</b></div>
     <div style={{ marginLeft: '10px' }}>
       {agent.torder ? <span><b>Order: </b>{agent.torder} <br /></span> : null}
-      <span><b>Family: </b>{agent.family} <br /></span>
+      {agent.family ? <span><b>Family: </b>{agent.family} <br /></span> : null}
     </div>
   </div>
 );
