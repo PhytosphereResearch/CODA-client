@@ -47,8 +47,6 @@ const EditAgents = (props) => {
     setNewAgent(true);
   }
 
-  
-
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
       resetState();
@@ -62,8 +60,7 @@ const EditAgents = (props) => {
   }
 
   const onSelectChange = (selected, field) => {
-    selected.field = field;
-    const agent = { ...selectedAgent, [selected.field]: selected.value };
+    const agent = { ...selectedAgent, [field]: selected.value };
     setSelectedAgent(agent);
   }
 
