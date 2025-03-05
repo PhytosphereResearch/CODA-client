@@ -59,8 +59,8 @@ const EditAgents = (props) => {
       .then(agent => setSelectedAgent(agent));
   }
 
-  const onSelectChange = (selected) => {
-    const agent = { ...selectedAgent, [selected.field]: selected.value };
+  const onSelectChange = (selected, field) => {
+    const agent = { ...selectedAgent, [field]: selected.value };
     setSelectedAgent(agent);
   }
 
@@ -89,8 +89,7 @@ const EditAgents = (props) => {
   }
 
     const { options } = props;
-
-    return (
+      return (
       <div>
         <h3>Agents</h3>
         <Select
@@ -110,15 +109,17 @@ const EditAgents = (props) => {
               <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
             </div>
         ) : null}
-        {fields ? (
+        {fields.data ? (
           <>
-            <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={onSelectChange} options={fields.torder} />
-            <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={onSelectChange} options={fields.family} />
+           <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={(e)=>onSelectChange(e, "type")} options={fields.data.type} />
+            <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={(e)=>onSelectChange(e, "subType")} options={fields.data.subType} />
+            <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={(e)=>onSelectChange(e, "subSubType")} options={fields.data.subSubType} />
+
+            <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={(e)=>onSelectChange(e, "torder")} options={fields.data.torder} />
+            <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={(e)=>onSelectChange(e, "family")} options={fields.data.family} />
             <RadioGroup title="Most Common" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={onInputChange} />
             <RadioGroup title="Biotic" selected={selectedAgent.biotic} name="biotic" options={BOOLEANS} onChange={onInputChange} />
-            <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={onSelectChange} options={fields.type} />
-            <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={onSelectChange} options={fields.subType} />
-            <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={onSelectChange} options={fields.subSubType} />
+ 
             <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
             <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
             <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
@@ -127,7 +128,7 @@ const EditAgents = (props) => {
         <button onClick={onSubmit}>SUBMIT</button>
       </div>
     );
-}
+};
 
 EditAgents.propTypes = {
   options: PropTypes.array,
