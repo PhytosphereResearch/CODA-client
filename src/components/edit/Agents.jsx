@@ -4,10 +4,11 @@ import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
 import { useAuth0 } from "@auth0/auth0-react";
 import { BOOLEANS, ECOLOGY } from './constants';
-import { getAgent, addOrUpdateAgent } from '../../services/agents';
+import { getAgent, addOrUpdateAgent, getAllAgentSynonyms } from '../../services/agents';
 import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
+import isLikelyRepeat from '../../utils/checkunique';
 
 const blankAgent = {
   torder: '',
@@ -66,16 +67,19 @@ const EditAgents = (props) => {
 
   const onInputChange = (e) => {
     const agent = { ...selectedAgent, [e.target.name]: e.target.value };
+    console.log("Agents.jsx line 69'", agent, [e.target.name], e.target.value);
     setSelectedAgent(agent);
   }
 
   const onSynonymChange = (e) => {
     const synonym = { ...selectedSynonym, [e.target.name]: e.target.value };
+    console.log("Agents.jsx line 75 synonym=", synonym);
     setSelectedSynonym(synonym);
   }
 
   const onSubmit = async () => {
     let agent;
+    console.log("line 81 agents.jsx new agent=", newAgent);
     if (newAgent) {
       agent = {};
       agent.agent = selectedAgent;
@@ -100,6 +104,7 @@ const EditAgents = (props) => {
           style={{ marginBottom: '15px' }}
         />
         {loading ? <FullScreenSpinner /> : null}
+        {console.log("Agents.jsx line107 options=", options)}
         {
           newAgent ? (
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -109,6 +114,11 @@ const EditAgents = (props) => {
               <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
             </div>
         ) : null}
+        
+        if (isLikelyRepeat(getAllAgentSynonyms, selectedSynonym)==false) {             
+                 return {<div>Agent already in database, chose agent from dropdown</div>};
+                 }
+            
         {fields.data ? (
           <>
            <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={(e)=>onSelectChange(e, "type")} options={fields.data.type} />
