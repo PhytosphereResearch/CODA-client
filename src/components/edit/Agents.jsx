@@ -56,6 +56,7 @@ const EditAgents = (props) => {
     }
     setSelected(option);
     setNewAgent(false);
+    setIsRepeat(false);
 
     getAgent(option.value)
       .then(agent => setSelectedAgent(agent));
@@ -74,7 +75,7 @@ const EditAgents = (props) => {
 
   const onSynonymChange = (e) => {
     const synonym = { ...selectedSynonym, [e.target.name]: e.target.value };
-   const alreadyExists = newAgent && agents.find (agent=>isLikelyRepeat(agent,synonym));
+   const alreadyExists = newAgent && agents.find (agent=>isLikelyRepeat(agent, synonym));
    setIsRepeat (alreadyExists);
     setSelectedSynonym(synonym);
   }
@@ -106,7 +107,6 @@ const EditAgents = (props) => {
         style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
-      {console.log("Agents.jsx line107 options=", options)}
       {
         newAgent ? (
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -116,7 +116,7 @@ const EditAgents = (props) => {
             <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
           </div>
         ) : null}
-      { isRepeat ? (<div>Agent already exists, select from dropdown</div>):null
+      {isRepeat ? (<><div>Warning: <em>{selectedSynonym.genus} {selectedSynonym.species} {selectedSynonym.subSpecies}</em> already exists. Do not create a new agent record, select it from the dropdown above.</div></>):null
       }
       {fields.data ? (
         <>
