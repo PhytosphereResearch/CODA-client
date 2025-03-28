@@ -69,7 +69,6 @@ const EditAgents = (props) => {
 
   const onInputChange = (e) => {
     const agent = { ...selectedAgent, [e.target.name]: e.target.value };
-    console.log("Agents.jsx line 69'", agent, [e.target.name], e.target.value);
     setSelectedAgent(agent);
   }
 
@@ -82,7 +81,6 @@ const EditAgents = (props) => {
 
   const onSubmit = async () => {
     let agent;
-    console.log("line 81 agents.jsx new agent=", newAgent);
     if (newAgent) {
       agent = {};
       agent.agent = selectedAgent;
