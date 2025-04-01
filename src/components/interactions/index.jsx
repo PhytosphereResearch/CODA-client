@@ -17,9 +17,7 @@ const Interactions = (props) => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
-  console.log ("selected",selected, "interactions", interactions, "searching", searching, "location", location, "navigate", navigate);
-
+  
   const onSearch = () => {
     if (location.search) {
       goSearch(location.search);
