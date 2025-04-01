@@ -91,7 +91,11 @@ const Interactions = (props) => {
             </div>
             <Select
               options={oaks}
-              onChange={option => onSelect(option, 'oak')}
+              onChange={option => {
+                setInteractions([]); 
+                location.search=null;
+                onSelect(option, 'oak')
+              }}
               value={selected.oak}
               placeholder="Search oaks by species or common name"
               style={{ marginBottom: '15px' }}
@@ -102,7 +106,10 @@ const Interactions = (props) => {
                 <button
                   style={{ flexGrow: '1' }}
                   className={selected.plantPart === part ? 'inSearch' : ''}
-                  onClick={() => onSelect(part, 'plantPart')}
+                  onClick={() => {
+                    setInteractions([]);
+                    location.search = null;
+                    onSelect(part, 'plantPart')}}
                   key={part}
                 >
                   {part}
@@ -112,7 +119,10 @@ const Interactions = (props) => {
             <Select
               disabled={!selected.plantPart}
               options={symptoms.filter(symptom => symptom[selected.plantPart])}
-              onChange={option => onSelect(option, 'symptom')}
+              onChange={option => {
+                setInteractions([]);
+                location.search = null;
+                onSelect(option, 'symptom')}}
               value={selected.symptom}
               placeholder="Select a symptom"
               style={{ marginBottom: '15px' }}
