@@ -47,8 +47,8 @@ const HiEntry = ({
           <ButtonGroup title="Host life stages affected -choose one or more" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
-          <p>Click to select/deselect counties</p>
-          <div style={{ width: '400px', height: '400px' }}>
+          <p>Click to select/deselect counties, click on whitespace to reposition map, mouse wheel will zoom map. </p>
+          <div style={{ width: '400px', height: '400px', border: '3px solid #DDDDDD', overflow: 'hidden' }}>
             <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
           </div>
           <h4>References</h4>
