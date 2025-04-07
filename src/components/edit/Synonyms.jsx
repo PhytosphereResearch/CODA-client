@@ -100,7 +100,7 @@ const EditSynonyms = (props) => {
         options={options}
         onChange={onAgentSelected}
         value={selected}
-        placeholder="Type to search by species or common name"
+        placeholder="Type to search database for synonyms by species or common name"
         style={{ marginBottom: '15px' }}
       />
       {selectedAgent ? (

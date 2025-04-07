@@ -70,7 +70,7 @@ const EditSymptoms = (props) => {
           options={options}
           onChange={onSymptomSelected}
           value={selected}
-          placeholder="Type to search by symptom"
+          placeholder="Type here to search database for existing symptoms or use dropdown to scroll through list"
           style={{ marginBottom: '15px' }}
         />
         <h4>{selected ? 'Edit a Symptom:' : 'Add a Symptom:'}</h4>

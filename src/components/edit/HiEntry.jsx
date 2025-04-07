@@ -16,13 +16,13 @@ const HiEntry = ({
   return (
     <div>
       <h3>Host-Agent Interactions</h3>
-      <div className="text-muted">If your interaction requires a reference not currently in CODA, please visit the References tab and add it first.</div>
+      <div className="text-muted">Important: If you want to add a new interaction that requires a reference not currently in CODA, you will need to visit the References page and add it first.</div>
       <h4>Find an agent</h4>
       <Select
         options={agents}
         onChange={onAgentSelected}
         value={selectedAgent}
-        placeholder="Type to search by species or common name"
+        placeholder="Type or scroll to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <h4>Find an oak</h4>
@@ -30,7 +30,7 @@ const HiEntry = ({
         options={oaks}
         onChange={onOakSelected}
         value={selectedOak}
-        placeholder="Type to search by species or common name"
+        placeholder="Type or scroll to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <button

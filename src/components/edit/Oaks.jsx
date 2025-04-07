@@ -68,7 +68,7 @@ const EditOaks = (props) => {
         options={options}
         onChange={onOakSelected}
         value={selected}
-        placeholder="Type to search by species or common name"
+        placeholder="Type in this box or scroll to search the database for oaks by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <div>
@@ -79,10 +79,9 @@ const EditOaks = (props) => {
           <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={onInputChange} />
           <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={onInputChange} />
         </div>
-        <TextInput title="Subgenus-Section-Subsection. Taxonomy from  Forests 2021, 12(6), 786; https://doi.org/10.3390/f12060786" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
+        <TextInput title="Subgenus-Section-Subsection (Taxonomy from  Forests 2021, 12(6), 786; https://doi.org/10.3390/f12060786)" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
         <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={onInputChange} />
-        <TextInput title="Leaf retention:
-         Evergreen, Semi-evergreen, Deciduous, Semi-deciduous, or a combination of these" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
+        <TextInput title="Leaf retention (Evergreen, Semi-evergreen, Deciduous, Semi-deciduous, or a combination of these)" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
         <div style={{ display: 'flex', gap: '8px' }}>
           <TextInput title="Form (tree or shrub and shape)" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
           <TextInput title="Height range, meters (m)" value={selectedOak.height} name="height" onChange={onInputChange} />

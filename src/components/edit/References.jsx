@@ -54,7 +54,7 @@ const EditReferences = (props) => {
           options={options}
           onChange={onRefSelected}
           value={selected}
-          placeholder="Type to search by reference"
+          placeholder="Type here to search for existing references"
           style={{ marginBottom: '15px' }}
         />
         <h4>{selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
