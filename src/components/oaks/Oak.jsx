@@ -15,7 +15,7 @@ const Oak = () => {
   }
   let subGenus = (
     <p>
-      <b>Sub-genus:</b> {oak.subGenus}
+      <b>Subgenus-Section-Subsection:</b> {oak.subGenus}
     </p>
   );
   let evergreen = (

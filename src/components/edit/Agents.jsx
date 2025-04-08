@@ -74,8 +74,8 @@ const EditAgents = (props) => {
 
   const onSynonymChange = (e) => {
     const synonym = { ...selectedSynonym, [e.target.name]: e.target.value };
-   const alreadyExists = newAgent && agents.find (agent=>isLikelyRepeat(agent, synonym));
-   setIsRepeat (alreadyExists);
+    const alreadyExists = newAgent && agents.find(agent => isLikelyRepeat(agent, synonym));
+    setIsRepeat(alreadyExists);
     setSelectedSynonym(synonym);
   }
 
@@ -101,7 +101,7 @@ const EditAgents = (props) => {
         options={options}
         onChange={onAgentSelected}
         value={selected}
-        placeholder="Type to search by species or common name"
+        placeholder="Type in this box to search the database for agents by species or common name"
         style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
@@ -114,7 +114,7 @@ const EditAgents = (props) => {
             <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
           </div>
         ) : null}
-      {isRepeat ? (<><div>Warning: <em>{selectedSynonym.genus} {selectedSynonym.species} {selectedSynonym.subSpecies}</em> already exists. Do not create a new agent record, select it from the dropdown above.</div></>):null
+      {isRepeat ? (<><div>Warning: <em>{selectedSynonym.genus} {selectedSynonym.species} {selectedSynonym.subSpecies}</em> already exists. Do not create a new agent record, select it from the dropdown above.</div></>) : null
       }
       {fields.data ? (
         <>
