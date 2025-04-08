@@ -170,8 +170,8 @@ const EditInteractions = (props) => {
       if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
-      symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join(';') : symptom.maturity;
-      symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join(';') : symptom.subSite;
+      symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join('; ') : symptom.maturity;
+      symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join('; ') : symptom.subSite;
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
@@ -210,8 +210,9 @@ const EditInteractions = (props) => {
         setData({ ...data, searchPerformed: true, hi: undefined })
         setLoading(false);
       });
+      
   }
-
+ 
 
   const addHiSymptom = (e) => {
     const plantPartToAdd = e.target.value;
