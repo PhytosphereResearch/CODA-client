@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
-import { BOOLEANS } from './constants';
+import { BOOLEANS, SYNONYMS } from './constants';
 
 const blankSynonym = {
   genus: '',
@@ -57,8 +57,10 @@ const EditSynonyms = (props) => {
     setSelectedSynonym(updatedSynonym);
   }
 
-  const createSynonym = () => {
-    if (newSynonym) {
+  const createSynonym = (event) => {
+     if ((event.target.value === 'Edit existing synonym' && !newSynonym) || (event.target.value === 'Create new synonym' && newSynonym)) {
+     return;
+    } else if (event.target.value === 'Edit existing synonym' )  {
       setNewSynonym(false);
       setSelectedSynonym(prevSynonym);
     } else {
@@ -112,13 +114,19 @@ const EditSynonyms = (props) => {
             authority={primary.authority}
           />
           {otherSynonyms}
-          <button onClick={createSynonym}>{newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
+          <RadioGroup
+          title="Add a new synonym or edit an existing synonym"
+          selected={newSynonym ? 'Create new synonym' : 'Edit existing synonym'}
+          name="addOrEditSyn"
+          options={SYNONYMS}
+          onChange={createSynonym}  
+          /> 
           <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
           <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
           <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
           <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
           <RadioGroup
-            title="Currently accepted name?"
+            title="Currently accepted name? To change the currently accepted name, edit or create the synonym that you want to make the current accepted name and change false to true"
             selected={selectedSynonym.isPrimary}
             name="isPrimary"
             options={BOOLEANS}
