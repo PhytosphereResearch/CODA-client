@@ -58,9 +58,9 @@ const EditSynonyms = (props) => {
   }
 
   const createSynonym = (event) => {
-     if ((event.target.value === 'Edit existing synonym' && !newSynonym) || (event.target.value === 'Create new synonym' && newSynonym)) {
-     return;
-    } else if (event.target.value === 'Edit existing synonym' )  {
+    if ((event.target.value === 'Edit existing synonym' && !newSynonym) || (event.target.value === 'Create new synonym' && newSynonym)) {
+      return;
+    } else if (event.target.value === 'Edit existing synonym') {
       setNewSynonym(false);
       setSelectedSynonym(prevSynonym);
     } else {
@@ -115,12 +115,12 @@ const EditSynonyms = (props) => {
           />
           {otherSynonyms}
           <RadioGroup
-          title="Add a new synonym or edit an existing synonym"
-          selected={newSynonym ? 'Create new synonym' : 'Edit existing synonym'}
-          name="addOrEditSyn"
-          options={SYNONYMS}
-          onChange={createSynonym}  
-          /> 
+            title="Add a new synonym or edit an existing synonym"
+            selected={newSynonym ? 'Create new synonym' : 'Edit existing synonym'}
+            name="addOrEditSyn"
+            options={SYNONYMS}
+            onChange={createSynonym}
+          />
           <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
           <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
           <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
@@ -136,7 +136,7 @@ const EditSynonyms = (props) => {
           <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={onSynonymChange} />
         </div>
       ) : null}
-      <button onClick={submitSynonym}>SUBMIT</button>
+      {selectedAgent ? <button onClick={submitSynonym}>SUBMIT</button> : null}
     </div>
   );
 }
