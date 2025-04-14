@@ -125,7 +125,7 @@ const EditSynonyms = (props) => {
           <br/>
           <RadioGroup
             title="Add a new synonym or edit an existing synonym"
-            selected={newSynonym ? 'Create new synonym' : 'Edit existing synonym'}
+            selected={newSynonym ? ADD : EDIT}
             name="addOrEditSyn"
             options={ADD_EDIT}
             onChange={createSynonym}
