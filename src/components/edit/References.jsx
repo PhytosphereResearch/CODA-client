@@ -50,6 +50,7 @@ const EditReferences = (props) => {
     return (
       <div>
         <h3>References</h3>
+        Check to see if reference exists before adding a new reference.
         <Select
           options={options}
           onChange={onRefSelected}

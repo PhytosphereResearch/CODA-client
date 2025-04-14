@@ -6,8 +6,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ScientificName, Synonyms } from '../shared/partials';
 import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
-import { BOOLEANS, SYNONYMS } from './constants';
+import { BOOLEANS } from './constants';
 
+
+ const ADD = 'Create new synonym';
+ const EDIT = 'Edit existing synonym';
+
+ const ADD_EDIT = [ADD, EDIT];
+
+
+console.log (ADD_EDIT);
 const blankSynonym = {
   genus: '',
   species: '',
@@ -58,9 +66,9 @@ const EditSynonyms = (props) => {
   }
 
   const createSynonym = (event) => {
-    if ((event.target.value === 'Edit existing synonym' && !newSynonym) || (event.target.value === 'Create new synonym' && newSynonym)) {
+    if ((event.target.value === EDIT && !newSynonym) || (event.target.value === ADD && newSynonym)) {
       return;
-    } else if (event.target.value === 'Edit existing synonym') {
+    } else if (event.target.value === EDIT) {
       setNewSynonym(false);
       setSelectedSynonym(prevSynonym);
     } else {
@@ -114,11 +122,12 @@ const EditSynonyms = (props) => {
             authority={primary.authority}
           />
           {otherSynonyms}
+          <br/>
           <RadioGroup
             title="Add a new synonym or edit an existing synonym"
             selected={newSynonym ? 'Create new synonym' : 'Edit existing synonym'}
             name="addOrEditSyn"
-            options={SYNONYMS}
+            options={ADD_EDIT}
             onChange={createSynonym}
           />
           <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />

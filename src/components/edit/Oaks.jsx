@@ -71,6 +71,7 @@ const EditOaks = (props) => {
         placeholder="Type in this box or scroll to search the database for oaks by species or common name"
         style={{ marginBottom: '15px' }}
       />
+    <p>Add an oak</p>
       <div>
         {loading ? <FullScreenSpinner /> : null}
         <div style={{ display: 'flex', gap: '8px' }}>

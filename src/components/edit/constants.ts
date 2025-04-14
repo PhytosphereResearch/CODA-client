@@ -14,5 +14,3 @@ export const MATURITIES = ['All', 'Dead', 'Mature', 'Senescent', 'Young'];
 export const LIFE_STAGES = ['Seedling', 'Sapling', 'Mature', 'Dead', 'Stump sprouts'];
 
 export const PRIMARY = ['Unknown', 'Primary (attacks healthy tissue)', 'Secondary (attacks stressed, injured, or compromised tissue)', ''];
-
-export const SYNONYMS = ['Create new synonym','Edit existing synonym']
