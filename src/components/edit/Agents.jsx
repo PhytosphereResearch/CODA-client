@@ -105,6 +105,7 @@ const EditAgents = (props) => {
         style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
+      <p>If the agent does not yet exist in CODA, add it by filling in the information below:</p>
       {
         newAgent ? (
           <div style={{ display: 'flex', gap: '8px' }}>
