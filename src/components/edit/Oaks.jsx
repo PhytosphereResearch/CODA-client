@@ -4,9 +4,13 @@ import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getOak, addOrUpdateOak } from '../../services/oaks';
-import { TextInput, TextArea } from '../shared/FormInputs';
+import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
 import { pickBy } from 'lodash';
+
+const ADD = 'Create new oak';
+const EDIT = 'Edit existing oak';
+const ADD_EDIT = [ADD, EDIT];
 
 const blankOak = {
   genus: '',
@@ -34,7 +38,7 @@ const EditOaks = (props) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
-
+console.log (selectedOak.id);
   const onOakSelected = (option) => {
     if (!option.value) {
       setSelected(null);
@@ -64,14 +68,23 @@ const EditOaks = (props) => {
   return (
     <div>
       <h3>Oaks</h3>
-      <Select
+      <p>Check to see if oak exists before adding a new oak.</p>
+        <Select
         options={options}
         onChange={onOakSelected}
         value={selected}
-        placeholder="Type in this box or scroll to search the database for oaks by species or common name"
+        placeholder="Search by species or common name for existing oaks by typing in this box or scrolling"
         style={{ marginBottom: '15px' }}
       />
-    <p>Add an oak</p>
+      <br/ >
+       <RadioGroup
+                  title="Add a new oak or edit an existing oak"
+                  selected={!selectedOak.id ? ADD : EDIT}
+                  name="addOrEditOak"
+                  options={ADD_EDIT}
+                  onChange={onOakSelected}
+                  />
+    
       <div>
         {loading ? <FullScreenSpinner /> : null}
         <div style={{ display: 'flex', gap: '8px' }}>
