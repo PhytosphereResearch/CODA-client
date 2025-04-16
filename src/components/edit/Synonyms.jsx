@@ -8,6 +8,9 @@ import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
 import { BOOLEANS } from './constants';
 
+const ADD = 'Create new synonym';
+const EDIT = 'Edit existing synonym';
+const ADD_EDIT = [ADD, EDIT];
 
 const blankSynonym = {
   genus: '',
