@@ -9,13 +9,6 @@ import { getAgent, addOrUpdateSynonym } from '../../services/agents';
 import { BOOLEANS } from './constants';
 
 
- const ADD = 'Create new synonym';
- const EDIT = 'Edit existing synonym';
-
- const ADD_EDIT = [ADD, EDIT];
-
-
-console.log (ADD_EDIT);
 const blankSynonym = {
   genus: '',
   species: '',

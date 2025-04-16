@@ -38,7 +38,7 @@ const EditOaks = (props) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
-console.log (selectedOak.id);
+
   const onOakSelected = (option) => {
     if (!option.value) {
       setSelected(null);
@@ -59,7 +59,7 @@ console.log (selectedOak.id);
     const accessToken = await getAccessTokenSilently()
     update({ oak: selectedOak, accessToken }).then(() => {
       setSelectedOak({ ...blankOak });
-      setSelected(undefined);
+      setSelected(null);
     })
   }
 
@@ -78,13 +78,13 @@ console.log (selectedOak.id);
       />
       <br/ >
        <RadioGroup
-                  title="Add a new oak or edit an existing oak"
-                  selected={!selectedOak.id ? ADD : EDIT}
+                  title="Add a new oak or edit an existing oak by chosing from dropdown above"
+                  selected={selectedOak.id ? EDIT : ADD}
                   name="addOrEditOak"
                   options={ADD_EDIT}
                   onChange={onOakSelected}
                   />
-    
+      <br />
       <div>
         {loading ? <FullScreenSpinner /> : null}
         <div style={{ display: 'flex', gap: '8px' }}>
