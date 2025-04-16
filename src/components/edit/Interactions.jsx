@@ -36,9 +36,9 @@ const EditInteractions = (props) => {
   
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
-      setData({
-        ...data, selectedAgent: undefined, hiAgent: undefined, 
-      });   
+      setData(prevData => ({
+        ...prevData, selectedAgent: undefined, hiAgent: undefined, 
+      }));   
       clearPrevResult();
       return;
     }
@@ -53,9 +53,9 @@ const EditInteractions = (props) => {
 
   const onOakSelected = (option) => {
     if (!option || !option.value) {
-      setData({
-        ...data, selectedOak: undefined, hiOak: undefined, 
-      });
+      setData(prevData => ({
+        ...prevData, selectedOak: undefined, hiOak: undefined, 
+      }));
       clearPrevResult(); 
       return;
     }
