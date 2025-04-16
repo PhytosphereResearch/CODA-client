@@ -4,9 +4,13 @@ import Select from 'react-select';
 import useSWRMutation from 'swr/mutation';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getOak, addOrUpdateOak } from '../../services/oaks';
-import { TextInput, TextArea } from '../shared/FormInputs';
+import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { FullScreenSpinner } from '../shared/shapes';
 import { pickBy } from 'lodash';
+
+const ADD = 'Create new oak';
+const EDIT = 'Edit existing oak';
+const ADD_EDIT = [ADD, EDIT];
 
 const blankOak = {
   genus: '',
@@ -55,7 +59,7 @@ const EditOaks = (props) => {
     const accessToken = await getAccessTokenSilently()
     update({ oak: selectedOak, accessToken }).then(() => {
       setSelectedOak({ ...blankOak });
-      setSelected(undefined);
+      setSelected(null);
     })
   }
 
@@ -64,13 +68,23 @@ const EditOaks = (props) => {
   return (
     <div>
       <h3>Oaks</h3>
-      <Select
+      <p>Check to see if oak exists before adding a new oak.</p>
+        <Select
         options={options}
         onChange={onOakSelected}
         value={selected}
-        placeholder="Type to search by species or common name"
+        placeholder="Search by species or common name for existing oaks by typing in this box or scrolling"
         style={{ marginBottom: '15px' }}
       />
+      <br/ >
+       <RadioGroup
+                  title="Add a new oak or edit an existing oak by chosing from dropdown above"
+                  selected={selectedOak.id ? EDIT : ADD}
+                  name="addOrEditOak"
+                  options={ADD_EDIT}
+                  onChange={onOakSelected}
+                  />
+      <br />
       <div>
         {loading ? <FullScreenSpinner /> : null}
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -79,10 +93,9 @@ const EditOaks = (props) => {
           <TextInput title="Sub-species" value={selectedOak.subSpecies} name="subSpecies" onChange={onInputChange} />
           <TextInput title="Taxonomic authority" value={selectedOak.authority} name="authority" onChange={onInputChange} />
         </div>
-        <TextInput title="Subgenus-Section-Subsection. Taxonomy from  Forests 2021, 12(6), 786; https://doi.org/10.3390/f12060786" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
+        <TextInput title="Subgenus-Section-Subsection (Taxonomy from  Forests 2021, 12(6), 786; https://doi.org/10.3390/f12060786)" value={selectedOak.subGenus} name="subGenus" onChange={onInputChange} />
         <TextInput title="Common name" value={selectedOak.commonName} name="commonName" onChange={onInputChange} />
-        <TextInput title="Leaf retention:
-         Evergreen, Semi-evergreen, Deciduous, Semi-deciduous, or a combination of these" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
+        <TextInput title="Leaf retention (Evergreen, Semi-evergreen, Deciduous, Semi-deciduous, or a combination of these)" value={selectedOak.evergreen} name="evergreen" onChange={onInputChange} />
         <div style={{ display: 'flex', gap: '8px' }}>
           <TextInput title="Form (tree or shrub and shape)" value={selectedOak.treeForm} name="treeForm" onChange={onInputChange} />
           <TextInput title="Height range, meters (m)" value={selectedOak.height} name="height" onChange={onInputChange} />

@@ -28,22 +28,44 @@ const EditInteractions = (props) => {
   const { getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation('/api/hi', addOrUpdateHi);
 
+  const clearPrevResult = () => {
+    setData(prevData => ({
+      ...prevData, hiSymptoms: undefined, searchPerformed: false, plantParts: [], hi: undefined,
+    }));
+  }
+  
   const onAgentSelected = (option) => {
     if (!option || !option.value) {
-      setData({ ...data, selectedAgent: undefined, hiAgent: undefined });
+      setData(prevData => ({
+        ...prevData, selectedAgent: undefined, hiAgent: undefined, 
+      }));   
+      clearPrevResult();
       return;
     }
     getAgent(option.value)
-      .then(agent => setData({ ...data, selectedAgent: option, hiAgent: agent }));
+      .then(agent => {
+        setData(prevData => ({
+          ...prevData, selectedAgent: option, hiAgent: agent,
+        }));
+        clearPrevResult();      
+      });
   }
 
   const onOakSelected = (option) => {
     if (!option || !option.value) {
-      setData({ ...data, selectedOak: undefined, hiOak: undefined });
+      setData(prevData => ({
+        ...prevData, selectedOak: undefined, hiOak: undefined, 
+      }));
+      clearPrevResult(); 
       return;
     }
     getOak(option.value)
-      .then(oak => setData({ ...data, selectedOak: option, hiOak: oak }));
+      .then(oak => {
+        setData(prevData => ({
+        ...prevData, selectedOak: option, hiOak: oak, 
+             }));
+        clearPrevResult(); 
+                                                                                                 });
   }
 
   const onInputChange = (e) => {
@@ -99,7 +121,7 @@ const EditInteractions = (props) => {
   const onBibSelectChange = (options) => {
     const hi = { ...data.hi, bibs: options };
     setData({ ...data, hi });
-    }
+  }
 
   const onSubsiteSelectChange = (id, options) => {
     const hiSymptoms = [...data.hiSymptoms];
@@ -148,16 +170,17 @@ const EditInteractions = (props) => {
       if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
-       symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join(';') : symptom.maturity;
-      symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join(';') : symptom.subSite;
+      symptom.maturity = Array.isArray(symptom.maturity) ? symptom.maturity.join('; ') : symptom.maturity;
+      symptom.subSite = Array.isArray(symptom.subSite) ? symptom.subSite.map(subSite => subSite.label).join('; ') : symptom.subSite;
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
     update({ hi, accessToken })
       .then(() => {
         setData({ ...initialState });
-      setLoading(false)}
-    )
+        setLoading(false)
+      }
+      )
       .catch(() => {
         setLoading(false)
       });
@@ -187,8 +210,9 @@ const EditInteractions = (props) => {
         setData({ ...data, searchPerformed: true, hi: undefined })
         setLoading(false);
       });
+      
   }
-
+ 
 
   const addHiSymptom = (e) => {
     const plantPartToAdd = e.target.value;

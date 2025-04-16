@@ -16,13 +16,13 @@ const HiEntry = ({
   return (
     <div>
       <h3>Host-Agent Interactions</h3>
-      <div className="text-muted">If your interaction requires a reference not currently in CODA, please visit the References tab and add it first.</div>
+      <div className="text-muted">Important: If you want to add a new interaction that requires a reference not currently in CODA, you will need to visit the References page and add it first.</div>
       <h4>Find an agent</h4>
       <Select
         options={agents}
         onChange={onAgentSelected}
         value={selectedAgent}
-        placeholder="Type to search by species or common name"
+        placeholder="Type or scroll to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <h4>Find an oak</h4>
@@ -30,7 +30,7 @@ const HiEntry = ({
         options={oaks}
         onChange={onOakSelected}
         value={selectedOak}
-        placeholder="Type to search by species or common name"
+        placeholder="Type or scroll to search by species or common name"
         style={{ marginBottom: '15px' }}
       />
       <button
@@ -47,8 +47,8 @@ const HiEntry = ({
           <ButtonGroup title="Host life stages affected -choose one or more" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
           <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
           <h4>Range</h4>
-          <p>Click to select/deselect counties</p>
-          <div style={{ width: '400px', height: '400px' }}>
+          <p>Click to select/deselect counties, click on whitespace to reposition map, mouse wheel will zoom map. </p>
+          <div style={{ width: '400px', height: '400px', border: '3px solid #DDDDDD', overflow: 'hidden' }}>
             <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
           </div>
           <h4>References</h4>

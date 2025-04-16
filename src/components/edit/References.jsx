@@ -50,14 +50,16 @@ const EditReferences = (props) => {
     return (
       <div>
         <h3>References</h3>
+        Check to see if reference exists before adding a new reference.
         <Select
           options={options}
           onChange={onRefSelected}
           value={selected}
-          placeholder="Type to search by reference"
+          placeholder="Type here to search for existing references"
           style={{ marginBottom: '15px' }}
         />
         <h4>{selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
+       
         <form onSubmit={handleSubmit} onChange={onInputChange}>
           <TextInput title="Year" placeholder="YYYY" value={reference.year} name="year" />
           <TextInput title="Description" hintText="Authors (YYYY) for journal short citation otherwise short title, e.g. Bregant et al. (2021) Forests 12:682. " value={reference.description} name="description" />

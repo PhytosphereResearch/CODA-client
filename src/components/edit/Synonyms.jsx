@@ -8,6 +8,10 @@ import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
 import { getAgent, addOrUpdateSynonym } from '../../services/agents';
 import { BOOLEANS } from './constants';
 
+const ADD = 'Create new synonym';
+const EDIT = 'Edit existing synonym';
+const ADD_EDIT = [ADD, EDIT];
+
 const blankSynonym = {
   genus: '',
   species: '',
@@ -57,8 +61,10 @@ const EditSynonyms = (props) => {
     setSelectedSynonym(updatedSynonym);
   }
 
-  const createSynonym = () => {
-    if (newSynonym) {
+  const createSynonym = (event) => {
+    if ((event.target.value === EDIT && !newSynonym) || (event.target.value === ADD && newSynonym)) {
+      return;
+    } else if (event.target.value === EDIT) {
       setNewSynonym(false);
       setSelectedSynonym(prevSynonym);
     } else {
@@ -100,7 +106,7 @@ const EditSynonyms = (props) => {
         options={options}
         onChange={onAgentSelected}
         value={selected}
-        placeholder="Type to search by species or common name"
+        placeholder="Type to search database for synonyms by species or common name"
         style={{ marginBottom: '15px' }}
       />
       {selectedAgent ? (
@@ -112,13 +118,20 @@ const EditSynonyms = (props) => {
             authority={primary.authority}
           />
           {otherSynonyms}
-          <button onClick={createSynonym}>{newSynonym ? 'UPDATE SYNONYM' : 'NEW SYNONYM'}</button>
+          <br/>
+          <RadioGroup
+            title="Add a new synonym or edit an existing synonym"
+            selected={newSynonym ? ADD : EDIT}
+            name="addOrEditSyn"
+            options={ADD_EDIT}
+            onChange={createSynonym}
+          />
           <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
           <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
           <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
           <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
           <RadioGroup
-            title="Currently accepted name?"
+            title="Currently accepted name? To change the currently accepted name, edit or create the synonym that you want to make the current accepted name and change false to true"
             selected={selectedSynonym.isPrimary}
             name="isPrimary"
             options={BOOLEANS}
@@ -128,7 +141,7 @@ const EditSynonyms = (props) => {
           <TextArea title="Notes" value={selectedSynonym.notes} limit={65535} name="notes" onChange={onSynonymChange} />
         </div>
       ) : null}
-      <button onClick={submitSynonym}>SUBMIT</button>
+      {selectedAgent ? <button onClick={submitSynonym}>SUBMIT</button> : null}
     </div>
   );
 }
