@@ -9,6 +9,10 @@ import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/Fo
 import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
 import isLikelyRepeat from '../../utils/checkunique';
+import { jwtDecode } from 'jwt-decode';
+
+
+
 
 const blankAgent = {
   torder: '',
@@ -89,6 +93,27 @@ const EditAgents = (props) => {
       agent = selectedAgent;
     }
     const accessToken = await getAccessTokenSilently();
+    console.log("Agents.jsx accessToken=", accessToken);
+    const decoded = jwtDecode(accessToken);
+    console.log("Agents.jsx decoded=", decoded);
+  
+    // const GetUserDetails = async userId => {
+    //   console.log('userId', userId);
+
+    //   accessToken
+    //     .getUser({ id: userId })
+    //     .then(function (users) {
+    //       console.log(users);
+    //     })
+    //     .catch(function (err) {
+    //       console.log(err);
+    //     });
+    // };
+
+    // const userId = 'auth0|xxxx';
+
+    // GetUserDetails(userId);
+
     update({ agent, accessToken })
       .then(() => resetState());
   }
