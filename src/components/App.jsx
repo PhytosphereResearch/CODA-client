@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Navigate } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import Shell from './Shell';

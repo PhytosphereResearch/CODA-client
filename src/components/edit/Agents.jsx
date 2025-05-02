@@ -9,7 +9,6 @@ import { TextInput, TextArea, RadioGroup, EnhancedCreatable } from '../shared/Fo
 import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
 import isLikelyRepeat from '../../utils/checkunique';
-import { jwtDecode } from 'jwt-decode';
 
 
 
@@ -42,9 +41,9 @@ const EditAgents = (props) => {
   const [newAgent, setNewAgent] = useState(true);
   const [isRepeat, setIsRepeat] = useState(false);
   const { agentFields: fields, agents } = useAgents()
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-
+console.log('user', user)
 
   const resetState = () => {
     setSelected(null);
@@ -94,9 +93,10 @@ const EditAgents = (props) => {
     }
     const accessToken = await getAccessTokenSilently();
     console.log("Agents.jsx accessToken=", accessToken);
-    const decoded = jwtDecode(accessToken);
-    console.log("Agents.jsx decoded=", decoded);
+    // const decoded = jwtDecode(accessToken);
+    // console.log("Agents.jsx decoded=", decoded);
   
+
     // const GetUserDetails = async userId => {
     //   console.log('userId', userId);
 
