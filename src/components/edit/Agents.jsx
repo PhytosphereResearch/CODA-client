@@ -25,7 +25,7 @@ const blankAgent = {
   commonName: '',
   notes: '',
   bookLink: '',
-  original_coda_record: '',
+  original_coda_record: false,
 };
 
 const blankSynonym = {
@@ -45,7 +45,7 @@ const EditAgents = (props) => {
   const { agentFields: fields, agents } = useAgents()
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-  const userName=user.name;
+  const userName = user.name;
   console.log('client Agents.jsx userName', userName) //this gives us the details on the user of this page
 
   const resetState = () => {
@@ -92,14 +92,14 @@ const EditAgents = (props) => {
       agent.agent = selectedAgent;
       agent.synonym = selectedSynonym;
       console.log("selectedSynonym", agent.synonym, "agent.agent", agent.newAgent);
-      } else {
+    } else {
       // agent = selectedAgent;//write the code to only take/send the agent part of the object
       agent = {
-        
+
         genus: selectedSynonym.genus,
         species: selectedSynonym.species,
         subSpecies: selectedSynonym.subSpecies,
-        authority: selectedSynonym.authority, 
+        authority: selectedSynonym.authority,
         isPrimary: selectedSynonym.isPrimary,
         id: selectedAgent.id,
         torder: selectedAgent.torder,
@@ -114,10 +114,10 @@ const EditAgents = (props) => {
         notes: selectedAgent.notes,
         bookLink: selectedAgent.bookLink,
         original_coda_record: selectedAgent.original_coda_record,
-      }; 
+      };
     }
     const accessToken = await getAccessTokenSilently();
-    
+
     update({ agent, accessToken, userName })
       .then(() => resetState());
   }
@@ -161,7 +161,7 @@ const EditAgents = (props) => {
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
           <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
-          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.original_coda_record} name="original_coda_record"  />
+          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.original_coda_record} name="original_coda_record" />
         </>
       ) : null}
       <button onClick={onSubmit}>SUBMIT</button>
