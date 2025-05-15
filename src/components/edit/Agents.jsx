@@ -24,6 +24,8 @@ const blankAgent = {
   ecology: '',
   commonName: '',
   notes: '',
+  bookLink: '',
+  original_coda_record: '',
 };
 
 const blankSynonym = {
@@ -43,7 +45,8 @@ const EditAgents = (props) => {
   const { agentFields: fields, agents } = useAgents()
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-console.log('user', user)
+  const userName=user.name;
+  console.log('client Agents.jsx userName', userName) //this gives us the details on the user of this page
 
   const resetState = () => {
     setSelected(null);
@@ -83,38 +86,39 @@ console.log('user', user)
   }
 
   const onSubmit = async () => {
-    let agent;
+    let agent;//note this is agent & synonym box
     if (newAgent) {
       agent = {};
       agent.agent = selectedAgent;
       agent.synonym = selectedSynonym;
-    } else {
-      agent = selectedAgent;
+      console.log("selectedSynonym", agent.synonym, "agent.agent", agent.newAgent);
+      } else {
+      // agent = selectedAgent;//write the code to only take/send the agent part of the object
+      agent = {
+        
+        genus: selectedSynonym.genus,
+        species: selectedSynonym.species,
+        subSpecies: selectedSynonym.subSpecies,
+        authority: selectedSynonym.authority, 
+        isPrimary: selectedSynonym.isPrimary,
+        id: selectedAgent.id,
+        torder: selectedAgent.torder,
+        family: selectedAgent.family,
+        mostCommon: selectedAgent.mostCommon,
+        biotic: selectedAgent.biotic,
+        type: selectedAgent.type,
+        subType: selectedAgent.subType,
+        subSubType: selectedAgent.subSubType,
+        ecology: selectedAgent.ecology,
+        commonName: selectedAgent.commonName,
+        notes: selectedAgent.notes,
+        bookLink: selectedAgent.bookLink,
+        original_coda_record: selectedAgent.original_coda_record,
+      }; 
     }
     const accessToken = await getAccessTokenSilently();
-    console.log("Agents.jsx accessToken=", accessToken);
-    // const decoded = jwtDecode(accessToken);
-    // console.log("Agents.jsx decoded=", decoded);
-  
-
-    // const GetUserDetails = async userId => {
-    //   console.log('userId', userId);
-
-    //   accessToken
-    //     .getUser({ id: userId })
-    //     .then(function (users) {
-    //       console.log(users);
-    //     })
-    //     .catch(function (err) {
-    //       console.log(err);
-    //     });
-    // };
-
-    // const userId = 'auth0|xxxx';
-
-    // GetUserDetails(userId);
-
-    update({ agent, accessToken })
+    
+    update({ agent, accessToken, userName })
       .then(() => resetState());
   }
 
@@ -156,6 +160,8 @@ console.log('user', user)
           <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
+          <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
+          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.original_coda_record} name="original_coda_record"  />
         </>
       ) : null}
       <button onClick={onSubmit}>SUBMIT</button>
