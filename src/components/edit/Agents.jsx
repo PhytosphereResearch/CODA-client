@@ -45,9 +45,8 @@ const EditAgents = (props) => {
   const { agentFields: fields, agents } = useAgents()
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-  const userName = user.name;
-  console.log('client Agents.jsx userName', userName) //this gives us the details on the user of this page
-
+  const userName = user.name;//I believe we want to change this to user.nickname rather than name, which is email address
+  
   const resetState = () => {
     setSelected(null);
     setSelectedAgent({ ...blankAgent });
@@ -86,16 +85,15 @@ const EditAgents = (props) => {
   }
 
   const onSubmit = async () => {
-    let agent;//note this is agent & synonym box
+    let agent;//note this contains agent & synonym data
     if (newAgent) {
       agent = {};
       agent.agent = selectedAgent;
       agent.synonym = selectedSynonym;
-      console.log("selectedSynonym", agent.synonym, "agent.agent", agent.newAgent);
-    } else {
-      // agent = selectedAgent;//write the code to only take/send the agent part of the object
-      agent = {
 
+    } else {
+
+      agent = {
         genus: selectedSynonym.genus,
         species: selectedSynonym.species,
         subSpecies: selectedSynonym.subSpecies,

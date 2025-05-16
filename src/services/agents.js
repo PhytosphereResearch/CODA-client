@@ -83,7 +83,7 @@ export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userNam
   const res = await fetch(`${url}/agent`, {
     headers,
     method: "POST",
-    body: JSON.stringify({ agent, userName }),//console.log back end. BE used to get agent, now will get agent, userName
+    body: JSON.stringify({ agent, userName }),
     mode: "cors",
   });
   return checkResponse(res);
