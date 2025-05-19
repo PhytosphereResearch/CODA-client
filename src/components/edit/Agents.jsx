@@ -10,9 +10,6 @@ import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
 import isLikelyRepeat from '../../utils/checkunique';
 
-
-
-
 const blankAgent = {
   torder: '',
   family: '',
@@ -45,8 +42,7 @@ const EditAgents = (props) => {
   const { agentFields: fields, agents } = useAgents()
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-  const userName = user.name;//I believe we want to change this to user.nickname rather than name, which is email address
-  
+  const userName = user.name;
   const resetState = () => {
     setSelected(null);
     setSelectedAgent({ ...blankAgent });

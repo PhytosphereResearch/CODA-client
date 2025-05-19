@@ -74,7 +74,7 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userName } }) => {//just add username
+export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
