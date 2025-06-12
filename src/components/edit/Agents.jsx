@@ -21,6 +21,8 @@ const blankAgent = {
   ecology: '',
   commonName: '',
   notes: '',
+  bookLink: '',
+  original_coda_record: false,
 };
 
 const blankSynonym = {
@@ -38,10 +40,9 @@ const EditAgents = (props) => {
   const [newAgent, setNewAgent] = useState(true);
   const [isRepeat, setIsRepeat] = useState(false);
   const { agentFields: fields, agents } = useAgents()
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation('/api/agents', addOrUpdateAgent)
-
-
+  const userName = user.name;
   const resetState = () => {
     setSelected(null);
     setSelectedAgent({ ...blankAgent });
@@ -80,16 +81,38 @@ const EditAgents = (props) => {
   }
 
   const onSubmit = async () => {
-    let agent;
+    let agent;//note this contains agent & synonym data
     if (newAgent) {
       agent = {};
       agent.agent = selectedAgent;
       agent.synonym = selectedSynonym;
+
     } else {
-      agent = selectedAgent;
+
+      agent = {
+        genus: selectedSynonym.genus,
+        species: selectedSynonym.species,
+        subSpecies: selectedSynonym.subSpecies,
+        authority: selectedSynonym.authority,
+        isPrimary: selectedSynonym.isPrimary,
+        id: selectedAgent.id,
+        torder: selectedAgent.torder,
+        family: selectedAgent.family,
+        mostCommon: selectedAgent.mostCommon,
+        biotic: selectedAgent.biotic,
+        type: selectedAgent.type,
+        subType: selectedAgent.subType,
+        subSubType: selectedAgent.subSubType,
+        ecology: selectedAgent.ecology,
+        commonName: selectedAgent.commonName,
+        notes: selectedAgent.notes,
+        bookLink: selectedAgent.bookLink,
+        original_coda_record: selectedAgent.original_coda_record,
+      };
     }
     const accessToken = await getAccessTokenSilently();
-    update({ agent, accessToken })
+
+    update({ agent, accessToken, userName })
       .then(() => resetState());
   }
 
@@ -105,7 +128,7 @@ const EditAgents = (props) => {
         style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
-      <p>If the agent does not yet exist in CODA, add it by filling in the information below:</p>
+      <p>If the agent does not yet exist in CODA, add it by filling in the information below. Depending on the agent, some fields will not be applicable:</p>
       {
         newAgent ? (
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -131,6 +154,8 @@ const EditAgents = (props) => {
           <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
+          <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
+          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.original_coda_record} name="original_coda_record" />
         </>
       ) : null}
       <button onClick={onSubmit}>SUBMIT</button>

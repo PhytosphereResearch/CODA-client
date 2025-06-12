@@ -74,7 +74,7 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = async (key, { arg: {agent, accessToken} }) => {
+export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -83,7 +83,7 @@ export const addOrUpdateAgent = async (key, { arg: {agent, accessToken} }) => {
   const res = await fetch(`${url}/agent`, {
     headers,
     method: "POST",
-    body: JSON.stringify(agent),
+    body: JSON.stringify({ agent, userName }),
     mode: "cors",
   });
   return checkResponse(res);
