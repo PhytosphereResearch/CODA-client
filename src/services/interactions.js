@@ -158,7 +158,7 @@ export const getReferences = () => {
     );
 };
 
-export const addOrUpdateReference = async (key, { arg: { reference, accessToken } }) => {
+export const addOrUpdateReference = async (key, { arg: { reference, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -167,7 +167,7 @@ export const addOrUpdateReference = async (key, { arg: { reference, accessToken 
   const res = await fetch(`${url}/bib`, {
     headers,
     method: "POST",
-    body: JSON.stringify(reference),
+    body: JSON.stringify({reference, userName}),
     mode: "cors",
   });
   return checkResponse(res);
