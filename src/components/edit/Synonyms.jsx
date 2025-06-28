@@ -27,9 +27,10 @@ const EditSynonyms = (props) => {
   const [selectedSynonym, setSelectedSynonym] = useState();
   const [newSynonym, setNewSynonym] = useState(false);
   const [prevSynonym, setPrevSynonym] = useState();
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const { trigger: update } = useSWRMutation('/api/agents', addOrUpdateSynonym)
+  const userName = user.name;
 
   const resetState = () => {
     setSelected(undefined);
@@ -87,7 +88,7 @@ const EditSynonyms = (props) => {
     }
 
     const accessToken = await getAccessTokenSilently();
-    update({ synonym: submittedSynonym, accessToken })
+    update({ synonym: submittedSynonym, accessToken, userName })
       .then(resetState());
   }
 

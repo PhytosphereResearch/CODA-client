@@ -23,14 +23,15 @@ const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
 const EditSymptoms = (props) => {
   const [selected, setSelected] = useState();
   const [symptom, setSymptom] = useState({...blankSymptom});
-  const { getAccessTokenSilently } = useAuth0();
-  const { trigger: update } = useSWRMutation('/api/symptoms', addOrUpdateSymptom)
+  const { user, getAccessTokenSilently } = useAuth0();
+  const { trigger: update } = useSWRMutation('/api/symptoms', addOrUpdateSymptom);
+  const userName = user.name;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedSymptom = { ...symptom };
     const accessToken = await getAccessTokenSilently();
-    update({ symptom:updatedSymptom, accessToken })
+    update({ symptom:updatedSymptom, accessToken, userName })
       .then(() => {
         setSymptom({ ...blankSymptom });
         setSelected(undefined);
