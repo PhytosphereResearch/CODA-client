@@ -35,7 +35,6 @@ const EditSynonyms = (props) => {
   const resetState = () => {
     setSelected(undefined);
     setSelectedAgent(undefined);
-    setFormattedSynonyms([]);
     setSelectedSynonym(undefined);
     setNewSynonym(false);
     setPrevSynonym(undefined);
@@ -119,7 +118,7 @@ const EditSynonyms = (props) => {
             authority={primary.authority}
           />
           {otherSynonyms}
-          <br/>
+          <br />
           <RadioGroup
             title="Add a new synonym or edit an existing synonym"
             selected={newSynonym ? ADD : EDIT}
