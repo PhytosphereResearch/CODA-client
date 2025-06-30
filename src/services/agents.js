@@ -6,7 +6,7 @@ export const getAllAgentSynonyms = async () => {
   const headers = new Headers();
   return fetch(`${url}/syn`, { headers, method: "GET", mode: "cors" })
     .then((res) => {
-      if (res.ok) {
+      if (res.ok) {  
         return res.json();
       }
       console.warn(res);
