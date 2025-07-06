@@ -37,7 +37,7 @@ const EditOaks = (props) => {
   const [selectedOak, setSelectedOak] = useState({ ...blankOak });
   const { user, getAccessTokenSilently } = useAuth0();
 
-  const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
+  const { trigger: update, isMutating: loading } = useSWRMutation('/api/oaks', addOrUpdateOak)
   const userName = user.name;
   const onOakSelected = (option) => {
     if (!option.value) {

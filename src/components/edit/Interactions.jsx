@@ -66,7 +66,7 @@ const EditInteractions = (props) => {
         ...prevData, selectedOak: option, hiOak: oak, 
              }));
         clearPrevResult(); 
-                                                                                                 });
+    });
   }
 
   const onInputChange = (e) => {
