@@ -21,7 +21,7 @@ const EditReferences = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation('/api/references', addOrUpdateReference)
   const userName = user.name;
-  console.log("username", userName);
+ 
 
   const onRefSelected = (option) => {
     if (!option) {
@@ -41,7 +41,7 @@ const EditReferences = (props) => {
   const handleSubmit = async () => {
     const updatedReference = { ...reference };
     const accessToken = await getAccessTokenSilently();
-    console.log("username in handleSubmit", userName);
+  
     update({ reference: updatedReference, accessToken, userName })
       .then(() => {
         setSelected(undefined);
@@ -50,6 +50,7 @@ const EditReferences = (props) => {
   }
 
   const { options } = props;
+
   return (
     <div>
       <h3>References</h3>
