@@ -30,7 +30,7 @@ const EditSymptoms = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();   
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let { value, label, ...updatedSymptom } = symptom;
+    const { value, label, ...updatedSymptom } = symptom;
     const accessToken = await getAccessTokenSilently();
     update({ symptom: updatedSymptom, accessToken, userName })
       .then(() => {
@@ -50,8 +50,7 @@ const EditSymptoms = (props) => {
   }
 
   const onInputChange = (e) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let { value, label, ...updatedSymptom } = symptom;
+    const updatedSymptom = { ...symptom };
     const name = e.target.name;
     if (typeof symptom[name] === 'boolean') {
       updatedSymptom[name] = !updatedSymptom[name];
