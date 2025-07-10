@@ -25,8 +25,9 @@ const initialState = {
 const EditInteractions = (props) => {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation('/api/hi', addOrUpdateHi);
+  const userName = user.name;
 
   const clearPrevResult = () => {
     setData(prevData => ({
@@ -65,7 +66,7 @@ const EditInteractions = (props) => {
         ...prevData, selectedOak: option, hiOak: oak, 
              }));
         clearPrevResult(); 
-                                                                                                 });
+    });
   }
 
   const onInputChange = (e) => {
@@ -175,7 +176,7 @@ const EditInteractions = (props) => {
     });
     hi.hiSymptoms = hiSymptoms;
     const accessToken = await getAccessTokenSilently();
-    update({ hi, accessToken })
+    update({ hi, accessToken, userName })
       .then(() => {
         setData({ ...initialState });
         setLoading(false)

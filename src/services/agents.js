@@ -6,7 +6,7 @@ export const getAllAgentSynonyms = async () => {
   const headers = new Headers();
   return fetch(`${url}/syn`, { headers, method: "GET", mode: "cors" })
     .then((res) => {
-      if (res.ok) {
+      if (res.ok) {  
         return res.json();
       }
       console.warn(res);
@@ -89,7 +89,7 @@ export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userNam
   return checkResponse(res);
 };
 
-export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken } }) => {
+export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -98,7 +98,7 @@ export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken } })
   return fetch(`${url}/syn`, {
     headers,
     method: "POST",
-    body: JSON.stringify(synonym),
+    body: JSON.stringify({ synonym, userName }),
     mode: "cors",
   }).then(checkResponse);
 };

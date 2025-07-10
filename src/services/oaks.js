@@ -15,7 +15,7 @@ export const getOak = (id) =>
       return oak;
     });
 
-export const addOrUpdateOak = async (key, { arg: { oak, accessToken } }) => {
+export const addOrUpdateOak = async (key, { arg: { oak, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -24,7 +24,7 @@ export const addOrUpdateOak = async (key, { arg: { oak, accessToken } }) => {
   const res = await fetch(`${url}/oaks`, {
     headers,
     method: "POST",
-    body: JSON.stringify(oak),
+    body: JSON.stringify({ oak, userName }),
     mode: "cors",
   });
   return checkResponse(res);

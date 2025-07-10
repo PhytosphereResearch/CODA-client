@@ -13,7 +13,7 @@ export const getAllSymptoms = () => {
     });
 };
 
-export const addOrUpdateSymptom = async (key, { arg: { symptom, accessToken } }) => {
+export const addOrUpdateSymptom = async (key, { arg: { symptom, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -22,7 +22,7 @@ export const addOrUpdateSymptom = async (key, { arg: { symptom, accessToken } })
   return fetch(`${url}/symptoms`, {
     headers,
     method: "POST",
-    body: JSON.stringify(symptom),
+    body: JSON.stringify({ symptom, userName }),
     mode: "cors",
   }).then(checkResponse);
 };
@@ -158,7 +158,7 @@ export const getReferences = () => {
     );
 };
 
-export const addOrUpdateReference = async (key, { arg: { reference, accessToken } }) => {
+export const addOrUpdateReference = async (key, { arg: { reference, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -167,13 +167,13 @@ export const addOrUpdateReference = async (key, { arg: { reference, accessToken 
   const res = await fetch(`${url}/bib`, {
     headers,
     method: "POST",
-    body: JSON.stringify(reference),
+    body: JSON.stringify({ reference, userName }),
     mode: "cors",
   });
   return checkResponse(res);
 };
 
-export const addOrUpdateHi = async (key, { arg: { hi, accessToken } }) => {
+export const addOrUpdateHi = async (key, { arg: { hi, accessToken, userName } }) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -183,7 +183,7 @@ export const addOrUpdateHi = async (key, { arg: { hi, accessToken } }) => {
   return fetch(`${url}/hi`, {
     headers,
     method: "POST",
-    body: JSON.stringify(hi),
+    body: JSON.stringify({ hi, userName }),
     mode: "cors",
   }).then(checkResponse);
 };

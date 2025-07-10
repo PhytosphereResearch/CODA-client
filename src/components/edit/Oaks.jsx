@@ -35,10 +35,10 @@ const blankOak = {
 const EditOaks = (props) => {
   const [selected, setSelected] = useState();
   const [selectedOak, setSelectedOak] = useState({ ...blankOak });
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
-  const { trigger: update, isMutating: loading, error } = useSWRMutation('/api/oaks', addOrUpdateOak)
-
+  const { trigger: update, isMutating: loading } = useSWRMutation('/api/oaks', addOrUpdateOak)
+  const userName = user.name;
   const onOakSelected = (option) => {
     if (!option.value) {
       setSelected(null);
@@ -57,7 +57,7 @@ const EditOaks = (props) => {
 
   const onSubmit = async () => {
     const accessToken = await getAccessTokenSilently()
-    update({ oak: selectedOak, accessToken }).then(() => {
+    update({ oak: selectedOak, accessToken, userName }).then(() => {
       setSelectedOak({ ...blankOak });
       setSelected(null);
     })
@@ -69,21 +69,21 @@ const EditOaks = (props) => {
     <div>
       <h3>Oaks</h3>
       <p>Check to see if oak exists before adding a new oak.</p>
-        <Select
+      <Select
         options={options}
         onChange={onOakSelected}
         value={selected}
         placeholder="Search by species or common name for existing oaks by typing in this box or scrolling"
         style={{ marginBottom: '15px' }}
       />
-      <br/ >
-       <RadioGroup
-                  title="Add a new oak or edit an existing oak by chosing from dropdown above"
-                  selected={selectedOak.id ? EDIT : ADD}
-                  name="addOrEditOak"
-                  options={ADD_EDIT}
-                  onChange={onOakSelected}
-                  />
+      <br />
+      <RadioGroup
+        title="Add a new oak or edit an existing oak by chosing from dropdown above"
+        selected={selectedOak.id ? EDIT : ADD}
+        name="addOrEditOak"
+        options={ADD_EDIT}
+        onChange={onOakSelected}
+      />
       <br />
       <div>
         {loading ? <FullScreenSpinner /> : null}
