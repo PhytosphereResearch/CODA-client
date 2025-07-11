@@ -21,6 +21,7 @@ const blankAgent = {
   ecology: '',
   commonName: '',
   notes: '',
+  bookLink: '',
   originalCodaRecord: false,
 };
 
@@ -105,6 +106,7 @@ const EditAgents = (props) => {
         ecology: selectedAgent.ecology,
         commonName: selectedAgent.commonName,
         notes: selectedAgent.notes,
+        bookLink: selectedAgent.bookLink,
         originalCodaRecord: selectedAgent.originalCodaRecord,
       };
     }
@@ -152,6 +154,7 @@ const EditAgents = (props) => {
           <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
+          <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
           <TextArea title="Original coda record (noneditable field)" value={selectedAgent.originalCodaRecord} name="originalCodaRecord" />
         </>
       ) : null}
