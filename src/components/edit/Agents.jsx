@@ -21,8 +21,7 @@ const blankAgent = {
   ecology: '',
   commonName: '',
   notes: '',
-  bookLink: '',
-  original_coda_record: false,
+  originalCodaRecord: false,
 };
 
 const blankSynonym = {
@@ -106,8 +105,7 @@ const EditAgents = (props) => {
         ecology: selectedAgent.ecology,
         commonName: selectedAgent.commonName,
         notes: selectedAgent.notes,
-        bookLink: selectedAgent.bookLink,
-        original_coda_record: selectedAgent.original_coda_record,
+        originalCodaRecord: selectedAgent.originalCodaRecord,
       };
     }
     const accessToken = await getAccessTokenSilently();
@@ -154,8 +152,7 @@ const EditAgents = (props) => {
           <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
-          <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
-          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.original_coda_record} name="original_coda_record" />
+          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.originalCodaRecord} name="originalCodaRecord" />
         </>
       ) : null}
       <button onClick={onSubmit}>SUBMIT</button>
