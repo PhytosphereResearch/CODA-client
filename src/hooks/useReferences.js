@@ -9,8 +9,8 @@ export default function useReferences() {
   const formattedReferences = data?.map((r) => ({
     ...r,
     value: r.id,
-    label: r.description,
-  }));
+    label: r.description||`${r.id}`,
+  })).sort((recordA, recordB) => recordA.label.localeCompare(recordB.label));
 
   return {
     references: data || [],
