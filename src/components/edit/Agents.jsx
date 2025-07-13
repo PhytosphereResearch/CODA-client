@@ -10,6 +10,10 @@ import { FullScreenSpinner } from '../shared/shapes';
 import useAgents from '../../hooks/useAgents';
 import isLikelyRepeat from '../../utils/checkunique';
 
+const ADD = 'Create new agent';
+const EDIT = 'Edit existing agent';
+const ADD_EDIT = [ADD, EDIT];
+
 const blankAgent = {
   torder: '',
   family: '',
@@ -128,20 +132,29 @@ const EditAgents = (props) => {
         style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
-      <p>If the agent does not yet exist in CODA, add it by filling in the information below. Depending on the agent, some fields will not be applicable:</p>
+      <br />
+      <RadioGroup
+        title="Create a new agent or edit an existing agent by first chosing it from the dropdown above"
+        selected={selectedAgent.id ? EDIT : ADD}
+        name="addOrEditAgent"
+        options={ADD_EDIT}
+        onChange={resetState}
+      />
+      <br />
       {
-        newAgent ? (
+        newAgent ? (<><div><p>If the agent does not yet exist in CODA, add it by filling in the information below. Depending on the agent, some fields will not be applicable:</p></div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <TextInput title="Genus" value={selectedSynonym.genus} name="genus" onChange={onSynonymChange} />
             <TextInput title="Species" value={selectedSynonym.species} name="species" onChange={onSynonymChange} />
             <TextInput title="Sub-species" value={selectedSynonym.subSpecies} name="subSpecies" onChange={onSynonymChange} />
             <TextInput title="Taxonomic authority" value={selectedSynonym.authority} name="authority" onChange={onSynonymChange} />
-          </div>
-        ) : null}
+          </div></>
+        ) : <p> The fields below can be edited on this page, other changes must be made on the Synonyms page </p>}
       {isRepeat ? (<><div>Warning: <em>{selectedSynonym.genus} {selectedSynonym.species} {selectedSynonym.subSpecies}</em> already exists. Do not create a new agent record, select it from the dropdown above.</div></>) : null
       }
       {fields.data ? (
         <>
+
           <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={(e) => onSelectChange(e, "type")} options={fields.data.type} />
           <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={(e) => onSelectChange(e, "subType")} options={fields.data.subType} />
           <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={(e) => onSelectChange(e, "subSubType")} options={fields.data.subSubType} />
@@ -155,10 +168,10 @@ const EditAgents = (props) => {
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
           <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
-          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.originalCodaRecord} name="originalCodaRecord" />
+          <TextArea title="Original coda record (noneditable field)" value={selectedAgent.originalCodaRecord ? "true" : "false"} name="originalCodaRecord" />
         </>
       ) : null}
-      <button onClick={onSubmit}>SUBMIT</button>
+      <button onClick={onSubmit}>{selectedAgent.id ? 'UPDATE' : 'SUBMIT'}</button>
     </div>
   );
 };
