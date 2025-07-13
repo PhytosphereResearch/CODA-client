@@ -16,7 +16,7 @@ const HiEntry = ({
   return (
     <div>
       <h3>Host-Agent Interactions</h3>
-      <div className="text-muted">Important: If you want to add a new interaction that requires a reference not currently in CODA, you will need to visit the References page and add it first.</div>
+      <div className="text-muted">Important: If you want to add a new interaction that requires a reference not currently in CODA, you will need to visit the References page and add it first. Similarly, if you are editing an interaction based on new information, add the reference for the new information first and then edit the interaction.</div>
       <h4>Find an agent</h4>
       <Select
         options={agents}
@@ -59,6 +59,7 @@ const HiEntry = ({
 
           <div>
             <b>Add Symptom: </b>
+            <p>Mulitple symptoms can be listed for a single plant part as long as Subsite, Is Indirect, and Maturity/condition are the same</p>
             {plantParts.map(plantPart => <button onClick={addHiSymptom} key={plantPart + hi.id} value={plantPart}>{plantPart}</button>)}
           </div>
 

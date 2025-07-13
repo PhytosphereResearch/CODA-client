@@ -102,11 +102,13 @@ const EditSynonyms = (props) => {
   return (
     <div>
       <h3>Agent Synonyms</h3>
+      <p>You can add a new synonym for an existing agent,
+         edit an existing synonym, or reassign which synonym is the current accepted name here. New agents must be added on the Agents page. </p>
       <Select
         options={options}
         onChange={onAgentSelected}
         value={selected}
-        placeholder="Type to search database for synonyms by species or common name"
+        placeholder="Type to search database for agents by species or common name."
         style={{ marginBottom: '15px' }}
       />
       {selectedAgent ? (

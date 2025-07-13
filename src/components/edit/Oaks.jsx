@@ -78,7 +78,7 @@ const EditOaks = (props) => {
       />
       <br />
       <RadioGroup
-        title="Add a new oak or edit an existing oak by chosing from dropdown above"
+        title="Create a new oak or edit an existing oak by first chosing it from the dropdown above"
         selected={selectedOak.id ? EDIT : ADD}
         name="addOrEditOak"
         options={ADD_EDIT}
