@@ -154,7 +154,6 @@ const EditAgents = (props) => {
       }
       {fields.data ? (
         <>
-
           <EnhancedCreatable title="Type" value={selectedAgent.type} name="type" onChange={(e) => onSelectChange(e, "type")} options={fields.data.type} />
           <EnhancedCreatable title="Sub-type" value={selectedAgent.subType} name="subType" onChange={(e) => onSelectChange(e, "subType")} options={fields.data.subType} />
           <EnhancedCreatable title="Sub sub-type" value={selectedAgent.subSubType} name="subSubType" onChange={(e) => onSelectChange(e, "subSubType")} options={fields.data.subSubType} />
