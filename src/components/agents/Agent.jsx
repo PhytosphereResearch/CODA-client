@@ -56,14 +56,23 @@ const { isLoading: loading, agent } = useAgent(id);
           <p />
           {hosts}
           <p />
-          { agent.notes ? <Notes notes={agent.notes} /> : null }
-          </div>          
-          <div><b>Reported range</b> <br />
-            <CAMap interactionRange={[]} agentRange={agent.rangeData} />
-          </div>
+          {agent.notes ? <Notes notes={agent.notes} /> : null}
+          <p>
+            <b>Record history:</b>
+            {agent.originalCodaRecord ? <div> Created/edited by T.J. Swiecki, E.A. Bernhardt, R.A. Arnold, 1990-2024. </div> : null}
+            {agent.auditRecords.map((auditRecord) => {
+              return <div key={auditRecord.id}>
+                {auditRecord.action === "update" ? "Edited by" : "Created by"} {auditRecord.user_id} {new Date(auditRecord.date_time).toLocaleDateString('en-US')} {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            })}
+          </p>
         </div>
+        <div><b>Reported range</b> <br />
+          <CAMap interactionRange={[]} agentRange={agent.rangeData} />
+        </div>     
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  export default Agent;
+export default Agent;
