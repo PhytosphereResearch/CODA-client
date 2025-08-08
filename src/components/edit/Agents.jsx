@@ -148,13 +148,13 @@ const EditAgents = (props) => {
 
           <EnhancedCreatable title="Order" name="torder" value={selectedAgent.torder} onChange={(e) => onSelectChange(e, "torder")} options={fields.data.torder} />
           <EnhancedCreatable title="Family" name="family" value={selectedAgent.family} onChange={(e) => onSelectChange(e, "family")} options={fields.data.family} />
-          <RadioGroup title="Most Common" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={onInputChange} />
           <RadioGroup title="Biotic" selected={selectedAgent.biotic} name="biotic" options={BOOLEANS} onChange={onInputChange} />
 
           <RadioGroup title="Ecology" selected={selectedAgent.ecology} name="ecology" options={ECOLOGY} onChange={onInputChange} />
           <TextInput title="Common Name" value={selectedAgent.commonName} name="commonName" onChange={onInputChange} />
           <TextArea title="Notes" value={selectedAgent.notes} limit={65535} name="notes" onChange={onInputChange} />
-          <TextArea title="Link to bookdown chapter" value={selectedAgent.bookLink} name="bookLink" />
+          <RadioGroup title="In field guide" selected={selectedAgent.mostCommon} name="mostCommon" options={BOOLEANS} onChange={onInputChange} />
+          <TextArea title="Link to field guide chapter" value={selectedAgent.bookLink} name="bookLink" />
           <TextArea title="Original coda record (noneditable field)" value={selectedAgent.originalCodaRecord} name="originalCodaRecord" />
         </>
       ) : null}
