@@ -11,12 +11,14 @@ import {
   Synonyms,
   Notes,
   CalPhotos,
+  citation, 
 } from "../shared/partials";
 import Reference from "./Reference";
 import Symptom from "./Symptom";
 import CAMap from "../shared/Map";
 import useInteraction from "../../hooks/useInteraction";
 import useAgent from "../../hooks/useAgent";
+
 
 const InteractionPage = () => {
   const { id } = useParams();
@@ -138,7 +140,17 @@ const InteractionPage = () => {
         {interaction.bibs.map((cite) => (
           <Reference key={cite.id} cite={cite} />
         ))}
+        <p>
+          <b>Record history:</b>
+          {interaction.auditRecords.length ? null : <div> {citation} </div>}
+          {interaction.auditRecords.map((auditRecord) => {
+            return <div key={auditRecord.id}>
+              {auditRecord.action === "update" ? "Edited by" : "Created by"} {auditRecord.user_id} {new Date(auditRecord.date_time).toLocaleDateString('en-US')} {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+            </div>
+          })}
+        </p>
       </div>
+
     </div>
   );
 };

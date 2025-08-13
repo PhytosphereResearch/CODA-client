@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+export const citation = "Created/edited by T.J. Swiecki & E.A. Bernhardt (1988-2024) and/or R.A. Arnold (1988-1990)."
+
 export const ScientificName = ({
   genus, species, subSpecies, authority, inline, style,
 }) => (
