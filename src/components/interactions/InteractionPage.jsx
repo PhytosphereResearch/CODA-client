@@ -19,7 +19,6 @@ import CAMap from "../shared/Map";
 import useInteraction from "../../hooks/useInteraction";
 import useAgent from "../../hooks/useAgent";
 
-
 const InteractionPage = () => {
   const { id } = useParams();
 
@@ -150,7 +149,6 @@ const InteractionPage = () => {
           })}
         </p>
       </div>
-
     </div>
   );
 };
