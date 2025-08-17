@@ -187,4 +187,3 @@ export const addOrUpdateHi = async (key, { arg: { hi, accessToken, userName } })
     mode: "cors",
   }).then(checkResponse);
 };
-

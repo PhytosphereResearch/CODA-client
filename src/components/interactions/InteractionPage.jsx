@@ -11,7 +11,7 @@ import {
   Synonyms,
   Notes,
   CalPhotos,
-  citation, 
+  DefaultCitation, 
 } from "../shared/partials";
 import Reference from "./Reference";
 import Symptom from "./Symptom";
@@ -142,7 +142,7 @@ const InteractionPage = () => {
         ))}
         <p>
           <b>Record history:</b>
-          {interaction.auditRecords.length ? null : <div> {citation} </div>}
+          {interaction.auditRecords.length ? null : <div> {DefaultCitation} </div>}
           {interaction.auditRecords.map((auditRecord) => {
             return <div key={auditRecord.id}>
               {auditRecord.action === "update" ? "Edited by" : "Created by"} {auditRecord.user_id} {new Date(auditRecord.date_time).toLocaleDateString('en-US')} {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
