@@ -11,7 +11,8 @@ import {
   Synonyms,
   Notes,
   CalPhotos,
-  DefaultCitation, 
+  DefaultCitation,
+  AuditRecord
 } from "../shared/partials";
 import Reference from "./Reference";
 import Symptom from "./Symptom";
@@ -21,6 +22,7 @@ import useAgent from "../../hooks/useAgent";
 
 const InteractionPage = () => {
   const { id } = useParams();
+  const highestOriginalHiId = 2664;//last host interaction id prior to change to coda curators group as editors of CODA
 
   const { interaction, isLoading: loading } = useInteraction(id);
   const { agent: agentData, isLoading: mapLoading } = useAgent(
@@ -141,12 +143,8 @@ const InteractionPage = () => {
         ))}
         <p>
           <b>Record history:</b>
-          {interaction.auditRecords.length ? null : <div> {DefaultCitation} </div>}
-          {interaction.auditRecords.map((auditRecord) => {
-            return <div key={auditRecord.id}>
-              {auditRecord.action === "update" ? "Edited by" : "Created by"} {auditRecord.user_id} {new Date(auditRecord.date_time).toLocaleDateString('en-US')} {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-            </div>
-          })}
+          {interaction.id > highestOriginalHiId ? null : <DefaultCitation />}
+          {interaction.auditRecords?.map((auditRecord) => < AuditRecord auditRecord={auditRecord} />)}
         </p>
       </div>
     </div>

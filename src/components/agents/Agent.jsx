@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy, DefaultCitation, } from '../shared/partials';
+import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy, DefaultCitation, AuditRecord } from '../shared/partials';
 import { Spinner } from '../shared/shapes';
 import CAMap from '../shared/Map';
 import useAgent from '../../hooks/useAgent';
@@ -59,12 +59,8 @@ const Agent = () => {
           {agent.notes ? <Notes notes={agent.notes} /> : null}
           <p>
             <b>Record history:</b>
-            {agent.originalCodaRecord ? <div> {DefaultCitation} </div> : null}
-            {agent.auditRecords.map((auditRecord) => {
-              return <div key={auditRecord.id}>
-                {auditRecord.action === "update" ? "Edited by" : "Created by"} {auditRecord.user_id} {new Date(auditRecord.date_time).toLocaleDateString('en-US')} {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-              </div>
-            })}
+            {agent.originalCodaRecord ? <DefaultCitation />  : null}
+            {agent.auditRecords.map((auditRecord) => < AuditRecord auditRecord={auditRecord} /> )}
           </p>
         </div>
         <div><b>Reported range</b> <br />

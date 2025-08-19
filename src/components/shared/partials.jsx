@@ -1,7 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const DefaultCitation = "Created/edited by T.J. Swiecki & E.A. Bernhardt (1988-2024) and/or R.A. Arnold (1988-1990)."
+export const DefaultCitation = () => (
+  <div>
+    Created/edited by T.J. Swiecki & E.A. Bernhardt (1988-2024) and/or R.A. Arnold (1988-1990).
+  </div>
+);
+
+export const AuditRecord = ({ auditRecord }) => {
+  return (
+    <div key = { auditRecord.id } >  
+      { auditRecord.action === "update" ? "Edited by" : "Created by" } { auditRecord.user_id } { new Date(auditRecord.date_time).toLocaleDateString('en-US')} { new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }
+    </div >
+  );
+}
 
 export const ScientificName = ({
   genus, species, subSpecies, authority, inline, style,
@@ -75,7 +87,7 @@ export const Synonyms = ({ synonyms }) => (
           <li style={{ paddingLeft: '10px' }} key={s.genus + s.species + s.subSpecies + s.authority}>
             <i data-synonym={index}>{s.genus} {s.species} {s.subSpecies}</i> {s.authority}
           </li>
-      ))}
+        ))}
       </ul>
     </div> : null);
 
