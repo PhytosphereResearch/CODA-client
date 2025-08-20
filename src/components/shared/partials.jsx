@@ -9,9 +9,12 @@ export const DefaultCitation = () => (
 
 export const AuditRecord = ({ auditRecord }) => {
   return (
-    <div key = { auditRecord.id } >  
-      { auditRecord.action === "update" ? "Edited by" : "Created by" } { auditRecord.user_id } { new Date(auditRecord.date_time).toLocaleDateString('en-US')} { new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) }
-    </div >
+    <div>  
+      {auditRecord.action === "update" ? "Edited by" : "Created by"}{' '}
+      {auditRecord.user_id}{' '}
+      {new Date(auditRecord.date_time).toLocaleDateString('en-US')}{' '}
+      {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+    </div>
   );
 }
 

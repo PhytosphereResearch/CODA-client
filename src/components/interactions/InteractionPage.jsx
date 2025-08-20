@@ -144,7 +144,7 @@ const InteractionPage = () => {
         <p>
           <b>Record history:</b>
           {interaction.id > highestOriginalHiId ? null : <DefaultCitation />}
-          {interaction.auditRecords?.map((auditRecord) => < AuditRecord auditRecord={auditRecord} />)}
+          {interaction.auditRecords?.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />)}
         </p>
       </div>
     </div>

@@ -60,7 +60,7 @@ const Agent = () => {
           <p>
             <b>Record history:</b>
             {agent.originalCodaRecord ? <DefaultCitation />  : null}
-            {agent.auditRecords.map((auditRecord) => < AuditRecord auditRecord={auditRecord} /> )}
+            {agent.auditRecords.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} /> )}
           </p>
         </div>
         <div><b>Reported range</b> <br />
