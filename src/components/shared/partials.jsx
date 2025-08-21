@@ -18,6 +18,16 @@ export const AuditRecord = ({ auditRecord }) => {
   );
 }
 
+export const SynAuditRecord = ({ auditRecord }) => {
+  return (
+    <div>
+      {auditRecord.action === "update" ? "Edited by" :  "Created by"}{' '}
+      {auditRecord.table_record_id}{' '}{auditRecord.user_id}{' '}
+      {new Date(auditRecord.date_time).toLocaleDateString('en-US')}{' '}
+      {new Date(auditRecord.date_time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+    </div>
+  );
+}
 export const ScientificName = ({
   genus, species, subSpecies, authority, inline, style,
 }) => (

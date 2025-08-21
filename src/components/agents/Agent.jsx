@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy, DefaultCitation, AuditRecord } from '../shared/partials';
+import { ScientificName, CommonName, Synonyms, CalPhotos, Notes, AgentTaxonomy, DefaultCitation, AuditRecord, SynAuditRecord } from '../shared/partials';
 import { Spinner } from '../shared/shapes';
 import CAMap from '../shared/Map';
 import useAgent from '../../hooks/useAgent';
@@ -10,6 +10,7 @@ const Agent = () => {
   const { id } = useParams();
 
   const { isLoading: loading, agent } = useAgent(id);
+  console.log("agent", agent);
 
   const goToHostInteraction = (e) => {
     const interactionId = e.target.getAttribute('data-interaction');
@@ -41,7 +42,7 @@ const Agent = () => {
 
   return (
     <div>
-      <ScientificName genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} subSpecies={agent.primarySynonym?.subSpecies} authority={agent.primarySynonym?.authority} />
+      <div><b>Currently accepted name: </b><ScientificName genus={agent.primarySynonym?.genus} species={agent.primarySynonym?.species} subSpecies={agent.primarySynonym?.subSpecies} authority={agent.primarySynonym?.authority} /></div>
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
         <div>
           <p />
@@ -58,9 +59,13 @@ const Agent = () => {
           <p />
           {agent.notes ? <Notes notes={agent.notes} /> : null}
           <p>
-            <b>Record history:</b>
+            <b>Record history:</b> < br/>
+            {agent.auditRecords ? <b>Agent-</b> : null}
             {agent.originalCodaRecord ? <DefaultCitation />  : null}
             {agent.auditRecords.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} /> )}
+            {agent.synAuditRecords ? <b>Synonyms-</b> :null }
+
+            {agent.synAuditRecords ? agent.synAuditRecords.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />) : null}
           </p>
         </div>
         <div><b>Reported range</b> <br />
