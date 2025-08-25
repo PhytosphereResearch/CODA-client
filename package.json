@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "simple-git-hooks": {
-    "pre-commit": "npx pretty-quick --staged" 
+    "pre-commit": "npx pretty-quick --staged"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
