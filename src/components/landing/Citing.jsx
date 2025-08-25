@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Modal from "react-modal";
-import { X } from "../shared/shapes";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import { X } from '../shared/shapes';
 
 const Citing = (props) => (
   <Modal
@@ -26,8 +26,8 @@ const Citing = (props) => (
         Swiecki, T. J; Bernhardt, E. A.; Arnold, R.A. 2003 - present. California
         oak disease and arthropod (CODA) database. Version 2014Dec16. [web
         application]. Vacaville, CA: Phytosphere Research. Available:
-        https://coda.phytosphere.com/ [Accessed {"{"}insert access date{"}"}
-        ]{" "}
+        https://coda.phytosphere.com/ [Accessed {'{'}insert access date{'}'}
+        ]{' '}
       </p>
     </div>
   </Modal>

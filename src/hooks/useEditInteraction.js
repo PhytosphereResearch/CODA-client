@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getInteractionsByOakAndAgent } from "../services/interactions";
+import useSWR from 'swr';
+import { getInteractionsByOakAndAgent } from '../services/interactions';
 
 export default function useEditInteraction({ oakId, agentId }) {
   const { data, error, isLoading } = useSWR(

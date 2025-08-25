@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Legal from "./landing/Legal";
+import { useState } from 'react';
+import Legal from './landing/Legal';
 
 const Footer = () => {
   const [show, setShow] = useState(false);

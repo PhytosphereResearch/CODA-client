@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import PropTypes from "prop-types";
-import { useAuth0 } from "@auth0/auth0-react";
-import useSWRMutation from "swr/mutation";
-import { TextInput, TextArea } from "../shared/FormInputs";
-import { addOrUpdateReference } from "../../services/interactions";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import PropTypes from 'prop-types';
+import { useAuth0 } from '@auth0/auth0-react';
+import useSWRMutation from 'swr/mutation';
+import { TextInput, TextArea } from '../shared/FormInputs';
+import { addOrUpdateReference } from '../../services/interactions';
 
 const blankRef = {
-  year: "",
-  description: "",
-  author: "",
-  title: "",
-  source: "",
-  notes: "",
+  year: '',
+  description: '',
+  author: '',
+  title: '',
+  source: '',
+  notes: '',
 };
 
 const EditReferences = (props) => {
@@ -20,7 +20,7 @@ const EditReferences = (props) => {
   const [reference, setReference] = useState({ ...blankRef });
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation(
-    "/api/references",
+    '/api/references',
     addOrUpdateReference,
   );
   const userName = user.name;
@@ -61,9 +61,9 @@ const EditReferences = (props) => {
         onChange={onRefSelected}
         value={selected}
         placeholder="Type here to search for existing references"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
-      <h4>{selected ? "Edit a Reference:" : "Add a Reference:"}</h4>
+      <h4>{selected ? 'Edit a Reference:' : 'Add a Reference:'}</h4>
       <form onSubmit={handleSubmit} onChange={onInputChange}>
         <TextInput
           title="Year"
@@ -83,7 +83,7 @@ const EditReferences = (props) => {
         <TextArea title="Notes" value={reference.notes} name="notes" />
       </form>
       <button onClick={handleSubmit}>
-        {reference.id ? "UPDATE" : "SUBMIT"}
+        {reference.id ? 'UPDATE' : 'SUBMIT'}
       </button>
     </div>
   );

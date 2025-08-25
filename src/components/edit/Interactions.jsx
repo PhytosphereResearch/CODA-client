@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { remove, countBy } from "lodash";
-import { useAuth0 } from "@auth0/auth0-react";
-import useSWRMutation from "swr/mutation";
-import { getAgent } from "../../services/agents";
-import { getOak } from "../../services/oaks";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { remove, countBy } from 'lodash';
+import { useAuth0 } from '@auth0/auth0-react';
+import useSWRMutation from 'swr/mutation';
+import { getAgent } from '../../services/agents';
+import { getOak } from '../../services/oaks';
 import {
   getInteractionsByOakAndAgent,
   addOrUpdateHi,
-} from "../../services/interactions";
-import HiEntry from "./HiEntry";
-import { FullScreenSpinner } from "../shared/shapes";
-import { PLANT_PARTS } from "./constants";
+} from '../../services/interactions';
+import HiEntry from './HiEntry';
+import { FullScreenSpinner } from '../shared/shapes';
+import { PLANT_PARTS } from './constants';
 
 const initialState = {
   selectedAgent: undefined,
@@ -29,7 +29,7 @@ const EditInteractions = (props) => {
   const [data, setData] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const { user, getAccessTokenSilently } = useAuth0();
-  const { trigger: update } = useSWRMutation("/api/hi", addOrUpdateHi);
+  const { trigger: update } = useSWRMutation('/api/hi', addOrUpdateHi);
   const userName = user.name;
 
   const clearPrevResult = () => {
@@ -112,7 +112,7 @@ const EditInteractions = (props) => {
       return;
     }
 
-    if (value === "All" || value === "Unknown" || value === "") {
+    if (value === 'All' || value === 'Unknown' || value === '') {
       const symptArr = [];
       symptArr.push(value);
       hiSymptToUpdate[e.target.name] = symptArr;
@@ -122,7 +122,7 @@ const EditInteractions = (props) => {
 
     remove(
       inputArray,
-      (element) => element === "All" || element === "Unknown" || element === "",
+      (element) => element === 'All' || element === 'Unknown' || element === '',
     );
     inputArray.push(value);
     setData({ ...data, hiSymptoms });
@@ -131,7 +131,7 @@ const EditInteractions = (props) => {
   const onHisymptomRadioChange = (e, id) => {
     const hiSymptoms = [...data.hiSymptoms];
     const hiSymptToUpdate = hiSymptoms.find((hiSymptom) => hiSymptom.id === id);
-    hiSymptToUpdate[e.target.name.split("&")[0]] = e.target.value;
+    hiSymptToUpdate[e.target.name.split('&')[0]] = e.target.value;
     setData({ ...data, hiSymptoms });
   };
 
@@ -183,14 +183,14 @@ const EditInteractions = (props) => {
     Object.keys(hiSymptoms).forEach((key) => {
       const symptom = hiSymptoms[key];
       // Remove string ids from newly created symptoms
-      if (typeof symptom.id !== "number") {
+      if (typeof symptom.id !== 'number') {
         delete symptom.id;
       }
       symptom.maturity = Array.isArray(symptom.maturity)
-        ? symptom.maturity.join("; ")
+        ? symptom.maturity.join('; ')
         : symptom.maturity;
       symptom.subSite = Array.isArray(symptom.subSite)
-        ? symptom.subSite.map((subSite) => subSite.label).join("; ")
+        ? symptom.subSite.map((subSite) => subSite.label).join('; ')
         : symptom.subSite;
     });
     hi.hiSymptoms = hiSymptoms;
@@ -253,11 +253,11 @@ const EditInteractions = (props) => {
       (hiSymptom) => hiSymptom.plantPart === plantPartToAdd,
     );
     const baseHiSymptom = {
-      id: `${plantPartToAdd}-${existingPlantPart ? "1" : "2"}`,
+      id: `${plantPartToAdd}-${existingPlantPart ? '1' : '2'}`,
       hostInteractionId: data.hi.id,
       plantPart: plantPartToAdd,
       isIndirect: existingPlantPart ? !existingPlantPart.isIndirect : false,
-      maturity: [""],
+      maturity: [''],
       subSite: [],
       symptoms: [],
     };
@@ -277,7 +277,7 @@ const EditInteractions = (props) => {
       hiSymptoms: [],
       hostLifeStage: [],
       questionable: false,
-      notes: "",
+      notes: '',
       rangeData: [],
       situation: [],
     };

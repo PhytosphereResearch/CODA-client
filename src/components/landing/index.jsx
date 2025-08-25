@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
-import Logo from "../logo";
-import SearchingCoda from "./SearchingCoda";
-import About from "./About";
-import Citing from "./Citing";
-import Questions from "./Questions";
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import Logo from '../logo';
+import SearchingCoda from './SearchingCoda';
+import About from './About';
+import Citing from './Citing';
+import Questions from './Questions';
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root');
 
 const Landing = () => {
   const [show, setShow] = useState({
@@ -42,8 +42,8 @@ const Landing = () => {
         <img src="/images/rockville_hills.JPG" alt="" className="landing" />
       </div>
       <div className="card">
-        The{" "}
-        <b> California Oak Disease and Arthropod host index database (CODA)</b>{" "}
+        The{' '}
+        <b> California Oak Disease and Arthropod host index database (CODA)</b>{' '}
         is a comprehensive compilation of the many agents that affect oaks in
         California. A wide variety of insects, pathogens, and other agents can
         colonize oaks. Only a small number of these can cause serious damage,
@@ -74,7 +74,7 @@ const Landing = () => {
             <a href="http://phytosphere.com/publications/Fieldguide.htm">
               A field guide to insects and diseases of California oaks
             </a>
-          </b>{" "}
+          </b>{' '}
           has descriptions and photos of some of the most common and conspicuous
           diseases and arthropods, based on information in CODA and other
           sources.
@@ -82,33 +82,33 @@ const Landing = () => {
         <br />
         <ul className="home-links">
           <li>
-            <a onClick={() => openModal("searchInfo")}>Searching CODA</a>
+            <a onClick={() => openModal('searchInfo')}>Searching CODA</a>
           </li>
           <li>
-            <a onClick={() => openModal("about")}>About CODA</a>
+            <a onClick={() => openModal('about')}>About CODA</a>
           </li>
           <li>
-            <a onClick={() => openModal("citing")}>Citing CODA </a>
+            <a onClick={() => openModal('citing')}>Citing CODA </a>
           </li>
           <li>
-            <a onClick={() => openModal("questions")}>Questions</a>
+            <a onClick={() => openModal('questions')}>Questions</a>
           </li>
         </ul>
         <SearchingCoda
           show={show.searchInfo}
-          handleCloseModal={() => handleCloseModal("searchInfo")}
+          handleCloseModal={() => handleCloseModal('searchInfo')}
         />
         <About
           show={show.about}
-          handleCloseModal={() => handleCloseModal("about")}
+          handleCloseModal={() => handleCloseModal('about')}
         />
         <Citing
           show={show.citing}
-          handleCloseModal={() => handleCloseModal("citing")}
+          handleCloseModal={() => handleCloseModal('citing')}
         />
         <Questions
           show={show.questions}
-          handleCloseModal={() => handleCloseModal("questions")}
+          handleCloseModal={() => handleCloseModal('questions')}
         />
       </div>
     </div>

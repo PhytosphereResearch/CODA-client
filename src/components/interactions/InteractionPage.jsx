@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
-import { getInteraction } from "../../services/interactions";
-import { getAgent } from "../../services/agents";
-import { Spinner } from "../shared/shapes";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link, useParams } from 'react-router-dom';
+import { getInteraction } from '../../services/interactions';
+import { getAgent } from '../../services/agents';
+import { Spinner } from '../shared/shapes';
 import {
   ScientificName,
   CommonName,
@@ -13,12 +13,12 @@ import {
   CalPhotos,
   DefaultCitation,
   AuditRecord,
-} from "../shared/partials";
-import Reference from "./Reference";
-import Symptom from "./Symptom";
-import CAMap from "../shared/Map";
-import useInteraction from "../../hooks/useInteraction";
-import useAgent from "../../hooks/useAgent";
+} from '../shared/partials';
+import Reference from './Reference';
+import Symptom from './Symptom';
+import CAMap from '../shared/Map';
+import useInteraction from '../../hooks/useInteraction';
+import useAgent from '../../hooks/useAgent';
 
 const InteractionPage = () => {
   const { id } = useParams();
@@ -72,10 +72,10 @@ const InteractionPage = () => {
     ) : null;
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: "1" }}>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '1' }}>
         {/* Range map */}
-        <div style={{ float: "right" }}>
+        <div style={{ float: 'right' }}>
           <h3>Reported agent range</h3>
           {mapLoading ? (
             <Spinner />
@@ -89,7 +89,7 @@ const InteractionPage = () => {
         {/* Data on this interaction */}
         <div>
           <h3>
-            Host:{" "}
+            Host:{' '}
             <Link to={`/oaks/${oak.id}`}>
               <ScientificName
                 inline
@@ -108,7 +108,7 @@ const InteractionPage = () => {
         </div>
         <div>
           <h3>
-            Agent:{" "}
+            Agent:{' '}
             <Link to={`/agents/${agent.id}`}>
               <ScientificName
                 inline

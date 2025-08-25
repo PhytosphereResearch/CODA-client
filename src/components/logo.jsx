@@ -17,7 +17,7 @@ const Logo = () => {
           <text className="cls-2" transform="translate(0 47.73)">
             C <tspan className="cls-3" x="55.78" y="0" />
             <tspan className="cls-4" x="69.12" y="0" xmlSpace="preserve">
-              {" "}
+              {' '}
             </tspan>
             <tspan className="cls-5" x="82.45" y="0">
               D

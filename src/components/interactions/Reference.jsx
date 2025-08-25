@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Collapse from "react-smooth-collapse";
-import { Notes } from "../shared/partials";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Collapse from 'react-smooth-collapse';
+import { Notes } from '../shared/partials';
 
 const Reference = (props) => {
   const [show, setShow] = useState(false);
@@ -14,11 +14,11 @@ const Reference = (props) => {
   return (
     <div>
       <span className="cite" onClick={onClick}>
-        {" "}
+        {' '}
         • {cite.description}
       </span>
       <Collapse expanded={show}>
-        <div style={{ paddingLeft: "20px" }}>
+        <div style={{ paddingLeft: '20px' }}>
           <div>
             {cite.author} {cite.year}. {cite.title} {cite.source}
           </div>

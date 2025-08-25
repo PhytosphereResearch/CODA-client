@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Modal from "react-modal";
-import { X } from "../shared/shapes";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import { X } from '../shared/shapes';
 
 const About = (props) => (
   <Modal
@@ -43,7 +43,7 @@ const About = (props) => (
           Digital Library Project, UC Berkeley
         </a>
         ) provided valuable assistance in inital efforts to convert CODA to a
-        web application and support for using the{" "}
+        web application and support for using the{' '}
         <a href="http://elib.cs.berkeley.edu:8080/photos/">CalPhotos</a> image
         library to serve images compiled for CODA. Additional funding in support
         of the CODA database has been provided by USDA-Forest Service Region 5

@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Creatable from "react-select/creatable";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Creatable from 'react-select/creatable';
 
 export const TextInput = ({
   title,
@@ -9,18 +9,18 @@ export const TextInput = ({
   value,
   onChange,
   placeholder,
-  hintText = "",
+  hintText = '',
 }) => (
-  <div style={{ padding: "5px 0", width: "100%" }}>
+  <div style={{ padding: '5px 0', width: '100%' }}>
     <div className="field-label">{title}:</div>
     {hintText ? <div className="text-muted">{hintText}</div> : null}
     <input
       type="text"
       maxLength={limit || 255}
       placeholder={placeholder}
-      style={{ width: "100%" }}
+      style={{ width: '100%' }}
       name={name}
-      value={value || ""}
+      value={value || ''}
       onChange={onChange}
     />
   </div>
@@ -37,14 +37,14 @@ TextInput.propTypes = {
 };
 
 export const TextArea = ({ title, name, value, onChange, limit }) => (
-  <div style={{ padding: "5px 0" }}>
+  <div style={{ padding: '5px 0' }}>
     <div className="field-label">{title}:</div>
     <textarea
       type="text"
       maxLength={limit || 255}
-      style={{ width: "100%" }}
+      style={{ width: '100%' }}
       name={name}
-      value={value || ""}
+      value={value || ''}
       onChange={onChange}
     />
   </div>
@@ -59,8 +59,8 @@ TextArea.propTypes = {
 };
 
 export const Checkbox = ({ title, name, isChecked }) => (
-  <span style={{ marginRight: "15px" }}>
-    <input type="checkbox" name={name} checked={isChecked} />{" "}
+  <span style={{ marginRight: '15px' }}>
+    <input type="checkbox" name={name} checked={isChecked} />{' '}
     <span className="field-label">{title}</span>
   </span>
 );
@@ -87,7 +87,7 @@ export const RadioGroup = (props) => {
 
   const { title, options, name, selected, disabled } = props;
   return (
-    <div className={disabled ? "radio-group disabled" : "radio-group"}>
+    <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
       <div className="field-label">{title}:</div>
       <ul>
         {options.map((option) => {
@@ -106,7 +106,7 @@ export const RadioGroup = (props) => {
               />
               <label htmlFor={uniqueId}>{option.toString()}</label>
               <div
-                className={disabled ? "check disabled" : "check"}
+                className={disabled ? 'check disabled' : 'check'}
                 data-name={name}
                 data-value={option}
                 onClick={onChange}
@@ -133,7 +133,7 @@ export const EnhancedCreatable = (props) => {
 
   let selectedValue = value;
 
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     selectedValue = { label: value, value };
   }
 

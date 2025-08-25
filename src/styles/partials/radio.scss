@@ -9,7 +9,7 @@
     position: relative;
   }
 
-  ul li input[type="radio"] {
+  ul li input[type='radio'] {
     position: absolute;
     visibility: hidden;
   }
@@ -55,7 +55,7 @@
   ul li .check::before {
     display: block;
     position: absolute;
-    content: "";
+    content: '';
     border-radius: 100%;
     height: 10px;
     width: 10px;
@@ -65,27 +65,27 @@
     -webkit-transition: background 0.25s linear;
   }
 
-  input[type="radio"]:checked ~ .check {
+  input[type='radio']:checked ~ .check {
     border: 2px solid $main-color;
   }
 
-  input[type="radio"]:checked ~ .check::before {
+  input[type='radio']:checked ~ .check::before {
     background: $main-color;
   }
 
-  input[type="radio"]:checked ~ label {
+  input[type='radio']:checked ~ label {
     color: $main-color;
   }
 
-  input[type="radio"]:checked:disabled ~ .check {
+  input[type='radio']:checked:disabled ~ .check {
     border-color: darkgrey;
   }
 
-  input[type="radio"]:checked:disabled ~ .check::before {
+  input[type='radio']:checked:disabled ~ .check::before {
     background: darkgrey;
   }
 
-  input[type="radio"]:checked:disabled ~ label {
+  input[type='radio']:checked:disabled ~ label {
     color: darkgrey;
   }
 }

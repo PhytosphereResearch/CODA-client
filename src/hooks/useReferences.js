@@ -1,9 +1,9 @@
-import useSWR from "swr";
-import { getReferences } from "../services/interactions";
-import sortByLabel from "../utils/sortByLabel";
+import useSWR from 'swr';
+import { getReferences } from '../services/interactions';
+import sortByLabel from '../utils/sortByLabel';
 
 export default function useReferences() {
-  const { data, error, isLoading } = useSWR("/api/references", getReferences, {
+  const { data, error, isLoading } = useSWR('/api/references', getReferences, {
     revalidateOnFocus: false,
   });
 

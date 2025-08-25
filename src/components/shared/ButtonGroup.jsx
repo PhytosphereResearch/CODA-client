@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ButtonGroup = ({ title, name, options, selected, onClick }) => (
   <div>
@@ -8,11 +8,11 @@ const ButtonGroup = ({ title, name, options, selected, onClick }) => (
       <button
         onClick={onClick}
         name={name}
-        className={selected.includes(option) ? "selected" : ""}
+        className={selected.includes(option) ? 'selected' : ''}
         value={option}
         key={`${option}-${Math.floor(Math.random() * 0xffff)}`}
       >
-        {option || "(blank)"}
+        {option || '(blank)'}
       </button>
     ))}
   </div>

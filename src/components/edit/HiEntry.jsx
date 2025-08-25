@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import { TextArea, RadioGroup } from "../shared/FormInputs";
-import CAMap from "../shared/Map";
-import { LIFE_STAGES, SITUATION, BOOLEANS } from "./constants";
-import HiSymptom from "./HiSymptom";
-import ButtonGroup from "../shared/ButtonGroup";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import { TextArea, RadioGroup } from '../shared/FormInputs';
+import CAMap from '../shared/Map';
+import { LIFE_STAGES, SITUATION, BOOLEANS } from './constants';
+import HiSymptom from './HiSymptom';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const HiEntry = ({
   agents,
@@ -47,7 +47,7 @@ const HiEntry = ({
         onChange={onAgentSelected}
         value={selectedAgent}
         placeholder="Type or scroll to search by species or common name"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       <h4>Find an oak</h4>
       <Select
@@ -55,7 +55,7 @@ const HiEntry = ({
         onChange={onOakSelected}
         value={selectedOak}
         placeholder="Type or scroll to search by species or common name"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       <button
         className="search-button"
@@ -97,14 +97,14 @@ const HiEntry = ({
           <h4>Range</h4>
           <p>
             Click to select/deselect counties, click on whitespace to reposition
-            map, mouse wheel will zoom map.{" "}
+            map, mouse wheel will zoom map.{' '}
           </p>
           <div
             style={{
-              width: "400px",
-              height: "400px",
-              border: "3px solid #DDDDDD",
-              overflow: "hidden",
+              width: '400px',
+              height: '400px',
+              border: '3px solid #DDDDDD',
+              overflow: 'hidden',
             }}
           >
             <CAMap
@@ -155,7 +155,7 @@ const HiEntry = ({
           </div>
 
           <button onClick={onHiSubmit} disabled={!hi.bibs.length}>
-            {newHi ? "Create" : "Update"}
+            {newHi ? 'Create' : 'Update'}
           </button>
         </div>
       ) : null}

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 const Edit = () => {
   return (
@@ -7,7 +7,7 @@ const Edit = () => {
       <h2>Edit CODA</h2>
       <b>
         To reset any page you are editing without saving, click to a different
-        page, e.g., to reset Agents, click to Oaks and then back to Agents{" "}
+        page, e.g., to reset Agents, click to Oaks and then back to Agents{' '}
       </b>
       <ul className="home-links">
         <li>

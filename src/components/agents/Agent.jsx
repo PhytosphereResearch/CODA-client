@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate, useParams } from "react-router";
+import React from 'react';
+import { useNavigate, useParams } from 'react-router';
 import {
   ScientificName,
   CommonName,
@@ -9,11 +9,11 @@ import {
   AgentTaxonomy,
   DefaultCitation,
   AuditRecord,
-} from "../shared/partials";
-import { Spinner } from "../shared/shapes";
-import CAMap from "../shared/Map";
-import useAgent from "../../hooks/useAgent";
-import sortByScientificName from "../../utils/sortByScientificName";
+} from '../shared/partials';
+import { Spinner } from '../shared/shapes';
+import CAMap from '../shared/Map';
+import useAgent from '../../hooks/useAgent';
+import sortByScientificName from '../../utils/sortByScientificName';
 
 const Agent = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Agent = () => {
   const { isLoading: loading, agent } = useAgent(id);
 
   const goToHostInteraction = (e) => {
-    const interactionId = e.target.getAttribute("data-interaction");
+    const interactionId = e.target.getAttribute('data-interaction');
     navigate(`/hi/interaction/${interactionId}`, { replace: true });
   };
 
@@ -37,14 +37,14 @@ const Agent = () => {
       <b>Hosts: </b>
       {agent.hosts.sort(sortByScientificName).map((h, index) => (
         <span key={h.genus + h.species}>
-          <a style={{ cursor: "pointer" }} onClick={goToHostInteraction}>
+          <a style={{ cursor: 'pointer' }} onClick={goToHostInteraction}>
             <i data-interaction={h.interactionId}>
               {h.genus} {h.species}
-              {h.subSpecies ? " " : ""}
+              {h.subSpecies ? ' ' : ''}
               {h.subSpecies}
             </i>
           </a>
-          {index < agent.hosts.length - 1 ? ", " : ""}
+          {index < agent.hosts.length - 1 ? ', ' : ''}
         </span>
       ))}
       <div className="text-muted">Click an oak to see interaction details</div>
@@ -59,7 +59,7 @@ const Agent = () => {
         subSpecies={agent.primarySynonym?.subSpecies}
         authority={agent.primarySynonym?.authority}
       />
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr" }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
         <div>
           <p />
           {agent.commonName ? (

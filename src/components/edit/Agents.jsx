@@ -1,44 +1,44 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import useSWRMutation from "swr/mutation";
-import { useAuth0 } from "@auth0/auth0-react";
-import { BOOLEANS, ECOLOGY } from "./constants";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from '@auth0/auth0-react';
+import { BOOLEANS, ECOLOGY } from './constants';
 import {
   getAgent,
   addOrUpdateAgent,
   getAllAgentSynonyms,
-} from "../../services/agents";
+} from '../../services/agents';
 import {
   TextInput,
   TextArea,
   RadioGroup,
   EnhancedCreatable,
-} from "../shared/FormInputs";
-import { FullScreenSpinner } from "../shared/shapes";
-import useAgents from "../../hooks/useAgents";
-import isLikelyRepeat from "../../utils/checkunique";
+} from '../shared/FormInputs';
+import { FullScreenSpinner } from '../shared/shapes';
+import useAgents from '../../hooks/useAgents';
+import isLikelyRepeat from '../../utils/checkunique';
 
 const blankAgent = {
-  torder: "",
-  family: "",
+  torder: '',
+  family: '',
   mostCommon: false,
   biotic: true,
-  type: "",
-  subType: "",
-  subSubType: "",
-  ecology: "",
-  commonName: "",
-  notes: "",
-  bookLink: "",
+  type: '',
+  subType: '',
+  subSubType: '',
+  ecology: '',
+  commonName: '',
+  notes: '',
+  bookLink: '',
   originalCodaRecord: false,
 };
 
 const blankSynonym = {
-  genus: "",
-  species: "",
-  subSpecies: "",
-  authority: "",
+  genus: '',
+  species: '',
+  subSpecies: '',
+  authority: '',
   isPrimary: true,
 };
 
@@ -51,7 +51,7 @@ const EditAgents = (props) => {
   const { agentFields: fields, agents } = useAgents();
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update, isMutating: loading } = useSWRMutation(
-    "/api/agents",
+    '/api/agents',
     addOrUpdateAgent,
   );
   const userName = user.name;
@@ -134,7 +134,7 @@ const EditAgents = (props) => {
         onChange={onAgentSelected}
         value={selected}
         placeholder="Type in this box to search the database for agents by species or common name"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       {loading ? <FullScreenSpinner /> : null}
       <p>
@@ -143,7 +143,7 @@ const EditAgents = (props) => {
         applicable:
       </p>
       {newAgent ? (
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <TextInput
             title="Genus"
             value={selectedSynonym.genus}
@@ -173,11 +173,11 @@ const EditAgents = (props) => {
       {isRepeat ? (
         <>
           <div>
-            Warning:{" "}
+            Warning:{' '}
             <em>
-              {selectedSynonym.genus} {selectedSynonym.species}{" "}
+              {selectedSynonym.genus} {selectedSynonym.species}{' '}
               {selectedSynonym.subSpecies}
-            </em>{" "}
+            </em>{' '}
             already exists. Do not create a new agent record, select it from the
             dropdown above.
           </div>
@@ -189,21 +189,21 @@ const EditAgents = (props) => {
             title="Type"
             value={selectedAgent.type}
             name="type"
-            onChange={(e) => onSelectChange(e, "type")}
+            onChange={(e) => onSelectChange(e, 'type')}
             options={fields.data.type}
           />
           <EnhancedCreatable
             title="Sub-type"
             value={selectedAgent.subType}
             name="subType"
-            onChange={(e) => onSelectChange(e, "subType")}
+            onChange={(e) => onSelectChange(e, 'subType')}
             options={fields.data.subType}
           />
           <EnhancedCreatable
             title="Sub sub-type"
             value={selectedAgent.subSubType}
             name="subSubType"
-            onChange={(e) => onSelectChange(e, "subSubType")}
+            onChange={(e) => onSelectChange(e, 'subSubType')}
             options={fields.data.subSubType}
           />
 
@@ -211,14 +211,14 @@ const EditAgents = (props) => {
             title="Order"
             name="torder"
             value={selectedAgent.torder}
-            onChange={(e) => onSelectChange(e, "torder")}
+            onChange={(e) => onSelectChange(e, 'torder')}
             options={fields.data.torder}
           />
           <EnhancedCreatable
             title="Family"
             name="family"
             value={selectedAgent.family}
-            onChange={(e) => onSelectChange(e, "family")}
+            onChange={(e) => onSelectChange(e, 'family')}
             options={fields.data.family}
           />
           <RadioGroup

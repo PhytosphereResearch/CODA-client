@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import { RadioGroup, EnhancedCreatable } from "../shared/FormInputs";
-import ButtonGroup from "../shared/ButtonGroup";
-import { PRIMARY, BOOLEANS, MATURITIES } from "./constants";
-import useSubSites from "../../hooks/useSubSites";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import { RadioGroup, EnhancedCreatable } from '../shared/FormInputs';
+import ButtonGroup from '../shared/ButtonGroup';
+import { PRIMARY, BOOLEANS, MATURITIES } from './constants';
+import useSubSites from '../../hooks/useSubSites';
 
 const HiSymptom = (props) => {
   const { subSites } = useSubSites();
@@ -43,7 +43,7 @@ const HiSymptom = (props) => {
     <div>
       <h3>
         <span>
-          {typeof id !== "number" ? (
+          {typeof id !== 'number' ? (
             <button onClick={onSymptomRemove}> X </button>
           ) : null}
           {`${symptom.plantPart} symptoms`}
@@ -54,7 +54,7 @@ const HiSymptom = (props) => {
         onChange={onSymptomChange}
         value={symptomList}
         placeholder="Type to search by symptom"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
         isMulti
       />
       <RadioGroup

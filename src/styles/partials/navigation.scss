@@ -1,4 +1,4 @@
-@import "../_variables";
+@import '../_variables';
 
 .header.group {
   padding: 5px 5px 0;
@@ -55,7 +55,7 @@
       padding: 18px 25px 12px 25px;
       width: 100%;
       &:before {
-        content: ""; /* To generate the box */
+        content: ''; /* To generate the box */
         position: absolute;
         top: 0;
         right: 0;

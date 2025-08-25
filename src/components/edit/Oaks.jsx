@@ -1,35 +1,35 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import useSWRMutation from "swr/mutation";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getOak, addOrUpdateOak } from "../../services/oaks";
-import { RadioGroup, TextInput, TextArea } from "../shared/FormInputs";
-import { FullScreenSpinner } from "../shared/shapes";
-import { pickBy } from "lodash";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from '@auth0/auth0-react';
+import { getOak, addOrUpdateOak } from '../../services/oaks';
+import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
+import { FullScreenSpinner } from '../shared/shapes';
+import { pickBy } from 'lodash';
 
-const ADD = "Create new oak";
-const EDIT = "Edit existing oak";
+const ADD = 'Create new oak';
+const EDIT = 'Edit existing oak';
 const ADD_EDIT = [ADD, EDIT];
 
 const blankOak = {
-  genus: "",
-  subGenus: "",
-  species: "",
-  subSpecies: "",
-  commonName: "",
-  authority: "",
-  evergreen: "",
-  acorns: "",
-  leaves: "",
-  stems: "",
-  treeForm: "",
-  height: "",
-  distribution: "",
-  hybrids: "",
-  varieties: "",
-  notes: "",
-  usdaCode: "",
+  genus: '',
+  subGenus: '',
+  species: '',
+  subSpecies: '',
+  commonName: '',
+  authority: '',
+  evergreen: '',
+  acorns: '',
+  leaves: '',
+  stems: '',
+  treeForm: '',
+  height: '',
+  distribution: '',
+  hybrids: '',
+  varieties: '',
+  notes: '',
+  usdaCode: '',
 };
 
 const EditOaks = (props) => {
@@ -38,7 +38,7 @@ const EditOaks = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
 
   const { trigger: update, isMutating: loading } = useSWRMutation(
-    "/api/oaks",
+    '/api/oaks',
     addOrUpdateOak,
   );
   const userName = user.name;
@@ -76,7 +76,7 @@ const EditOaks = (props) => {
         onChange={onOakSelected}
         value={selected}
         placeholder="Search by species or common name for existing oaks by typing in this box or scrolling"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       <br />
       <RadioGroup
@@ -89,7 +89,7 @@ const EditOaks = (props) => {
       <br />
       <div>
         {loading ? <FullScreenSpinner /> : null}
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <TextInput
             title="Genus"
             value={selectedOak.genus}
@@ -133,7 +133,7 @@ const EditOaks = (props) => {
           name="evergreen"
           onChange={onInputChange}
         />
-        <div style={{ display: "flex", gap: "8px" }}>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <TextInput
             title="Form (tree or shrub and shape)"
             value={selectedOak.treeForm}
@@ -200,7 +200,7 @@ const EditOaks = (props) => {
           onChange={onInputChange}
         />
         <button onClick={onSubmit}>
-          {selectedOak.id ? "UPDATE" : "SUBMIT"}
+          {selectedOak.id ? 'UPDATE' : 'SUBMIT'}
         </button>
       </div>
     </div>

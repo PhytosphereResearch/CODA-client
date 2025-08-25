@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getInteractions } from "../services/interactions";
+import useSWR from 'swr';
+import { getInteractions } from '../services/interactions';
 
 export default function useInteractionQuery({ plantPart, symptomId, oakId }) {
   const {

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 const defaultStyle = {
-  height: "300px",
-  width: "300px",
-  maxWidth: "100%",
-  maxHeight: "100%",
-  border: "1px solid lightgrey",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  height: '300px',
+  width: '300px',
+  maxWidth: '100%',
+  maxHeight: '100%',
+  border: '1px solid lightgrey',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   flexShrink: 0,
 };
 
@@ -28,7 +28,7 @@ const SymptomPreview = (props) => {
 
   if (!plantPart || !symptom) {
     return (
-      <div style={{ ...defaultStyle, ...style, textAlign: "center" }}>
+      <div style={{ ...defaultStyle, ...style, textAlign: 'center' }}>
         <h4>An image of the selected symptom will appear here</h4>
       </div>
     );
@@ -40,8 +40,8 @@ const SymptomPreview = (props) => {
     </div>
   ) : (
     <img
-      style={{ maxWidth: "100%" }}
-      src={`/images/symptoms/${plantPart}/${symptom.label.replace(/ /g, "_")}.jpg`}
+      style={{ maxWidth: '100%' }}
+      src={`/images/symptoms/${plantPart}/${symptom.label.replace(/ /g, '_')}.jpg`}
       alt={`${symptom.label} on ${plantPart}`}
       onError={() => handleError()}
     />
@@ -50,7 +50,7 @@ const SymptomPreview = (props) => {
   return (
     <div style={{ ...style }}>
       {image}
-      <p style={{ maxWidth: "300px" }}>{description || symptom.description}</p>
+      <p style={{ maxWidth: '300px' }}>{description || symptom.description}</p>
     </div>
   );
 };

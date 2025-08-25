@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
 import {
   ScientificName,
   CommonName,
   CalPhotos,
   Notes,
-} from "../shared/partials";
-import { Spinner } from "../shared/shapes";
-import useOak from "../../hooks/useOak";
+} from '../shared/partials';
+import { Spinner } from '../shared/shapes';
+import useOak from '../../hooks/useOak';
 
 const Oak = () => {
   const { id } = useParams();
@@ -60,7 +60,7 @@ const Oak = () => {
       <CalPhotos genus={oak.genus} species={oak.species} />
       <p> </p>
       <p>
-        <b>Range map:</b>{" "}
+        <b>Range map:</b>{' '}
         <a
           href={`https://plants.usda.gov/plant-profile/${oak.usdaCode}`}
           target="_blank"

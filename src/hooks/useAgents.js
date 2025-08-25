@@ -1,14 +1,14 @@
-import useSWR from "swr";
-import format from "../utils/format";
+import useSWR from 'swr';
+import format from '../utils/format';
 import {
   formatAgentFields,
   getAgentFields,
   getAllAgentSynonyms,
-} from "../services/agents";
+} from '../services/agents';
 
 export default function useAgents() {
   const agentFields = useSWR(
-    "/api/agent/fields",
+    '/api/agent/fields',
     async () => {
       const fields = await getAgentFields();
       return formatAgentFields(fields);
@@ -19,12 +19,12 @@ export default function useAgents() {
   );
 
   const { data, error, isLoading } = useSWR(
-    "/api/agents",
+    '/api/agents',
     getAllAgentSynonyms,
     { revalidateOnFocus: false },
   );
 
-  const formattedAgents = data ? format(data, "agentId") : [];
+  const formattedAgents = data ? format(data, 'agentId') : [];
 
   return {
     agentFields,

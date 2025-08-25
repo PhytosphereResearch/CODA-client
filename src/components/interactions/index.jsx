@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import { useLocation, useNavigate } from "react-router";
-import { getInteractions } from "../../services/interactions";
-import SearchResult from "./SearchResult";
-import SymptomPreview from "./SymptomPreview";
-import { Spinner } from "../shared/shapes";
-import { PLANT_PARTS } from "../edit/constants";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import { useLocation, useNavigate } from 'react-router';
+import { getInteractions } from '../../services/interactions';
+import SearchResult from './SearchResult';
+import SymptomPreview from './SymptomPreview';
+import { Spinner } from '../shared/shapes';
+import { PLANT_PARTS } from '../edit/constants';
 
 const plantParts = PLANT_PARTS;
 
@@ -31,21 +31,21 @@ const Interactions = (props) => {
   const onSearchClick = () => {
     const symptom = selected.symptom
       ? `${selected.symptom.value}@${selected.symptom.label}`
-      : "";
+      : '';
     const oak = selected.oak
       ? `${selected.oak.value}@${selected.oak.label}`
-      : "";
+      : '';
     const options = { symptom, oak, plantPart: selected.plantPart };
     const query = Object.keys(options)
       .map((key) => `${key}=${options[key]}`)
-      .join("&");
+      .join('&');
 
     navigate(`/hi?${query}`, { replace: true });
   };
 
   const onSelect = (option, key) => {
     const updatedSelected = { ...selected };
-    if (key === "plantPart" && selected.symptom && !selected.symptom[option]) {
+    if (key === 'plantPart' && selected.symptom && !selected.symptom[option]) {
       updatedSelected.symptom = undefined;
     }
     updatedSelected[key] = option;
@@ -63,11 +63,11 @@ const Interactions = (props) => {
     }
     const search = {};
     query
-      .replace("?", "")
-      .split("&")
-      .map((pair) => pair.split("="))
+      .replace('?', '')
+      .split('&')
+      .map((pair) => pair.split('='))
       .forEach((pair) => {
-        search[pair[0]] = pair[1].split("@");
+        search[pair[0]] = pair[1].split('@');
       });
     const oak = search.oak[0]
       ? { value: search.oak[0], label: decodeURI(search.oak[1]) }
@@ -97,10 +97,10 @@ const Interactions = (props) => {
   return (
     <div>
       <h2>Find an agent by symptoms</h2>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ width: "50%" }}>
-          <h4 style={{ marginBottom: "0" }}>Select your oak</h4>
-          <div style={{ paddingBottom: "20px" }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <div style={{ width: '50%' }}>
+          <h4 style={{ marginBottom: '0' }}>Select your oak</h4>
+          <div style={{ paddingBottom: '20px' }}>
             <small> or leave blank to search all oaks</small>
           </div>
           <Select
@@ -108,22 +108,22 @@ const Interactions = (props) => {
             onChange={(option) => {
               setInteractions([]);
               location.search = null;
-              onSelect(option, "oak");
+              onSelect(option, 'oak');
             }}
             value={selected.oak}
             placeholder="Search oaks by species or common name"
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: '15px' }}
           />
           <h4>Symptom location</h4>
-          <div style={{ marginBottom: "15px", display: "flex" }}>
+          <div style={{ marginBottom: '15px', display: 'flex' }}>
             {plantParts.map((part) => (
               <button
-                style={{ flexGrow: "1" }}
-                className={selected.plantPart === part ? "inSearch" : ""}
+                style={{ flexGrow: '1' }}
+                className={selected.plantPart === part ? 'inSearch' : ''}
                 onClick={() => {
                   setInteractions([]);
                   location.search = null;
-                  onSelect(part, "plantPart");
+                  onSelect(part, 'plantPart');
                 }}
                 key={part}
               >
@@ -138,19 +138,19 @@ const Interactions = (props) => {
             onChange={(option) => {
               setInteractions([]);
               location.search = null;
-              onSelect(option, "symptom");
+              onSelect(option, 'symptom');
             }}
             value={selected.symptom}
             placeholder="Select a symptom"
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: '15px' }}
           />
         </div>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexGrow: "1",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexGrow: '1',
           }}
         >
           <SymptomPreview
@@ -171,7 +171,7 @@ const Interactions = (props) => {
       <div className="interactionsList">
         {searching ? <Spinner /> : null}
         {!searching && !interactions.length && location.search ? (
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: 'center' }}>
             <h3>No Results Found</h3>
             <h4>Try modifying your search</h4>
           </div>

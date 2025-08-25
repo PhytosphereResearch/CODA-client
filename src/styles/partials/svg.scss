@@ -1,4 +1,4 @@
-@import "../variables";
+@import '../variables';
 
 //
 // Small logo
@@ -8,9 +8,9 @@
   fill: $main-color;
   width: 150px;
   font-family:
-    "Gill Sans", "Gill Sans MT", Calibri, "Myriad Pro", Myriad,
-    "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva,
-    "Helvetica Neue", Helvetica, Arial, sans-serif;
+    'Gill Sans', 'Gill Sans MT', Calibri, 'Myriad Pro', Myriad,
+    'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, Geneva,
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
   .acorn {
     stroke: $main-color;
     stroke-width: 5px;

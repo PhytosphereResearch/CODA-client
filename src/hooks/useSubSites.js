@@ -1,8 +1,8 @@
-import useSWR from "swr";
-import { getSubSites } from "../services/interactions";
+import useSWR from 'swr';
+import { getSubSites } from '../services/interactions';
 
 export default function useSubSites() {
-  const { data, error, isLoading } = useSWR("/api/subSites", getSubSites, {
+  const { data, error, isLoading } = useSWR('/api/subSites', getSubSites, {
     revalidateOnFocus: false,
   });
 

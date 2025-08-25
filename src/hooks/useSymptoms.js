@@ -1,9 +1,9 @@
-import useSWR from "swr";
-import { getAllSymptoms } from "../services/interactions";
-import sortByLabel from "../utils/sortByLabel";
+import useSWR from 'swr';
+import { getAllSymptoms } from '../services/interactions';
+import sortByLabel from '../utils/sortByLabel';
 
 export default function useSymptoms() {
-  const { data, error, isLoading } = useSWR("/api/symptoms", getAllSymptoms, {
+  const { data, error, isLoading } = useSWR('/api/symptoms', getAllSymptoms, {
     revalidateOnFocus: false,
   });
 

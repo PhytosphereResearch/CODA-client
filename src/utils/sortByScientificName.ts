@@ -5,7 +5,7 @@ type RecordWithScientificName = {
 };
 
 const getScientificName = (record: RecordWithScientificName) =>
-  `${record.genus} ${record.species} ${record.subSpecies || ""}`;
+  `${record.genus} ${record.species} ${record.subSpecies || ''}`;
 
 export default function sortByScientificName(
   recordA: RecordWithScientificName,

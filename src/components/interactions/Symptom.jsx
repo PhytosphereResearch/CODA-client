@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Symptom = ({ symptom }) => {
-  const symptoms = symptom.symptoms.map((s) => s.symptom).join("; ");
-  const allMaturities = symptom.maturity.toLowerCase() === "all";
+  const symptoms = symptom.symptoms.map((s) => s.symptom).join('; ');
+  const allMaturities = symptom.maturity.toLowerCase() === 'all';
   let message;
   if (!allMaturities) {
-    message = `Affects ${symptom.maturity.replace(/;/i, "; ").toLowerCase()} ${symptom.subSite.replace(/;/i, "; ").toLowerCase() || "tissue"}`;
+    message = `Affects ${symptom.maturity.replace(/;/i, '; ').toLowerCase()} ${symptom.subSite.replace(/;/i, '; ').toLowerCase() || 'tissue'}`;
   } else {
-    message = "All tissue maturities affected";
+    message = 'All tissue maturities affected';
   }
   return (
     <li>

@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import useSWRMutation from "swr/mutation";
-import { useAuth0 } from "@auth0/auth0-react";
-import { ScientificName, Synonyms } from "../shared/partials";
-import { RadioGroup, TextInput, TextArea } from "../shared/FormInputs";
-import { getAgent, addOrUpdateSynonym } from "../../services/agents";
-import { BOOLEANS } from "./constants";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import useSWRMutation from 'swr/mutation';
+import { useAuth0 } from '@auth0/auth0-react';
+import { ScientificName, Synonyms } from '../shared/partials';
+import { RadioGroup, TextInput, TextArea } from '../shared/FormInputs';
+import { getAgent, addOrUpdateSynonym } from '../../services/agents';
+import { BOOLEANS } from './constants';
 
-const ADD = "Create new synonym";
-const EDIT = "Edit existing synonym";
+const ADD = 'Create new synonym';
+const EDIT = 'Edit existing synonym';
 const ADD_EDIT = [ADD, EDIT];
 
 const blankSynonym = {
-  genus: "",
-  species: "",
-  subSpecies: "",
-  authority: "",
+  genus: '',
+  species: '',
+  subSpecies: '',
+  authority: '',
   isPrimary: false,
-  notes: "",
+  notes: '',
 };
 
 const EditSynonyms = (props) => {
@@ -29,7 +29,7 @@ const EditSynonyms = (props) => {
   const [prevSynonym, setPrevSynonym] = useState();
   const { user, getAccessTokenSilently } = useAuth0();
 
-  const { trigger: update } = useSWRMutation("/api/agents", addOrUpdateSynonym);
+  const { trigger: update } = useSWRMutation('/api/agents', addOrUpdateSynonym);
   const userName = user.name;
 
   const resetState = () => {
@@ -85,7 +85,7 @@ const EditSynonyms = (props) => {
   const submitSynonym = async () => {
     const submittedSynonym = { ...selectedSynonym };
     if (
-      submittedSynonym.isPrimary === "true" ||
+      submittedSynonym.isPrimary === 'true' ||
       submittedSynonym.isPrimary === true
     ) {
       submittedSynonym.isPrimary = 1;
@@ -119,7 +119,7 @@ const EditSynonyms = (props) => {
         onChange={onAgentSelected}
         value={selected}
         placeholder="Type to search database for synonyms by species or common name"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       {selectedAgent ? (
         <div>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
-import { Outlet, useNavigate } from "react-router";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
+import { Outlet, useNavigate } from 'react-router';
 
 const Agents = (props) => {
   const [selected, setSelected] = useState();
@@ -9,7 +9,7 @@ const Agents = (props) => {
 
   const onAgentSelected = (option) => {
     setSelected(option);
-    option.value ? navigate(`/agents/${option.value}`) : navigate("/agents");
+    option.value ? navigate(`/agents/${option.value}`) : navigate('/agents');
   };
 
   const { options } = props;
@@ -22,7 +22,7 @@ const Agents = (props) => {
         onChange={onAgentSelected}
         value={selected}
         placeholder="Type to search by species or common name"
-        style={{ marginBottom: "15px" }}
+        style={{ marginBottom: '15px' }}
       />
       <Outlet />
     </div>

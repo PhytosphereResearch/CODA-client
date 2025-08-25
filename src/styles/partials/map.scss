@@ -50,7 +50,7 @@ path:focus {
 }
 
 .tooltip .tooltiptext::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   right: 50%; /* To the left of the tooltip */
   top: 100%;

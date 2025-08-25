@@ -1,9 +1,9 @@
-import { checkResponse, splitSemicolons, bufferToString } from "./utils";
-import { url } from "./environments";
+import { checkResponse, splitSemicolons, bufferToString } from './utils';
+import { url } from './environments';
 
 export const getAllSymptoms = () => {
   const headers = new Headers();
-  return fetch(`${url}/symptoms`, { headers, method: "GET", mode: "cors" })
+  return fetch(`${url}/symptoms`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then((symptoms) => {
       symptoms.forEach((symptom) => {
@@ -19,33 +19,33 @@ export const addOrUpdateSymptom = async (
 ) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   });
   return fetch(`${url}/symptoms`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ symptom, userName }),
-    mode: "cors",
+    mode: 'cors',
   }).then(checkResponse);
 };
 
 export const getInteractions = (plantPart, symptomId, oakId) =>
   fetch(
-    `${url}/interactionQuery?plantPart=${plantPart || ""}&symptomId=${
-      symptomId || ""
-    }&oakId=${oakId || ""}`,
-    { mode: "cors" },
+    `${url}/interactionQuery?plantPart=${plantPart || ''}&symptomId=${
+      symptomId || ''
+    }&oakId=${oakId || ''}`,
+    { mode: 'cors' },
   )
     .then(checkResponse)
     .then((interactions) =>
       interactions.map((interaction) => {
         interaction.subSite = interaction.subSite
           .toLowerCase()
-          .replace(/;/g, ", ");
+          .replace(/;/g, ', ');
         interaction.maturity = interaction.maturity
           .toLowerCase()
-          .replace(/;/g, ", ");
+          .replace(/;/g, ', ');
         return interaction;
       }),
     )
@@ -57,12 +57,12 @@ export const getInteractions = (plantPart, symptomId, oakId) =>
 export const getInteractionsByOakAndAgent = (interactionQuery) =>
   fetch(
     `${url}/hi?agentId=${interactionQuery.agentId}&oakId=${interactionQuery.oakId}`,
-    { mode: "cors" },
+    { mode: 'cors' },
   )
     .then(checkResponse)
     .then((interaction) => {
       if (!interaction) {
-        throw new Error("404: Interaction not found");
+        throw new Error('404: Interaction not found');
       }
       interaction.notes = bufferToString(interaction.notes);
       interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
@@ -91,7 +91,7 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
     });
 
 export const getInteraction = (id) =>
-  fetch(`${url}/hi/${id}`, { mode: "cors" })
+  fetch(`${url}/hi/${id}`, { mode: 'cors' })
     .then(checkResponse)
     .then((interaction) => {
       // clean up agent record
@@ -104,7 +104,7 @@ export const getInteraction = (id) =>
       const { authority, genus, species, subSpecies } = primarySynonym;
       interaction.agent.notes = bufferToString(interaction.agent.notes).replace(
         / -/g,
-        "\n-",
+        '\n-',
       );
       interaction.agent = {
         ...interaction.agent,
@@ -117,12 +117,12 @@ export const getInteraction = (id) =>
       // decode notes
       interaction.notes = bufferToString(interaction.notes).replace(
         / -/g,
-        "\n-",
+        '\n-',
       );
       // decode citation titles and notes
       interaction.bibs.forEach((bib) => {
         bib.title = bufferToString(bib.title);
-        bib.notes = bufferToString(bib.notes).replace(/ -/g, "\n-");
+        bib.notes = bufferToString(bib.notes).replace(/ -/g, '\n-');
       });
       // map interaction range data
       interaction.range = interaction.countiesByRegions.map(
@@ -143,14 +143,14 @@ export const getSubSites = () => {
   const headers = new Headers();
   return fetch(`${url}/hi/symptoms`, {
     headers,
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   }).then((res) => res.json());
 };
 
 export const getReferences = () => {
   const headers = new Headers();
-  return fetch(`${url}/bib`, { headers, method: "GET", mode: "cors" })
+  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then((references) =>
       references.map((reference) => {
@@ -167,14 +167,14 @@ export const addOrUpdateReference = async (
 ) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   });
   const res = await fetch(`${url}/bib`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ reference, userName }),
-    mode: "cors",
+    mode: 'cors',
   });
   return checkResponse(res);
 };
@@ -185,14 +185,14 @@ export const addOrUpdateHi = async (
 ) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   });
 
   return fetch(`${url}/hi`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ hi, userName }),
-    mode: "cors",
+    mode: 'cors',
   }).then(checkResponse);
 };

@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export const DefaultCitation = () => (
   <div>
@@ -11,12 +11,12 @@ export const DefaultCitation = () => (
 export const AuditRecord = ({ auditRecord }) => {
   return (
     <div>
-      {auditRecord.action === "update" ? "Edited by" : "Created by"}{" "}
-      {auditRecord.user_id}{" "}
-      {new Date(auditRecord.date_time).toLocaleDateString("en-US")}{" "}
-      {new Date(auditRecord.date_time).toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
+      {auditRecord.action === 'update' ? 'Edited by' : 'Created by'}{' '}
+      {auditRecord.user_id}{' '}
+      {new Date(auditRecord.date_time).toLocaleDateString('en-US')}{' '}
+      {new Date(auditRecord.date_time).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
       })}
     </div>
   );
@@ -31,12 +31,12 @@ export const ScientificName = ({
   style,
 }) => (
   <div
-    style={{ ...style, display: inline ? "inline-block" : "block" }}
+    style={{ ...style, display: inline ? 'inline-block' : 'block' }}
     className="scientific-name"
   >
     <i>
       {genus} {species} {subSpecies}
-    </i>{" "}
+    </i>{' '}
     <span className="authority">{authority}</span>
   </div>
 );
@@ -62,7 +62,7 @@ CommonName.propTypes = {
 
 export const CalPhotos = ({ genus, species }) => (
   <div>
-    <b>Images:</b>{" "}
+    <b>Images:</b>{' '}
     <a
       href={`https://calphotos.berkeley.edu/cgi/img_query?where-taxon=${genus}+${species}`}
       target="_blank"
@@ -81,12 +81,12 @@ export const AgentTaxonomy = ({ agent }) => (
   <div className="taxonomy">
     <div>
       <b>
-        Taxonomy: {agent.type} &mdash;{" "}
-        {agent.subType ? <span> {agent.subType} </span> : ""}{" "}
-        {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ""}
+        Taxonomy: {agent.type} &mdash;{' '}
+        {agent.subType ? <span> {agent.subType} </span> : ''}{' '}
+        {agent.subSubType ? <span>&mdash; {agent.subSubType}</span> : ''}
       </b>
     </div>
-    <div style={{ marginLeft: "10px" }}>
+    <div style={{ marginLeft: '10px' }}>
       {agent.torder ? (
         <span>
           <b>Order: </b>
@@ -109,8 +109,8 @@ AgentTaxonomy.propTypes = {
 
 export const Notes = ({ notes }) => (
   <div>
-    <b>Notes:</b>{" "}
-    {notes.split("\n").map((note) => (
+    <b>Notes:</b>{' '}
+    {notes.split('\n').map((note) => (
       <div key={note}>{note}</div>
     ))}
   </div>
@@ -127,12 +127,12 @@ export const Synonyms = ({ synonyms }) =>
       <ul className="synonyms">
         {synonyms.map((s, index) => (
           <li
-            style={{ paddingLeft: "10px" }}
+            style={{ paddingLeft: '10px' }}
             key={s.genus + s.species + s.subSpecies + s.authority}
           >
             <i data-synonym={index}>
               {s.genus} {s.species} {s.subSpecies}
-            </i>{" "}
+            </i>{' '}
             {s.authority}
           </li>
         ))}

@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export const X = () => (
   <svg width="15" height="15">
@@ -10,7 +10,7 @@ export const X = () => (
 
 export const Spinner = ({ size }) => (
   <div
-    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
   >
     <div style={{ width: size, height: size }}>
       <svg
@@ -275,15 +275,15 @@ Spinner.defaultProps = {
 export const FullScreenSpinner = () => (
   <div
     style={{
-      width: "100vw",
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      position: "fixed",
-      top: "0",
-      left: "0",
-      background: "rgba(255, 255, 255, .5)",
-      zIndex: "10",
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      background: 'rgba(255, 255, 255, .5)',
+      zIndex: '10',
     }}
   >
     <Spinner />

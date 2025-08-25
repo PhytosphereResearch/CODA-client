@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Modal from "react-modal";
-import { X } from "../shared/shapes";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import { X } from '../shared/shapes';
 
 const Questions = (props) => (
   <Modal
