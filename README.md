@@ -22,7 +22,7 @@ export default {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
@@ -42,4 +42,3 @@ export default {
 - In `.example.env`, add values for the username and password of your local CODA RDS database clone
 - Run `npm install`
 - Run `npm run develop`
-

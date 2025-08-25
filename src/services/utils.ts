@@ -7,12 +7,12 @@ export async function checkResponse<T>(res: Response) {
 }
 
 export const splitSemicolons = (string: string) =>
-  string.split(";").map((s) => s.trim());
-export const joinSemicolons = (array: string[]) => array.join("; ");
+  string.split(';').map((s) => s.trim());
+export const joinSemicolons = (array: string[]) => array.join('; ');
 export const bufferToString = (buffer) => {
   if (!buffer || !buffer.data) {
-    return "";
+    return '';
   }
-  // @ts-ignore
+  // @ts-expect-error typescript doesn't think uint16 is a number
   return String.fromCharCode.apply(null, new Uint16Array(buffer.data));
 };

@@ -1,6 +1,11 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ComposableMap, ZoomableGroup, Geographies, Geography } from 'react-simple-maps';
+import {
+  ComposableMap,
+  ZoomableGroup,
+  Geographies,
+  Geography,
+} from 'react-simple-maps';
 import counties from '../shared/caCountiesTopo.json';
 
 const baseStyle = {
@@ -61,50 +66,57 @@ const CAMap = (props) => {
     } else {
       setCounty(null);
     }
-  }
+  };
 
   const handleClick = (e, selectedCounty) => {
     if (!props.editable) {
       return;
     }
     props.onMapChange(selectedCounty);
-  }
+  };
 
-    const { interactionRange, agentRange } = props;
-    return (
-      <div >
-        {county && (
-          <div
-            className="tooltip"
-            style={{
-              position: 'absolute',
-              top: `${mouseY - 35}px`,
-              left: `${mouseX - (clientWidth.current / 2)}px`,
-              pointerEvents: 'none',
-              zIndex: '10',
-            }}
-            ref={(el) => { if (el) { 
-              clientWidth.current = el.clientWidth; 
-            }}}
-          >
-            <span className="tooltiptext">{county}</span>
-          </div>
-        )}
-        <ComposableMap
-          width={300}
-          height={450}
-          projection="geoMercator"
-          projectionConfig={{
-        scale: 2200,
-      }}>
-          <ZoomableGroup zoom={0.5} minZoom={0.5} center={[-119, 33.3]}>
-            <Geographies geography={counties} >
-              {(geographies, projection) => {
-                return geographies.geographies.map((geography) => {
+  const { interactionRange, agentRange } = props;
+  return (
+    <div>
+      {county && (
+        <div
+          className="tooltip"
+          style={{
+            position: 'absolute',
+            top: `${mouseY - 35}px`,
+            left: `${mouseX - clientWidth.current / 2}px`,
+            pointerEvents: 'none',
+            zIndex: '10',
+          }}
+          ref={(el) => {
+            if (el) {
+              clientWidth.current = el.clientWidth;
+            }
+          }}
+        >
+          <span className="tooltiptext">{county}</span>
+        </div>
+      )}
+      <ComposableMap
+        width={300}
+        height={450}
+        projection="geoMercator"
+        projectionConfig={{
+          scale: 2200,
+        }}
+      >
+        <ZoomableGroup zoom={0.5} minZoom={0.5} center={[-119, 33.3]}>
+          <Geographies geography={counties}>
+            {(geographies, projection) => {
+              return geographies.geographies.map((geography) => {
                 let style = baseStyle;
-                if (interactionRange?.find(c => c === geography.properties.name)) {
+                if (
+                  interactionRange?.find((c) => c === geography.properties.name)
+                ) {
                   style = interactionStyle;
-                } else if (agentRange?.find(c => c === geography.properties.name)) {
+                } else if (
+                  agentRange?.find((c) => c === geography.properties.name)
+                ) {
                   style = rangeStyle;
                 }
                 return (
@@ -113,31 +125,41 @@ const CAMap = (props) => {
                     geography={geography}
                     projection={projection}
                     style={style}
-                    onMouseMove={(e) => handleMove(e, geography?.properties?.fullName)}
-                    onMouseLeave={e => handleMove(e, geography?.properties?.fullName)}
-                    onClick={(e)=>handleClick(e, geography?.properties?.name)}
+                    onMouseMove={(e) =>
+                      handleMove(e, geography?.properties?.fullName)
+                    }
+                    onMouseLeave={(e) =>
+                      handleMove(e, geography?.properties?.fullName)
+                    }
+                    onClick={(e) => handleClick(e, geography?.properties?.name)}
                   />
                 );
-              })}}
-            </Geographies>
-          </ZoomableGroup>
-        </ComposableMap>
-        { interactionRange?.length && agentRange?.length ?
-          <div>
-            <span>
-              <div className="mapKey" style={{ backgroundColor: interactionStyle.default.fill }} />
+              });
+            }}
+          </Geographies>
+        </ZoomableGroup>
+      </ComposableMap>
+      {interactionRange?.length && agentRange?.length ? (
+        <div>
+          <span>
+            <div
+              className="mapKey"
+              style={{ backgroundColor: interactionStyle.default.fill }}
+            />
             Interaction Range
-            </span>
-            <span>
-              <div className="mapKey" style={{ backgroundColor: rangeStyle.default.fill }} />
+          </span>
+          <span>
+            <div
+              className="mapKey"
+              style={{ backgroundColor: rangeStyle.default.fill }}
+            />
             Agent Range
-            </span>
-          </div>
-        : null
-      }
-      </div>
-    );
-}
+          </span>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 CAMap.propTypes = {
   interactionRange: PropTypes.array,

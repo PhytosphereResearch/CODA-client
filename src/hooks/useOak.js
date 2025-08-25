@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getOak } from "../services/oaks";
+import useSWR from 'swr';
+import { getOak } from '../services/oaks';
 
 export default function useOak(id) {
   const { data, error, isLoading } = useSWR(
@@ -7,7 +7,7 @@ export default function useOak(id) {
     () => getOak(id),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

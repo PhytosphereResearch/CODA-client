@@ -8,15 +8,39 @@ import HiSymptom from './HiSymptom';
 import ButtonGroup from '../shared/ButtonGroup';
 
 const HiEntry = ({
-  agents, oaks, symptoms, selectedAgent, selectedOak, hi, plantParts, hiSymptoms, references,
-  onAgentSelected, onOakSelected, getHi, onInputChange, onMultiInputChange,
-  onBibSelectChange, onSubsiteSelectChange, onHisymptomMultiInputChange, onHisymptomRadioChange,
-  onMapChange, onSymptomChange, onSymptomRemove, onHiSubmit, addHiSymptom, newHi,
+  agents,
+  oaks,
+  symptoms,
+  selectedAgent,
+  selectedOak,
+  hi,
+  plantParts,
+  hiSymptoms,
+  references,
+  onAgentSelected,
+  onOakSelected,
+  getHi,
+  onInputChange,
+  onMultiInputChange,
+  onBibSelectChange,
+  onSubsiteSelectChange,
+  onHisymptomMultiInputChange,
+  onHisymptomRadioChange,
+  onMapChange,
+  onSymptomChange,
+  onSymptomRemove,
+  onHiSubmit,
+  addHiSymptom,
+  newHi,
 }) => {
   return (
     <div>
       <h3>Host-Agent Interactions</h3>
-      <div className="text-muted">Important: If you want to add a new interaction that requires a reference not currently in CODA, you will need to visit the References page and add it first.</div>
+      <div className="text-muted">
+        Important: If you want to add a new interaction that requires a
+        reference not currently in CODA, you will need to visit the References
+        page and add it first.
+      </div>
       <h4>Find an agent</h4>
       <Select
         options={agents}
@@ -42,34 +66,102 @@ const HiEntry = ({
       </button>
       {hi ? (
         <div>
-          <RadioGroup title="Questionable record" selected={hi.questionable} name="questionable" options={BOOLEANS} onChange={onInputChange} />
-          <ButtonGroup title="Situation -choose one or more" selected={hi.situation} name="situation" options={SITUATION} onClick={onMultiInputChange} />
-          <ButtonGroup title="Host life stages affected -choose one or more" selected={hi.hostLifeStage} name="hostLifeStage" options={LIFE_STAGES} onClick={onMultiInputChange} />
-          <TextArea title="Notes" value={hi.notes} name="notes" limit={65535} onChange={onInputChange} />
+          <RadioGroup
+            title="Questionable record"
+            selected={hi.questionable}
+            name="questionable"
+            options={BOOLEANS}
+            onChange={onInputChange}
+          />
+          <ButtonGroup
+            title="Situation -choose one or more"
+            selected={hi.situation}
+            name="situation"
+            options={SITUATION}
+            onClick={onMultiInputChange}
+          />
+          <ButtonGroup
+            title="Host life stages affected -choose one or more"
+            selected={hi.hostLifeStage}
+            name="hostLifeStage"
+            options={LIFE_STAGES}
+            onClick={onMultiInputChange}
+          />
+          <TextArea
+            title="Notes"
+            value={hi.notes}
+            name="notes"
+            limit={65535}
+            onChange={onInputChange}
+          />
           <h4>Range</h4>
-          <p>Click to select/deselect counties, click on whitespace to reposition map, mouse wheel will zoom map. </p>
-          <div style={{ width: '400px', height: '400px', border: '3px solid #DDDDDD', overflow: 'hidden' }}>
-            <CAMap interactionRange={hi.countiesByRegions} agentRange={[]} onMapChange={onMapChange} editable />
+          <p>
+            Click to select/deselect counties, click on whitespace to reposition
+            map, mouse wheel will zoom map.{' '}
+          </p>
+          <div
+            style={{
+              width: '400px',
+              height: '400px',
+              border: '3px solid #DDDDDD',
+              overflow: 'hidden',
+            }}
+          >
+            <CAMap
+              interactionRange={hi.countiesByRegions}
+              agentRange={[]}
+              onMapChange={onMapChange}
+              editable
+            />
           </div>
           <h4>References</h4>
 
-          {hi.bibs.length ? null : <div className="text-muted">Add at least one reference to continue...</div>}
-          <Select options={references} value={hi.bibs} onChange={onBibSelectChange} isMulti />
-          {hiSymptoms.map(symptom => <HiSymptom symptom={symptom} symptoms={symptoms} key={symptom.id} onSelectChange={onSubsiteSelectChange} onButtonChange={onHisymptomMultiInputChange} onRadioChange={onHisymptomRadioChange} onSymptomChange={onSymptomChange} onSymptomRemove={onSymptomRemove} hiSymptoms={hiSymptoms} />)}
+          {hi.bibs.length ? null : (
+            <div className="text-muted">
+              Add at least one reference to continue...
+            </div>
+          )}
+          <Select
+            options={references}
+            value={hi.bibs}
+            onChange={onBibSelectChange}
+            isMulti
+          />
+          {hiSymptoms.map((symptom) => (
+            <HiSymptom
+              symptom={symptom}
+              symptoms={symptoms}
+              key={symptom.id}
+              onSelectChange={onSubsiteSelectChange}
+              onButtonChange={onHisymptomMultiInputChange}
+              onRadioChange={onHisymptomRadioChange}
+              onSymptomChange={onSymptomChange}
+              onSymptomRemove={onSymptomRemove}
+              hiSymptoms={hiSymptoms}
+            />
+          ))}
 
           <div>
             <b>Add Symptom: </b>
-            {plantParts.map(plantPart => <button onClick={addHiSymptom} key={plantPart + hi.id} value={plantPart}>{plantPart}</button>)}
+            {plantParts.map((plantPart) => (
+              <button
+                onClick={addHiSymptom}
+                key={plantPart + hi.id}
+                value={plantPart}
+              >
+                {plantPart}
+              </button>
+            ))}
           </div>
 
-          <button onClick={onHiSubmit} disabled={!hi.bibs.length}>{newHi ? 'Create' : 'Update'}</button>
+          <button onClick={onHiSubmit} disabled={!hi.bibs.length}>
+            {newHi ? 'Create' : 'Update'}
+          </button>
         </div>
       ) : null}
-
     </div>
-
   );
-}
+};
 HiEntry.propTypes = {
   agents: PropTypes.array,
   oaks: PropTypes.array,

@@ -25,10 +25,10 @@ import useSymptoms from '../hooks/useSymptoms';
 import useReferences from '../hooks/useReferences';
 
 const App = () => {
-  const { oaks, formattedOaks } = useOaks()
-  const { agents, formattedAgents } = useAgents()
-  const { formattedSymptoms } = useSymptoms()
-  const { formattedReferences } = useReferences()
+  const { oaks, formattedOaks } = useOaks();
+  const { agents, formattedAgents } = useAgents();
+  const { formattedSymptoms } = useSymptoms();
+  const { formattedReferences } = useReferences();
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -36,28 +36,70 @@ const App = () => {
       <Shell>
         <Routes>
           <Route exact path="/" Component={Landing} />
-          <Route path="/oaks" element={<Oaks oaks={oaks} options={formattedOaks} />}>
+          <Route
+            path="/oaks"
+            element={<Oaks oaks={oaks} options={formattedOaks} />}
+          >
             <Route path="/oaks/:id" element={<Oak />} />
           </Route>
-          <Route path="/agents" element={<Agents agents={agents} options={formattedAgents} />}>
+          <Route
+            path="/agents"
+            element={<Agents agents={agents} options={formattedAgents} />}
+          >
             <Route path="/agents/:id" element={<Agent />} />
           </Route>
           <Route path="/hi/interaction/:id" element={<InteractionPage />} />
-          <Route path="/hi" element={<InteractionSearch oaks={formattedOaks} symptoms={formattedSymptoms} />} />
+          <Route
+            path="/hi"
+            element={
+              <InteractionSearch
+                oaks={formattedOaks}
+                symptoms={formattedSymptoms}
+              />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/edit" element={(isAuthenticated ? <Edit /> : <Navigate to='/' replace />)}>
-            <Route path="/edit/oaks" element={<EditOaks options={formattedOaks} />} />
-            <Route path="/edit/agents" element={<EditAgents options={formattedAgents} />} />
-            <Route path="/edit/synonyms" element={<EditSynonyms options={formattedAgents} />} />
-            <Route path="/edit/symptoms" element={<EditSymptoms options={formattedSymptoms} />} />
-            <Route path="/edit/references" element={<EditReferences options={formattedReferences} />} />
-            <Route path="/edit/interactions" element={<EditInteractions agents={formattedAgents} oaks={formattedOaks} references={formattedReferences} symptoms={formattedSymptoms} />} />
+          <Route
+            path="/edit"
+            element={isAuthenticated ? <Edit /> : <Navigate to="/" replace />}
+          >
+            <Route
+              path="/edit/oaks"
+              element={<EditOaks options={formattedOaks} />}
+            />
+            <Route
+              path="/edit/agents"
+              element={<EditAgents options={formattedAgents} />}
+            />
+            <Route
+              path="/edit/synonyms"
+              element={<EditSynonyms options={formattedAgents} />}
+            />
+            <Route
+              path="/edit/symptoms"
+              element={<EditSymptoms options={formattedSymptoms} />}
+            />
+            <Route
+              path="/edit/references"
+              element={<EditReferences options={formattedReferences} />}
+            />
+            <Route
+              path="/edit/interactions"
+              element={
+                <EditInteractions
+                  agents={formattedAgents}
+                  oaks={formattedOaks}
+                  references={formattedReferences}
+                  symptoms={formattedSymptoms}
+                />
+              }
+            />
           </Route>
         </Routes>
       </Shell>
     </div>
   );
-}
+};
 
 export default App;

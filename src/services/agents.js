@@ -1,12 +1,12 @@
-import { flatMap, uniq } from "lodash";
-import { checkResponse, bufferToString } from "./utils";
-import { url } from "./environments";
+import { flatMap, uniq } from 'lodash';
+import { checkResponse, bufferToString } from './utils';
+import { url } from './environments';
 
 export const getAllAgentSynonyms = async () => {
   const headers = new Headers();
-  return fetch(`${url}/syn`, { headers, method: "GET", mode: "cors" })
+  return fetch(`${url}/syn`, { headers, method: 'GET', mode: 'cors' })
     .then((res) => {
-      if (res.ok) {  
+      if (res.ok) {
         return res.json();
       }
       console.warn(res);
@@ -22,7 +22,7 @@ export const getAllAgentSynonyms = async () => {
 
 export const getAgentFields = async () => {
   const headers = new Headers();
-  return fetch(`${url}/agent/fields`, { headers, method: "GET", mode: "cors" })
+  return fetch(`${url}/agent/fields`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then((res) => res);
 };
@@ -41,7 +41,7 @@ export const formatAgentFields = (fields) => {
 };
 
 export const getAgent = (id) =>
-  fetch(`${url}/agent/${id}`, { mode: "cors" })
+  fetch(`${url}/agent/${id}`, { mode: 'cors' })
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -51,19 +51,19 @@ export const getAgent = (id) =>
     })
     .then((agent) => {
       agent.synonyms.forEach((synonym) => {
-        synonym.notes = bufferToString(synonym.notes).replace(/ -/g, "\n-");
+        synonym.notes = bufferToString(synonym.notes).replace(/ -/g, '\n-');
       });
       agent.primarySynonym = agent.synonyms.find(
-        (synonym) => synonym.isPrimary
+        (synonym) => synonym.isPrimary,
       );
       agent.otherSynonyms = agent.synonyms.filter(
-        (synonym) => !synonym.isPrimary
+        (synonym) => !synonym.isPrimary,
       );
-      agent.notes = bufferToString(agent.notes).replace(/ -/g, "\n-");
+      agent.notes = bufferToString(agent.notes).replace(/ -/g, '\n-');
       agent.rangeData = uniq(
         flatMap(agent.hostInteractions, (int) =>
-          int.countiesByRegions.map((c) => c.countyCode)
-        )
+          int.countiesByRegions.map((c) => c.countyCode),
+        ),
       );
       agent.hosts = [];
       agent.hostInteractions.forEach((interaction) => {
@@ -74,31 +74,37 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userName } }) => {
+export const addOrUpdateAgent = async (
+  key,
+  { arg: { agent, accessToken, userName } },
+) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   });
   const res = await fetch(`${url}/agent`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ agent, userName }),
-    mode: "cors",
+    mode: 'cors',
   });
   return checkResponse(res);
 };
 
-export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken, userName } }) => {
+export const addOrUpdateSynonym = async (
+  key,
+  { arg: { synonym, accessToken, userName } },
+) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   });
   return fetch(`${url}/syn`, {
     headers,
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify({ synonym, userName }),
-    mode: "cors",
+    mode: 'cors',
   }).then(checkResponse);
 };

@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getInteraction } from "../services/interactions";
+import useSWR from 'swr';
+import { getInteraction } from '../services/interactions';
 
 export default function useInteraction(interactionId) {
   const {
@@ -11,7 +11,7 @@ export default function useInteraction(interactionId) {
     () => getInteraction(interactionId),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

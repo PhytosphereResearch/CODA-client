@@ -21,7 +21,7 @@ ul.synonyms {
 .details {
   display: inline-block;
   float: left;
-  width: calc(100% - 190px)
+  width: calc(100% - 190px);
 }
 
 .display {
@@ -30,13 +30,11 @@ ul.synonyms {
 
 /* LAPTOP MEDIA QUERIES */
 
-@media screen and (min-width: 800px){
-
+@media screen and (min-width: 800px) {
   .display {
     width: calc(100vw - 360px);
     float: right;
     box-sizing: border-box;
     padding: 0 30px;
   }
-
 }

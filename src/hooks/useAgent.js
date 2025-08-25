@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getAgent } from "../services/agents";
+import useSWR from 'swr';
+import { getAgent } from '../services/agents';
 
 export default function useAgent(id) {
   const {

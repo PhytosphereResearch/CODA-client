@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Symptom = ({ symptom }) => {
-  const symptoms = symptom.symptoms.map(s => s.symptom).join('; ');
+  const symptoms = symptom.symptoms.map((s) => s.symptom).join('; ');
   const allMaturities = symptom.maturity.toLowerCase() === 'all';
   let message;
   if (!allMaturities) {
@@ -13,10 +13,8 @@ const Symptom = ({ symptom }) => {
   return (
     <li>
       <b>{symptom.plantPart.toUpperCase()}</b>
-        &rarr; <b>{symptoms}</b>
-      <div>
-        { message }
-      </div>
+      &rarr; <b>{symptoms}</b>
+      <div>{message}</div>
     </li>
   );
 };
