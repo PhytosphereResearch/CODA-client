@@ -12,7 +12,7 @@ import {
   Notes,
   CalPhotos,
   DefaultCitation,
-  AuditRecord
+  AuditRecord,
 } from "../shared/partials";
 import Reference from "./Reference";
 import Symptom from "./Symptom";
@@ -22,11 +22,11 @@ import useAgent from "../../hooks/useAgent";
 
 const InteractionPage = () => {
   const { id } = useParams();
-  const highestOriginalHiId = 2664;//last host interaction id prior to change to coda curators group as editors of CODA
+  const highestOriginalHiId = 2664; //last host interaction id prior to change to coda curators group as editors of CODA
 
   const { interaction, isLoading: loading } = useInteraction(id);
   const { agent: agentData, isLoading: mapLoading } = useAgent(
-    interaction?.agentId
+    interaction?.agentId,
   );
 
   if (loading) {
@@ -36,10 +36,10 @@ const InteractionPage = () => {
   const { oak, agent } = interaction;
 
   const formattedDirect = interaction.directSymptoms.filter(
-    (symptom) => symptom.plantPart
+    (symptom) => symptom.plantPart,
   );
   const formattedIndirect = interaction.indirectSymptoms.filter(
-    (symptom) => symptom.plantPart
+    (symptom) => symptom.plantPart,
   );
 
   const directSymptoms = formattedDirect.length ? (
@@ -144,7 +144,9 @@ const InteractionPage = () => {
         <p>
           <b>Record history:</b>
           {interaction.id > highestOriginalHiId ? null : <DefaultCitation />}
-          {interaction.auditRecords?.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />)}
+          {interaction.auditRecords?.map((auditRecord) => (
+            <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />
+          ))}
         </p>
       </div>
     </div>

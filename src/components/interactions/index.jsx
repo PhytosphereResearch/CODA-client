@@ -89,7 +89,7 @@ const Interactions = (props) => {
       (interactions) => {
         setInteractions(interactions);
         setSearching(false);
-      }
+      },
     );
   };
 

@@ -1,13 +1,16 @@
 @import "../variables";
 
 //
-  // Small logo
+// Small logo
 //
 
 .logo svg {
   fill: $main-color;
   width: 150px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:
+    "Gill Sans", "Gill Sans MT", Calibri, "Myriad Pro", Myriad,
+    "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
   .acorn {
     stroke: $main-color;
     stroke-width: 5px;
@@ -15,9 +18,8 @@
   }
 }
 
-
 //
-  // Large logo
+// Large logo
 //
 
 .logo-large svg {
@@ -26,7 +28,8 @@
   overflow: inherit;
   font-weight: 400;
   // @media
-  .acorn { /*ACORN*/
+  .acorn {
+    /*ACORN*/
     stroke: white;
     stroke-width: 4.5px;
     fill: white;

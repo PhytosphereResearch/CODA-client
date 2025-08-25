@@ -7,7 +7,7 @@ export default function useOak(id) {
     () => getOak(id),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

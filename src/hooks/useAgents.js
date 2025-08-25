@@ -15,13 +15,13 @@ export default function useAgents() {
     },
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   const { data, error, isLoading } = useSWR(
     "/api/agents",
     getAllAgentSynonyms,
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   const formattedAgents = data ? format(data, "agentId") : [];

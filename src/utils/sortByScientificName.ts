@@ -9,7 +9,7 @@ const getScientificName = (record: RecordWithScientificName) =>
 
 export default function sortByScientificName(
   recordA: RecordWithScientificName,
-  recordB: RecordWithScientificName
+  recordB: RecordWithScientificName,
 ) {
   const nameA = getScientificName(recordA);
   const nameB = getScientificName(recordB);

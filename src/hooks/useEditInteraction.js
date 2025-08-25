@@ -7,10 +7,10 @@ export default function useEditInteraction({ oakId, agentId }) {
     () =>
       getInteractionsByOakAndAgent({ oakId, agentId }).then((interaction) => {
         interaction.countiesByRegions = interaction.countiesByRegions.map(
-          (c) => c.countyCode
+          (c) => c.countyCode,
         );
         interaction.hiSymptoms = interaction.hiSymptoms.filter(
-          (hiSymptom) => hiSymptom.plantPart
+          (hiSymptom) => hiSymptom.plantPart,
         );
         interaction.hiSymptoms.forEach((hiSymptom) => {
           hiSymptom.subSite = hiSymptom.subSite.map((s) => ({
@@ -19,10 +19,10 @@ export default function useEditInteraction({ oakId, agentId }) {
           }));
         });
         const formattedPlantParts = countBy(
-          interaction.hiSymptoms.map((hiSymptom) => hiSymptom.plantPart)
+          interaction.hiSymptoms.map((hiSymptom) => hiSymptom.plantPart),
         );
         const plantParts = PLANT_PARTS.filter(
-          (plantPart) => formattedPlantParts[plantPart] !== 2
+          (plantPart) => formattedPlantParts[plantPart] !== 2,
         );
         return {
           interaction,
@@ -32,7 +32,7 @@ export default function useEditInteraction({ oakId, agentId }) {
       }),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

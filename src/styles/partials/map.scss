@@ -15,17 +15,19 @@ range-map svg {
 }
 
 .subunit {
-  fill: #DDD;
+  fill: #ddd;
   stroke: white;
-  stroke-width: .7px;
+  stroke-width: 0.7px;
 }
 
-.inRange { /*highlight for counties in agent range*/
+.inRange {
+  /*highlight for counties in agent range*/
   fill: #d0113e;
 }
 
-.inInteraction { /*highlight for counties in host/agent interaction*/
-  fill: #9D0D2F;
+.inInteraction {
+  /*highlight for counties in host/agent interaction*/
+  fill: #9d0d2f;
 }
 
 .mapKey {
@@ -49,11 +51,11 @@ path:focus {
 
 .tooltip .tooltiptext::after {
   content: " ";
-   position: absolute;
-   right: 50%; /* To the left of the tooltip */
-   top: 100%;
-   margin-right: -5px;
-   border-width: 5px;
-   border-style: solid;
-   border-color: rgba(0, 0, 0, 0.5) transparent  transparent transparent;
+  position: absolute;
+  right: 50%; /* To the left of the tooltip */
+  top: 100%;
+  margin-right: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }

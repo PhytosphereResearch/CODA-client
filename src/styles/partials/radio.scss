@@ -3,18 +3,18 @@
     margin: 0;
     padding: 0;
   }
-  ul li{
-    color: #AAAAAA;
+  ul li {
+    color: #aaaaaa;
     display: inline-block;
     position: relative;
   }
 
-  ul li input[type=radio]{
+  ul li input[type="radio"] {
     position: absolute;
     visibility: hidden;
   }
 
-  ul li label{
+  ul li label {
     display: block;
     position: relative;
     padding: 5px 5px 5px 30px;
@@ -27,27 +27,26 @@
     }
   }
 
-  ul li:hover label{
+  ul li:hover label {
     color: $main-lighter;
   }
 
-  ul li .check{
+  ul li .check {
     display: block;
     position: absolute;
-    border: 2px solid #AAAAAA;
+    border: 2px solid #aaaaaa;
     border-radius: 100%;
     height: 16px;
     width: 16px;
     top: 5px;
     left: 5px;
     cursor: pointer;
-    transition: border .25s linear;
-    -webkit-transition: border .25s linear;
+    transition: border 0.25s linear;
+    -webkit-transition: border 0.25s linear;
     &.disabled {
       cursor: not-allowed;
     }
   }
-
 
   ul li:hover .check {
     border: 2px solid $main-lighter;
@@ -56,7 +55,7 @@
   ul li .check::before {
     display: block;
     position: absolute;
-    content: '';
+    content: "";
     border-radius: 100%;
     height: 10px;
     width: 10px;
@@ -66,27 +65,27 @@
     -webkit-transition: background 0.25s linear;
   }
 
-  input[type=radio]:checked ~ .check {
+  input[type="radio"]:checked ~ .check {
     border: 2px solid $main-color;
   }
 
-  input[type=radio]:checked ~ .check::before{
+  input[type="radio"]:checked ~ .check::before {
     background: $main-color;
   }
 
-  input[type=radio]:checked ~ label{
+  input[type="radio"]:checked ~ label {
     color: $main-color;
   }
 
-  input[type=radio]:checked:disabled ~ .check {
+  input[type="radio"]:checked:disabled ~ .check {
     border-color: darkgrey;
   }
 
-  input[type=radio]:checked:disabled ~ .check::before{
+  input[type="radio"]:checked:disabled ~ .check::before {
     background: darkgrey;
   }
 
-  input[type=radio]:checked:disabled ~ label{
+  input[type="radio"]:checked:disabled ~ label {
     color: darkgrey;
   }
 }

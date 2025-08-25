@@ -9,12 +9,12 @@
   max-height: 80vh;
   z-index: 100;
 
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     width: 90vw;
     max-height: 90svh;
   }
 
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     width: 90vw;
     max-height: 90vh;
   }
@@ -24,7 +24,7 @@
     width: 100%;
     padding: 0 25px 0 0;
     overflow-y: scroll;
-    @media screen and (min-width: 800px){
+    @media screen and (min-width: 800px) {
       overflow-y: auto;
     }
   }
@@ -32,7 +32,7 @@
 
 .modal.optional {
   //make overlay look natural on large screens
-  @media screen and (min-width: 800px){
+  @media screen and (min-width: 800px) {
     width: calc(100vw - 370px);
     float: right;
     box-sizing: border-box;
@@ -48,12 +48,11 @@
   }
 }
 
-
 .overlay {
   position: fixed;
   left: 0;
   top: 0;
-  background-color: rgba($fade-color, .7);
+  background-color: rgba($fade-color, 0.7);
   width: 100vw;
   height: 100vh;
   z-index: 90;
@@ -64,7 +63,7 @@
 }
 
 //hide overlay on screens smaller than 800px;
-@media screen and (min-width: 800px){
+@media screen and (min-width: 800px) {
   .overlay.optional {
     display: none;
   }
@@ -74,7 +73,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin: 0;
     padding: 0;
   }
@@ -111,7 +115,7 @@
   stroke: gray;
 }
 
-@media screen and (min-width: 800px){
+@media screen and (min-width: 800px) {
   .close-modal.optional {
     display: none;
   }

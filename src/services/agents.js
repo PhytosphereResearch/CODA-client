@@ -6,7 +6,7 @@ export const getAllAgentSynonyms = async () => {
   const headers = new Headers();
   return fetch(`${url}/syn`, { headers, method: "GET", mode: "cors" })
     .then((res) => {
-      if (res.ok) {  
+      if (res.ok) {
         return res.json();
       }
       console.warn(res);
@@ -54,16 +54,16 @@ export const getAgent = (id) =>
         synonym.notes = bufferToString(synonym.notes).replace(/ -/g, "\n-");
       });
       agent.primarySynonym = agent.synonyms.find(
-        (synonym) => synonym.isPrimary
+        (synonym) => synonym.isPrimary,
       );
       agent.otherSynonyms = agent.synonyms.filter(
-        (synonym) => !synonym.isPrimary
+        (synonym) => !synonym.isPrimary,
       );
       agent.notes = bufferToString(agent.notes).replace(/ -/g, "\n-");
       agent.rangeData = uniq(
         flatMap(agent.hostInteractions, (int) =>
-          int.countiesByRegions.map((c) => c.countyCode)
-        )
+          int.countiesByRegions.map((c) => c.countyCode),
+        ),
       );
       agent.hosts = [];
       agent.hostInteractions.forEach((interaction) => {
@@ -74,7 +74,10 @@ export const getAgent = (id) =>
       return agent;
     });
 
-export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userName } }) => {
+export const addOrUpdateAgent = async (
+  key,
+  { arg: { agent, accessToken, userName } },
+) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",
@@ -89,7 +92,10 @@ export const addOrUpdateAgent = async (key, { arg: { agent, accessToken, userNam
   return checkResponse(res);
 };
 
-export const addOrUpdateSynonym = async (key, { arg: { synonym, accessToken, userName } }) => {
+export const addOrUpdateSynonym = async (
+  key,
+  { arg: { synonym, accessToken, userName } },
+) => {
   const headers = new Headers({
     Authorization: `Bearer ${accessToken}`,
     Accept: "application/json",

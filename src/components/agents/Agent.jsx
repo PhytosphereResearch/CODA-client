@@ -75,7 +75,7 @@ const Agent = () => {
           {agent.synonyms?.map((synonym) =>
             synonym.notes ? (
               <div key={synonym.notes}>{synonym.notes}</div>
-            ) : null
+            ) : null,
           )}
           <p />
           <AgentTaxonomy agent={agent} />

@@ -11,7 +11,7 @@ export default function useInteraction(interactionId) {
     () => getInteraction(interactionId),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

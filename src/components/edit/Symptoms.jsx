@@ -27,7 +27,7 @@ const EditSymptoms = (props) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const { trigger: update } = useSWRMutation(
     "/api/symptoms",
-    addOrUpdateSymptom
+    addOrUpdateSymptom,
   );
   const userName = user.name;
 
@@ -66,7 +66,7 @@ const EditSymptoms = (props) => {
   const { options } = props;
   const disabled = !(plantParts.some((pp) => symptom[pp]) && symptom.symptom);
   const selectedPlantParts = plantParts.filter(
-    (plantPart) => symptom[plantPart]
+    (plantPart) => symptom[plantPart],
   );
 
   return (

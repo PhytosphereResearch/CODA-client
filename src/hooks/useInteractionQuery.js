@@ -11,7 +11,7 @@ export default function useInteractionQuery({ plantPart, symptomId, oakId }) {
     () => getInteractions(plantPart, symptomId, oakId),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {
