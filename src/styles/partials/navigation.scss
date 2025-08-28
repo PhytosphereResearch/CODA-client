@@ -1,4 +1,4 @@
-@import "../_variables";
+@import '../_variables';
 
 .header.group {
   padding: 5px 5px 0;
@@ -56,12 +56,15 @@
       width: 100%;
       &:before {
         content: ''; /* To generate the box */
-      	position: absolute;
-      	top: 0; right: 0; bottom: 0; left: 0;
-      	z-index: -2;
-      	background: white;
-      	transform: perspective(4px) rotateX(1deg);
-        transition: all .3s ease;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -2;
+        background: white;
+        transform: perspective(4px) rotateX(1deg);
+        transition: all 0.3s ease;
         border-radius: 10px 10px 0 0;
       }
       &:hover {
@@ -79,7 +82,7 @@
   }
   li.active {
     a {
-      color: #FFFFFF;
+      color: #ffffff;
       &:before {
         z-index: -1;
         background-color: $main-color;

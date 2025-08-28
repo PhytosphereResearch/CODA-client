@@ -6,20 +6,21 @@ const Footer = () => {
 
   const displayStatement = () => {
     setShow(true);
-  }
+  };
 
   const handleCloseModal = () => {
     setShow(false);
-  }
+  };
 
-    return (
-      <div className="copyright">
-        <Legal show={show} handleCloseModal={handleCloseModal} />
-        <a onClick={displayStatement}>
-          © 2016 Phytosphere Research | Version 2.0 | Disclaimer | Nondiscrimination statement
-        </a>
-      </div>
-    );
-}
+  return (
+    <div className="copyright">
+      <Legal show={show} handleCloseModal={handleCloseModal} />
+      <a onClick={displayStatement}>
+        © 2016 Phytosphere Research | Version 2.0 | Disclaimer |
+        Nondiscrimination statement
+      </a>
+    </div>
+  );
+};
 
 export default Footer;

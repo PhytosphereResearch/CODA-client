@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { getInteractions } from "../services/interactions";
+import useSWR from 'swr';
+import { getInteractions } from '../services/interactions';
 
 export default function useInteractionQuery({ plantPart, symptomId, oakId }) {
   const {
@@ -11,7 +11,7 @@ export default function useInteractionQuery({ plantPart, symptomId, oakId }) {
     () => getInteractions(plantPart, symptomId, oakId),
     {
       revalidateOnFocus: false,
-    }
+    },
   );
 
   return {

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
-import { getInteraction } from "../../services/interactions";
-import { getAgent } from "../../services/agents";
-import { Spinner } from "../shared/shapes";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link, useParams } from 'react-router-dom';
+import { getInteraction } from '../../services/interactions';
+import { getAgent } from '../../services/agents';
+import { Spinner } from '../shared/shapes';
 import {
   ScientificName,
   CommonName,
@@ -12,21 +12,21 @@ import {
   Notes,
   CalPhotos,
   DefaultCitation,
-  AuditRecord
-} from "../shared/partials";
-import Reference from "./Reference";
-import Symptom from "./Symptom";
-import CAMap from "../shared/Map";
-import useInteraction from "../../hooks/useInteraction";
-import useAgent from "../../hooks/useAgent";
+  AuditRecord,
+} from '../shared/partials';
+import Reference from './Reference';
+import Symptom from './Symptom';
+import CAMap from '../shared/Map';
+import useInteraction from '../../hooks/useInteraction';
+import useAgent from '../../hooks/useAgent';
 
 const InteractionPage = () => {
   const { id } = useParams();
-  const highestOriginalHiId = 2664;//last host interaction id prior to change to coda curators group as editors of CODA
+  const highestOriginalHiId = 2664; //last host interaction id prior to change to coda curators group as editors of CODA
 
   const { interaction, isLoading: loading } = useInteraction(id);
   const { agent: agentData, isLoading: mapLoading } = useAgent(
-    interaction?.agentId
+    interaction?.agentId,
   );
 
   if (loading) {
@@ -36,10 +36,10 @@ const InteractionPage = () => {
   const { oak, agent } = interaction;
 
   const formattedDirect = interaction.directSymptoms.filter(
-    (symptom) => symptom.plantPart
+    (symptom) => symptom.plantPart,
   );
   const formattedIndirect = interaction.indirectSymptoms.filter(
-    (symptom) => symptom.plantPart
+    (symptom) => symptom.plantPart,
   );
 
   const directSymptoms = formattedDirect.length ? (
@@ -72,10 +72,10 @@ const InteractionPage = () => {
     ) : null;
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: "1" }}>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '1' }}>
         {/* Range map */}
-        <div style={{ float: "right" }}>
+        <div style={{ float: 'right' }}>
           <h3>Reported agent range</h3>
           {mapLoading ? (
             <Spinner />
@@ -89,7 +89,7 @@ const InteractionPage = () => {
         {/* Data on this interaction */}
         <div>
           <h3>
-            Host:{" "}
+            Host:{' '}
             <Link to={`/oaks/${oak.id}`}>
               <ScientificName
                 inline
@@ -108,7 +108,7 @@ const InteractionPage = () => {
         </div>
         <div>
           <h3>
-            Agent:{" "}
+            Agent:{' '}
             <Link to={`/agents/${agent.id}`}>
               <ScientificName
                 inline
@@ -144,7 +144,9 @@ const InteractionPage = () => {
         <p>
           <b>Record history:</b>
           {interaction.id > highestOriginalHiId ? null : <DefaultCitation />}
-          {interaction.auditRecords?.map((auditRecord) => <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />)}
+          {interaction.auditRecords?.map((auditRecord) => (
+            <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />
+          ))}
         </p>
       </div>
     </div>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 import useSWRMutation from 'swr/mutation';
 import { TextInput, TextArea, Checkbox } from '../shared/FormInputs';
 import { addOrUpdateSymptom } from '../../services/interactions';
 import SymptomPreview from '../interactions/SymptomPreview';
+import { PLANT_PARTS } from './constants';
 
 const blankSymptom = {
   symptom: '',
@@ -18,26 +19,28 @@ const blankSymptom = {
   trunk: false,
 };
 
-const plantParts = ['acorn', 'branch', 'flower', 'leaf', 'root', 'trunk'];
+const plantParts = PLANT_PARTS;
 
 const EditSymptoms = (props) => {
   const [selected, setSelected] = useState();
   const [symptom, setSymptom] = useState({ ...blankSymptom });
   const { user, getAccessTokenSilently } = useAuth0();
-  const { trigger: update } = useSWRMutation('/api/symptoms', addOrUpdateSymptom);
+  const { trigger: update } = useSWRMutation(
+    '/api/symptoms',
+    addOrUpdateSymptom,
+  );
   const userName = user.name;
 
   const handleSubmit = async (e) => {
-    e.preventDefault();   
+    e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { value, label, ...updatedSymptom } = symptom;
     const accessToken = await getAccessTokenSilently();
-    update({ symptom: updatedSymptom, accessToken, userName })
-      .then(() => {
-        setSymptom({ ...blankSymptom });
-        setSelected(undefined);
-      });
-  }
+    update({ symptom: updatedSymptom, accessToken, userName }).then(() => {
+      setSymptom({ ...blankSymptom });
+      setSelected(undefined);
+    });
+  };
 
   const onSymptomSelected = (option) => {
     if (!option || !option.value) {
@@ -47,7 +50,7 @@ const EditSymptoms = (props) => {
     }
     setSelected(option);
     setSymptom(option);
-  }
+  };
 
   const onInputChange = (e) => {
     const updatedSymptom = { ...symptom };
@@ -58,11 +61,13 @@ const EditSymptoms = (props) => {
       updatedSymptom[name] = e.target.value;
     }
     setSymptom(updatedSymptom);
-  }
+  };
 
   const { options } = props;
-  const disabled = !(plantParts.some(pp => symptom[pp]) && symptom.symptom);
-  const selectedPlantParts = plantParts.filter(plantPart => symptom[plantPart]);
+  const disabled = !(plantParts.some((pp) => symptom[pp]) && symptom.symptom);
+  const selectedPlantParts = plantParts.filter(
+    (plantPart) => symptom[plantPart],
+  );
 
   return (
     <div>
@@ -76,7 +81,11 @@ const EditSymptoms = (props) => {
       />
       <h4>{selected ? 'Edit a Symptom:' : 'Add a Symptom:'}</h4>
       <form onSubmit={handleSubmit} onChange={onInputChange}>
-        <TextInput title="Symptom Name" value={symptom.symptom} name="symptom" />
+        <TextInput
+          title="Symptom Name"
+          value={symptom.symptom}
+          name="symptom"
+        />
         Plant parts:
         <div>
           <Checkbox name="acorn" title="acorn" isChecked={symptom.acorn} />
@@ -86,12 +95,17 @@ const EditSymptoms = (props) => {
           <Checkbox name="root" title="root" isChecked={symptom.root} />
           <Checkbox name="trunk" title="trunk" isChecked={symptom.trunk} />
         </div>
-        <TextArea title="Description" value={symptom.description} limit={65535} name="description" />
-        { selected ? (
+        <TextArea
+          title="Description"
+          value={symptom.description}
+          limit={65535}
+          name="description"
+        />
+        {selected ? (
           <div>
             Photos in CODA:
             <div style={{ display: 'flex' }}>
-              {selectedPlantParts.map(plantPart => (
+              {selectedPlantParts.map((plantPart) => (
                 <SymptomPreview
                   key={plantPart}
                   style={{ width: '150px', margin: '20px' }}
@@ -101,13 +115,15 @@ const EditSymptoms = (props) => {
                 />
               ))}
             </div>
-          </div>) : null
-        }
-        <button disabled={disabled} onClick={handleSubmit}>{symptom.id ? 'UPDATE' : 'SUBMIT'}</button>
+          </div>
+        ) : null}
+        <button disabled={disabled} onClick={handleSubmit}>
+          {symptom.id ? 'UPDATE' : 'SUBMIT'}
+        </button>
       </form>
     </div>
   );
-}
+};
 
 EditSymptoms.propTypes = {
   options: PropTypes.array,

@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 import Creatable from 'react-select/creatable';
 
 export const TextInput = ({
-  title, name, limit, value, onChange, placeholder, hintText = '',
+  title,
+  name,
+  limit,
+  value,
+  onChange,
+  placeholder,
+  hintText = '',
 }) => (
   <div style={{ padding: '5px 0', width: '100%' }}>
-    <div className="field-label">
-      {title}:
-    </div>
+    <div className="field-label">{title}:</div>
     {hintText ? <div className="text-muted">{hintText}</div> : null}
     <input
       type="text"
@@ -32,14 +36,17 @@ TextInput.propTypes = {
   hintText: PropTypes.string,
 };
 
-export const TextArea = ({
-  title, name, value, onChange, limit,
-}) => (
+export const TextArea = ({ title, name, value, onChange, limit }) => (
   <div style={{ padding: '5px 0' }}>
-    <div className="field-label">
-      {title}:
-    </div>
-    <textarea type="text" maxLength={limit || 255} style={{ width: '100%' }} name={name} value={value || ''} onChange={onChange} />
+    <div className="field-label">{title}:</div>
+    <textarea
+      type="text"
+      maxLength={limit || 255}
+      style={{ width: '100%' }}
+      name={name}
+      value={value || ''}
+      onChange={onChange}
+    />
   </div>
 );
 
@@ -53,7 +60,8 @@ TextArea.propTypes = {
 
 export const Checkbox = ({ title, name, isChecked }) => (
   <span style={{ marginRight: '15px' }}>
-    <input type="checkbox" name={name} checked={isChecked} /> <span className="field-label">{title}</span>
+    <input type="checkbox" name={name} checked={isChecked} />{' '}
+    <span className="field-label">{title}</span>
   </span>
 );
 
@@ -75,37 +83,41 @@ export const RadioGroup = (props) => {
       },
     };
     props.onChange(event);
-  }
+  };
 
-    const {
-      title, options, name, selected, disabled,
-    } = props;
-    return (
-      <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
-        <div className="field-label">{title}:</div>
-        <ul>
-          {options.map((option) => {
-            const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
-            return (
-              <li key={uniqueId}>
-                <input
-                  type="radio"
-                  id={uniqueId}
-                  value={option}
-                  name={name}
-                  checked={selected.toString() === option.toString()}
-                  onChange={onChange}
-                  required
-                  disabled={disabled}
-                />
-                <label htmlFor={uniqueId}>{option.toString()}</label>
-                <div className={ disabled ? "check disabled" : "check" } data-name={name} data-value={option} onClick={onChange} />
-              </li>);
-          })}
-        </ul>
-      </div>
-    );
-}
+  const { title, options, name, selected, disabled } = props;
+  return (
+    <div className={disabled ? 'radio-group disabled' : 'radio-group'}>
+      <div className="field-label">{title}:</div>
+      <ul>
+        {options.map((option) => {
+          const uniqueId = `${title}-${option}-${Math.floor(Math.random() * 0xffff)}`;
+          return (
+            <li key={uniqueId}>
+              <input
+                type="radio"
+                id={uniqueId}
+                value={option}
+                name={name}
+                checked={selected.toString() === option.toString()}
+                onChange={onChange}
+                required
+                disabled={disabled}
+              />
+              <label htmlFor={uniqueId}>{option.toString()}</label>
+              <div
+                className={disabled ? 'check disabled' : 'check'}
+                data-name={name}
+                data-value={option}
+                onClick={onChange}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
 RadioGroup.propTypes = {
   title: PropTypes.string,
@@ -117,30 +129,27 @@ RadioGroup.propTypes = {
 };
 
 export const EnhancedCreatable = (props) => {
-  
-  const { name, value, onChange, options, multi, title, } = props;
+  const { name, value, onChange, options, multi, title } = props;
 
   let selectedValue = value;
 
   if (typeof value === 'string') {
-    selectedValue = { label: value, value } 
-  };
+    selectedValue = { label: value, value };
+  }
 
-    return (
-      <div className="creatable">
-        <div className="field-label">
-          {title}:
-        </div>
-        <Creatable
-          name={name}
-          value={selectedValue}
-          onChange={onChange}
-          options={options}
-          isMulti={multi || false}
-        />
-      </div>
-    );
-}
+  return (
+    <div className="creatable">
+      <div className="field-label">{title}:</div>
+      <Creatable
+        name={name}
+        value={selectedValue}
+        onChange={onChange}
+        options={options}
+        isMulti={multi || false}
+      />
+    </div>
+  );
+};
 
 EnhancedCreatable.propTypes = {
   title: PropTypes.string,
