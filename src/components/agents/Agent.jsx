@@ -73,12 +73,6 @@ const Agent = () => {
           <p />
           <Synonyms synonyms={agent.otherSynonyms} />
           <p />
-          {/* {agent.synonyms?.map((synonym) =>
-            // synonym.notes ? (
-            //   <div key={synonym.notes}>{synonym.notes}</div>
-            // ) : null,
-          )} */}
-          <p />
           <AgentTaxonomy agent={agent} />
           <p />
           {hosts}
