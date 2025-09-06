@@ -140,7 +140,7 @@ export const Synonyms = ({ synonyms }) =>
         {synonyms.map((s, index) => (
           <li
             style={{ paddingLeft: '10px' }}
-            key={s.genus + s.species + s.subSpecies + s.authority + s.notes}
+            key={s.genus + s.species + s.subSpecies + s.authority}
           >
             <i data-synonym={index}>
               {s.genus} {s.species} {s.subSpecies}
