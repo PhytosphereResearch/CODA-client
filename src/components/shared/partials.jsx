@@ -27,6 +27,7 @@ export const ScientificName = ({
   species,
   subSpecies,
   authority,
+  notes,
   inline,
   style,
 }) => (
@@ -34,10 +35,20 @@ export const ScientificName = ({
     style={{ ...style, display: inline ? 'inline-block' : 'block' }}
     className="scientific-name"
   >
+    <b> Accepted name: </b>
     <i>
       {genus} {species} {subSpecies}
     </i>{' '}
     <span className="authority">{authority}</span>
+    {notes ? (
+      <div
+        className="scientific-name.notes"
+        style={{ paddingLeft: '10px', fontSize: '15px' }}
+      >
+        {' '}
+        &mdash; {notes}
+      </div>
+    ) : null}
   </div>
 );
 
@@ -46,6 +57,7 @@ ScientificName.propTypes = {
   species: PropTypes.string,
   subSpecies: PropTypes.string,
   authority: PropTypes.string,
+  notes: PropTypes.string,
   inline: PropTypes.bool,
   style: PropTypes.object,
 };
@@ -133,7 +145,7 @@ export const Synonyms = ({ synonyms }) =>
             <i data-synonym={index}>
               {s.genus} {s.species} {s.subSpecies}
             </i>{' '}
-            {s.authority}
+            {s.authority} {s.notes ? <span>&mdash; {s.notes}</span> : null}
           </li>
         ))}
       </ul>

@@ -58,6 +58,7 @@ const Agent = () => {
         species={agent.primarySynonym?.species}
         subSpecies={agent.primarySynonym?.subSpecies}
         authority={agent.primarySynonym?.authority}
+        notes={agent.primarySynonym?.notes}
       />
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr' }}>
         <div>
@@ -71,12 +72,6 @@ const Agent = () => {
           />
           <p />
           <Synonyms synonyms={agent.otherSynonyms} />
-          <p />
-          {agent.synonyms?.map((synonym) =>
-            synonym.notes ? (
-              <div key={synonym.notes}>{synonym.notes}</div>
-            ) : null,
-          )}
           <p />
           <AgentTaxonomy agent={agent} />
           <p />
