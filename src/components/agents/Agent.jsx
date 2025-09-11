@@ -81,7 +81,7 @@ const Agent = () => {
           <p>
             <b>Record history:</b>
             {agent.originalCodaRecord ? <DefaultCitation /> : null}
-            {agent.auditRecords.map((auditRecord) => (
+            {agent.auditRecords?.map((auditRecord) => (
               <AuditRecord key={auditRecord.id} auditRecord={auditRecord} />
             ))}
           </p>
