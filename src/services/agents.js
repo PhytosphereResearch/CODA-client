@@ -50,9 +50,9 @@ export const getAgent = (id) =>
       return {};
     })
     .then((agent) => {
-      agent.synonyms.forEach((synonym) => {
-        synonym.notes = bufferToString(synonym.notes).replace(/ -/g, '\n-');
-      });
+      //   agent.synonyms.forEach((synonym) => {
+      //     synonym.notes = bufferToString(synonym.notes).replace(/ -/g, '\n-');
+      //   });
       agent.primarySynonym = agent.synonyms.find(
         (synonym) => synonym.isPrimary,
       );
