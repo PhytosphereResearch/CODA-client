@@ -50,16 +50,12 @@ export const getAgent = (id) =>
       return {};
     })
     .then((agent) => {
-      //   agent.synonyms.forEach((synonym) => {
-      //     synonym.notes = bufferToString(synonym.notes).replace(/ -/g, '\n-');
-      //   });
       agent.primarySynonym = agent.synonyms.find(
         (synonym) => synonym.isPrimary,
       );
       agent.otherSynonyms = agent.synonyms.filter(
         (synonym) => !synonym.isPrimary,
       );
-      agent.notes = bufferToString(agent.notes).replace(/ -/g, '\n-');
       agent.rangeData = uniq(
         flatMap(agent.hostInteractions, (int) =>
           int.countiesByRegions.map((c) => c.countyCode),
