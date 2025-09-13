@@ -1,5 +1,5 @@
 import { flatMap, uniq } from 'lodash';
-import { checkResponse, bufferToString } from './utils';
+import { checkResponse } from './utils';
 import { url } from './environments';
 
 export const getAllAgentSynonyms = async () => {
