@@ -6,9 +6,6 @@ export const getAllSymptoms = () => {
   return fetch(`${url}/symptoms`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then((symptoms) => {
-      // symptoms.forEach((symptom) => {
-      //   symptom.description = bufferToString(symptom.description);
-      // });
       return symptoms;
     });
 };
