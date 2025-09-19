@@ -101,10 +101,10 @@ const Interactions = (props) => {
   return (
     <div>
       <h2>Find an agent by symptoms</h2>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <div style={{ width: '50%' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h4 style={{ marginBottom: '0' }}>Select your oak</h4>
-          <div style={{ paddingBottom: '20px' }}>
+          <div style={{ paddingBottom: '16px' }}>
             <small> or leave blank to search all oaks</small>
           </div>
           <Select
@@ -116,10 +116,10 @@ const Interactions = (props) => {
             }}
             value={selected.oak}
             placeholder="Search oaks by species or common name"
-            style={{ marginBottom: '15px' }}
+            style={{ marginBottom: '16px' }}
           />
           <h4>Symptom location</h4>
-          <div style={{ marginBottom: '15px', display: 'flex' }}>
+          <div style={{ marginBottom: '16px', display: 'flex' }}>
             {plantParts.map((part) => (
               <button
                 style={{ flexGrow: '1' }}
@@ -146,7 +146,7 @@ const Interactions = (props) => {
             }}
             value={selected.symptom}
             placeholder="Select a symptom"
-            style={{ marginBottom: '15px' }}
+            style={{ marginBottom: '16px' }}
           />
         </div>
         <div
