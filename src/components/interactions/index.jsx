@@ -94,6 +94,10 @@ const Interactions = (props) => {
   };
 
   const { oaks, symptoms } = props;
+  const selectedSymptom =
+    symptoms.find((s) => Number(s.id) === selected?.symptom?.value) ||
+    selected?.symptom?.value;
+
   return (
     <div>
       <h2>Find an agent by symptoms</h2>
@@ -155,7 +159,7 @@ const Interactions = (props) => {
         >
           <SymptomPreview
             plantPart={selected.plantPart}
-            symptom={selected.symptom}
+            symptom={selectedSymptom}
           />
         </div>
       </div>
