@@ -61,7 +61,7 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
       if (!interaction) {
         throw new Error('404: Interaction not found');
       }
-      interaction.notes = bufferToString(interaction.notes);
+      // interaction.notes = bufferToString(interaction.notes);
       interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
       interaction.situation = splitSemicolons(interaction.situation);
       interaction.rangeData = interaction.countiesByRegions.map(
@@ -80,6 +80,7 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
           ? splitSemicolons(hiSymptom.subSite)
           : [];
       });
+      console.log('interaction', interaction);
       return interaction;
     })
     .catch((err) => {
@@ -112,10 +113,10 @@ export const getInteraction = (id) =>
         synonyms,
       };
       // decode notes
-      interaction.notes = bufferToString(interaction.notes).replace(
-        / -/g,
-        '\n-',
-      );
+      // interaction.notes = bufferToString(interaction.notes).replace(
+      //   / -/g,
+      //   '\n-',
+      // );
       // decode citation titles and notes
       interaction.bibs.forEach((bib) => {
         bib.title = bufferToString(bib.title);
