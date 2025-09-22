@@ -1,4 +1,4 @@
-import { checkResponse, splitSemicolons, bufferToString } from './utils';
+import { checkResponse, splitSemicolons } from './utils';
 import { url } from './environments';
 
 export const getAllSymptoms = () => {
@@ -99,10 +99,7 @@ export const getInteraction = (id) =>
         (synonym) => !synonym.isPrimary,
       );
       const { authority, genus, species, subSpecies } = primarySynonym;
-      // interaction.agent.notes = bufferToString(interaction.agent.notes).replace(
-      //   / -/g,
-      //   '\n-',
-      // );
+
       interaction.agent = {
         ...interaction.agent,
         authority,
@@ -138,15 +135,9 @@ export const getSubSites = () => {
 
 export const getReferences = () => {
   const headers = new Headers();
-  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
-    .then(checkResponse)
-    .then((references) =>
-      references.map((reference) => {
-        reference.title = bufferToString(reference.title);
-        reference.notes = bufferToString(reference.notes);
-        return reference;
-      }),
-    );
+  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' }).then(
+    checkResponse,
+  );
 };
 
 export const addOrUpdateReference = async (
