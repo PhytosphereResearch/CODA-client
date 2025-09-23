@@ -79,7 +79,6 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
           ? splitSemicolons(hiSymptom.subSite)
           : [];
       });
-      console.log('interaction', interaction);
       return interaction;
     })
     .catch((err) => {
@@ -99,7 +98,6 @@ export const getInteraction = (id) =>
         (synonym) => !synonym.isPrimary,
       );
       const { authority, genus, species, subSpecies } = primarySynonym;
-
       interaction.agent = {
         ...interaction.agent,
         authority,
@@ -108,7 +106,6 @@ export const getInteraction = (id) =>
         subSpecies,
         synonyms,
       };
-
       // map interaction range data
       interaction.range = interaction.countiesByRegions.map(
         (county) => county.countyCode,

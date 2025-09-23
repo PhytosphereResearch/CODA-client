@@ -12,11 +12,7 @@ export const getAllOaks = async () => {
 };
 
 export const getOak = (id) =>
-  fetch(`${url}/oaks/${id}`, { mode: 'cors' })
-    .then(checkResponse)
-    .then((oak) => {
-      return oak;
-    });
+  fetch(`${url}/oaks/${id}`, { mode: 'cors' }).then(checkResponse);
 
 export const addOrUpdateOak = async (
   key,
