@@ -35,7 +35,6 @@ export const ScientificName = ({
     style={{ ...style, display: inline ? 'inline-block' : 'block' }}
     className="scientific-name"
   >
-    <b> Accepted name: </b>
     <i>
       {genus} {species} {subSpecies}
     </i>{' '}

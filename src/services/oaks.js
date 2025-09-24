@@ -1,4 +1,4 @@
-import { checkResponse, bufferToString } from './utils';
+import { checkResponse } from './utils';
 import { url } from './environments';
 
 export const getAllOaks = async () => {
@@ -12,12 +12,7 @@ export const getAllOaks = async () => {
 };
 
 export const getOak = (id) =>
-  fetch(`${url}/oaks/${id}`, { mode: 'cors' })
-    .then(checkResponse)
-    .then((oak) => {
-      oak.notes = bufferToString(oak.notes).replace(/ -/g, '\n-');
-      return oak;
-    });
+  fetch(`${url}/oaks/${id}`, { mode: 'cors' }).then(checkResponse);
 
 export const addOrUpdateOak = async (
   key,

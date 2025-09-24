@@ -1,4 +1,4 @@
-import { checkResponse, splitSemicolons, bufferToString } from './utils';
+import { checkResponse, splitSemicolons } from './utils';
 import { url } from './environments';
 
 export const getAllSymptoms = () => {
@@ -6,9 +6,6 @@ export const getAllSymptoms = () => {
   return fetch(`${url}/symptoms`, { headers, method: 'GET', mode: 'cors' })
     .then(checkResponse)
     .then((symptoms) => {
-      symptoms.forEach((symptom) => {
-        symptom.description = bufferToString(symptom.description);
-      });
       return symptoms;
     });
 };
@@ -64,7 +61,6 @@ export const getInteractionsByOakAndAgent = (interactionQuery) =>
       if (!interaction) {
         throw new Error('404: Interaction not found');
       }
-      interaction.notes = bufferToString(interaction.notes);
       interaction.hostLifeStage = splitSemicolons(interaction.hostLifeStage);
       interaction.situation = splitSemicolons(interaction.situation);
       interaction.rangeData = interaction.countiesByRegions.map(
@@ -102,10 +98,6 @@ export const getInteraction = (id) =>
         (synonym) => !synonym.isPrimary,
       );
       const { authority, genus, species, subSpecies } = primarySynonym;
-      interaction.agent.notes = bufferToString(interaction.agent.notes).replace(
-        / -/g,
-        '\n-',
-      );
       interaction.agent = {
         ...interaction.agent,
         authority,
@@ -114,16 +106,6 @@ export const getInteraction = (id) =>
         subSpecies,
         synonyms,
       };
-      // decode notes
-      interaction.notes = bufferToString(interaction.notes).replace(
-        / -/g,
-        '\n-',
-      );
-      // decode citation titles and notes
-      interaction.bibs.forEach((bib) => {
-        bib.title = bufferToString(bib.title);
-        bib.notes = bufferToString(bib.notes).replace(/ -/g, '\n-');
-      });
       // map interaction range data
       interaction.range = interaction.countiesByRegions.map(
         (county) => county.countyCode,
@@ -150,15 +132,9 @@ export const getSubSites = () => {
 
 export const getReferences = () => {
   const headers = new Headers();
-  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' })
-    .then(checkResponse)
-    .then((references) =>
-      references.map((reference) => {
-        reference.title = bufferToString(reference.title);
-        reference.notes = bufferToString(reference.notes);
-        return reference;
-      }),
-    );
+  return fetch(`${url}/bib`, { headers, method: 'GET', mode: 'cors' }).then(
+    checkResponse,
+  );
 };
 
 export const addOrUpdateReference = async (

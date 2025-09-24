@@ -31,6 +31,7 @@ const SearchResult = (props) => {
           {agent.synonyms[0].authority}{' '}
           {agent.commonName && <span>&mdash; {agent.commonName}</span>}
           <br />
+          <b>Oak &mdash;</b>{' '}
           <ScientificName
             style={{ fontSize: '11pt' }}
             genus={oak.genus}
