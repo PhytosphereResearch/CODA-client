@@ -95,8 +95,8 @@ const Interactions = (props) => {
 
   const { oaks, symptoms } = props;
   const selectedSymptom =
-    symptoms.find((s) => Number(s.id) === selected?.symptom?.value) ||
-    selected?.symptom?.value;
+    symptoms.find((s) => Number(s.id) === Number(selected?.symptom?.value)) ||
+    selected?.symptom;
 
   return (
     <div>
