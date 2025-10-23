@@ -7,8 +7,7 @@ import SearchResult from './SearchResult';
 import SymptomPreview from './SymptomPreview';
 import { Spinner } from '../shared/shapes';
 import { PLANT_PARTS } from '../edit/constants';
-import sortBySubType from '../../utils/sortBySubType';
-import sortByTorder from '../../utils/sortByTorder';
+
 const plantParts = PLANT_PARTS;
 
 const Interactions = (props) => {
@@ -191,13 +190,17 @@ const Interactions = (props) => {
                 a.hostInteraction.agent.torder.localeCompare(
                   b.hostInteraction.agent.torder,
                 ) ||
+                a.hostInteraction.agent.synonyms[0].genus.localeCompare(
+                  b.hostInteraction.agent.synonyms[0].genus,
+                ) ||
+                a.hostInteraction.agent.synonyms[0].species.localeCompare(
+                  b.hostInteraction.agent.synonyms[0].species,
+                ) ||
                 a.hostInteraction.oak.species.localeCompare(
                   b.hostInteraction.oak.species,
                 ),
             )
             .map((interaction) => (
-              // {interactions.sort(sortBySubType).map((interaction) => (
-
               <SearchResult key={interaction.id} interaction={interaction} />
             ))}
         </ul>
