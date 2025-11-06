@@ -19,18 +19,16 @@ const SearchResult = (props) => {
       </span>
     );
   }
-  let { torder, type } = agent;
-  let useTorder;
-  if (type == 'Arthropoda') {
-    useTorder = torder;
-  }
+
   return (
     <li>
       <div className="searchResult">
         <div className="record-details">
           <b>
-            {agent.subType} &mdash; {useTorder}{' '}
-            {useTorder ? <span>&mdash;</span> : null}{' '}
+            {agent.subType} &mdash;{' '}
+            {agent.type == 'Arthropoda' ? (
+              <span> {agent.torder} &mdash;</span>
+            ) : null}{' '}
           </b>
           <i>
             {agent.synonyms[0].genus} {agent.synonyms[0].species}
