@@ -181,9 +181,28 @@ const Interactions = (props) => {
           </div>
         ) : null}
         <ul>
-          {interactions.map((interaction) => (
-            <SearchResult key={interaction.id} interaction={interaction} />
-          ))}
+          {interactions
+            .sort(
+              (a, b) =>
+                a.hostInteraction.agent.subType.localeCompare(
+                  b.hostInteraction.agent.subType,
+                ) ||
+                a.hostInteraction.agent.torder.localeCompare(
+                  b.hostInteraction.agent.torder,
+                ) ||
+                a.hostInteraction.agent.synonyms[0].genus.localeCompare(
+                  b.hostInteraction.agent.synonyms[0].genus,
+                ) ||
+                a.hostInteraction.agent.synonyms[0].species.localeCompare(
+                  b.hostInteraction.agent.synonyms[0].species,
+                ) ||
+                a.hostInteraction.oak.species.localeCompare(
+                  b.hostInteraction.oak.species,
+                ),
+            )
+            .map((interaction) => (
+              <SearchResult key={interaction.id} interaction={interaction} />
+            ))}
         </ul>
       </div>
     </div>

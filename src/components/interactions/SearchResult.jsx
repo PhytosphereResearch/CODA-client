@@ -24,7 +24,12 @@ const SearchResult = (props) => {
     <li>
       <div className="searchResult">
         <div className="record-details">
-          <b>{agent.subType} &mdash; </b>
+          <b>
+            {agent.subType} &mdash;{' '}
+            {agent.type == 'Arthropoda' ? (
+              <span> {agent.torder} &mdash;</span>
+            ) : null}{' '}
+          </b>
           <i>
             {agent.synonyms[0].genus} {agent.synonyms[0].species}
           </i>{' '}
