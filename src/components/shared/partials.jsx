@@ -88,6 +88,17 @@ CalPhotos.propTypes = {
   species: PropTypes.string,
 };
 
+export const BookLink = ({ bookLink }) => (
+  <div style={{ marginLeft: '57px' }}>
+    <a href={`${bookLink}`} target="_blank">
+      Field Guide to Insects and Diseases of California Oaks
+    </a>
+  </div>
+);
+BookLink.propTypes = {
+  bookLink: PropTypes.string,
+};
+
 export const AgentTaxonomy = ({ agent }) => (
   <div className="taxonomy">
     <div>
