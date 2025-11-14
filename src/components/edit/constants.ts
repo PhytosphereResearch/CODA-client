@@ -33,3 +33,5 @@ export const PRIMARY = [
   'Secondary (attacks stressed, injured, or compromised tissue)',
   '',
 ];
+
+export const bookHost = 'https://phytosphere.com/fieldguide/';

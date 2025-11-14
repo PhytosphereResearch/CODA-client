@@ -260,6 +260,7 @@ const EditAgents = (props) => {
             title="Link to field guide chapter"
             value={selectedAgent.bookLink}
             name="bookLink"
+            onChange={onInputChange}
           />
           <TextArea
             title="Original coda record (noneditable field)"

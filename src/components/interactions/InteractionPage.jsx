@@ -11,6 +11,7 @@ import {
   Synonyms,
   Notes,
   CalPhotos,
+  BookLink,
   DefaultCitation,
   AuditRecord,
 } from '../shared/partials';
@@ -122,6 +123,7 @@ const InteractionPage = () => {
           <p />
           {agent.commonName && <CommonName commonName={agent.commonName} />}
           <CalPhotos genus={agent.genus} species={agent.species} />
+          {agent.bookLink ? <BookLink bookLink={agent.bookLink} /> : null}
           <p />
           <AgentTaxonomy agent={agent} />
           <p />
