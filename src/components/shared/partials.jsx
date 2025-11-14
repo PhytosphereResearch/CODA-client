@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bookHost } from '../edit/constants';
 
 export const DefaultCitation = () => (
   <div>
@@ -90,7 +91,7 @@ CalPhotos.propTypes = {
 
 export const BookLink = ({ bookLink }) => (
   <div style={{ marginLeft: '57px' }}>
-    <a href={`${bookLink}`} target="_blank">
+    <a href={`${bookHost}${bookLink}`} target="_blank">
       Field Guide to Insects and Diseases of California Oaks
     </a>
   </div>
