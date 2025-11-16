@@ -9,6 +9,7 @@ import {
   AgentTaxonomy,
   DefaultCitation,
   AuditRecord,
+  BookLink,
 } from '../shared/partials';
 import { Spinner } from '../shared/shapes';
 import CAMap from '../shared/Map';
@@ -70,6 +71,7 @@ const Agent = () => {
             genus={agent.primarySynonym?.genus}
             species={agent.primarySynonym?.species}
           />
+          {agent.bookLink ? <BookLink bookLink={agent.bookLink} /> : null}
           <p />
           <Synonyms synonyms={agent.otherSynonyms} />
           <p />
